@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://advertisementEdit.caption"
+        focusComponent="container"
+        xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd"
+        xmlns:chart="http://schemas.haulmont.com/charts/charts.xsd"
+        messagesPack="kz.alash.naklei.web.screens.advertisement">
+    <data>
+        <instance id="advertisementDc"
+                  class="kz.alash.naklei.entity.Advertisement"
+                  view="advertisement-edit">
+            <loader id="advertisementDl"/>
+            <instance id="advertiserDc" property="advertiser"/>
+            <collection id="purposesDc" property="purposes"/>
+        </instance>
+        <collection id="advertisementDriversDc" class="kz.alash.naklei.entity.AdvertisementDriver">
+            <view extends="_local">
+                <property name="purpose" view="_base"/>
+                <property name="driver" view="_local">
+                    <property name="user" view="_local"/>
+                    <property name="car" view="_local">
+                        <property name="model" view="_local"/>
+                        <property name="carClass" view="_local"/>
+                    </property>
+                </property>
+            </view>
+            <loader id="advertisementDriversDl" >
+                <query>
+                    <![CDATA[select e from naklei_AdvertisementDriver e where e.purpose.advertisement = :advertisement]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="citiesDc" class="kz.alash.naklei.entity.dict.DCity">
+            <view extends="_base"/>
+            <loader id="citiesDl">
+                <query>
+                    <![CDATA[select e from naklei_DCity e]]>
+                </query>
+            </loader>
+        </collection>
+        <keyValueCollection id="menuDc">
+            <loader id="menuDl"/>
+            <properties>
+                <property name="parent"/>
+                <property name="name"/>
+            </properties>
+        </keyValueCollection>
+        <keyValueCollection id="dateValueDc">
+            <loader id="dateValueDl"/>
+            <properties>
+                <property name="value"/>
+                <property name="date" datatype="date"/>
+            </properties>
+        </keyValueCollection>
+        <collection id="advRoutesDc" class="kz.alash.naklei.entity.Route">
+            <loader id="advRoutesDl">
+                <query>
+                    <![CDATA[select e from naklei_Route e where e.advertisementDriver IN :drivers]]>
+                </query>
+            </loader>
+            <view extends="_base">
+                <property name="advertisementDriver" view="_base"/>
+            </view>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+
+    <layout expand="mainHBox" margin="true" spacing="true" stylename="well" width="100%">
+        <hbox id="editActions" spacing="true" width="100%">
+            <hbox align="MIDDLE_LEFT" spacing="true">
+                <button id="closeBtn" caption="Закрыть" action="windowClose"/>
+                <button id="commitAndCloseBtn" caption="Сохранить" icon="font-icon:SAVE" action="windowCommitAndClose"/>
+            </hbox>
+            <hbox align="MIDDLE_CENTER" spacing="true">
+                <button id="advNameEditBtn" caption="Edit" stylename="borderless icon-only" icon="font-icon:EDIT"/>
+                <label dataContainer="advertisementDc" property="name" align="MIDDLE_CENTER"/>
+<!--                    <button id="" caption="Remove" stylename="borderless icon-only" icon="font-icon:REMOVE"/>-->
+            </hbox>
+            <hbox align="MIDDLE_RIGHT" spacing="true">
+                <label value="Статус:"/>
+                <label dataContainer="advertisementDc" property="status" stylename="bold"/>
+            </hbox>
+        </hbox>
+        <hbox id="mainHBox" margin="true" spacing="true" stylename="card" width="100%">
+            <hbox expand="container" spacing="true" width="100%" height="100%" box.expandRatio="0.65">
+                <tree id="tree" captionProperty="name" dataContainer="menuDc" height="100%" hierarchyProperty="parent" width="150px" showOrphans="false"/>
+                <vbox id="container" height="100%">
+                    <groupBox id="carsGroupBox" caption="Машины" expand="advertisementDriversTable" spacing="true" width="100%">
+                        <table id="advertisementDriversTable" dataContainer="advertisementDriversDc" settingsEnabled="false" sortable="false" columnControlVisible="false" width="100%" >
+                            <actions>
+                                <action id="view" type="view"/>
+                                <action id="refresh" type="refresh"/>
+                            </actions>
+                            <columns>
+                                <column id="driver"/>
+                                <column id="status"/>
+                                <column id="driver.car.model"/>
+                                <column id="purpose"/>
+                                <column id="driver.car.carClass"/>
+                                <column id="startDate"/>
+                                <column id="endDate"/>
+                            </columns>
+                            <rowsCount/>
+                            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                                <button id="viewAdvDriverBtn" action="advertisementDriversTable.view"/>
+                                <button id="refreshAdvDriverBtn" action="advertisementDriversTable.refresh"/>
+                            </buttonsPanel>
+                        </table>
+                    </groupBox>
+                    <groupBox id="statisticGroupBox" caption="Статистика" height="100%" spacing="true" width="100%" expand="mapContainer">
+                        <vbox id="mapContainer" expand="statInfoTabSheet"  width="100%" spacing="true">
+                            <groupBox orientation="horizontal" caption="Фильтр" spacing="true" width="100%">
+                                <lookupField id="statPurposeField" caption="Цель" optionsContainer="purposesDc" width="100%"/>
+                                <dateField id="statDateFromField" caption="Дата с" dateFormat="dd.MM.yyyy" width="100%"/>
+                                <dateField id="statDateToField" caption="Дата до" dateFormat="dd.MM.yyyy" width="100%"/>
+                            </groupBox>
+                            <tabSheet id="statInfoTabSheet" width="100%">
+                                <tab id="mapTab" caption="Карта" expand="map">
+                                    <maps:geoMap id="map" width="100%" center="76.8512,43.2220" zoom="12">
+                                        <maps:layers selectedLayer="canvas">
+                                            <maps:tile id="tiles" tileProvider="maps_OpenStreetMap"/>
+                                        </maps:layers>
+                                    </maps:geoMap>
+                                </tab>
+                                <tab id="statInfoTab" caption="График" expand="statInfoHbox" margin="true">
+                                    <hbox id="statInfoHbox" width="100%" height="100%" spacing="true" margin="true,false,false,false">
+                                        <vbox box.expandRatio="0.3" spacing="true" width="100%">
+                                            <lookupField id="chartTypeLookupField" caption="График" nullOptionVisible="false" width="100%"/>
+                                            <textField id="statDistanceTextField" caption="Пробег(км.)" stylename="borderless" editable="false" width="100%"/>
+                                            <textField id="statPointsTextField" caption="Расход(тг.)" stylename="borderless" editable="false" width="100%"/>
+                                            <textField id="statOTSTextField" caption="OTS" stylename="borderless" editable="false" width="100%"/>
+                                            <textField id="statCPMTextField" caption="CPM(тг.)" stylename="borderless" editable="false" width="100%"/>
+                                        </vbox>
+                                        <vbox id="lineChartVbox" box.expandRatio="0.7" expand="lineChart" height="100%" width="100%" margin="true">
+                                            <chart:serialChart id="lineChart"
+                                                               autoMarginOffset="20"
+                                                               categoryField="date"
+                                                               dataContainer="dateValueDc"
+                                                               marginRight="40"
+                                                               marginLeft="40"
+                                                               width="100%"
+                                                               mouseWheelZoomEnabled="true"
+                                                               theme="LIGHT">
+                                                <chart:valueAxes>
+                                                    <chart:axis id="v1"
+                                                                axisAlpha="0"
+                                                                ignoreAxisWidth="true"
+                                                                position="LEFT"/>
+                                                </chart:valueAxes>
+                                                <chart:balloon borderThickness="1"
+                                                               shadowAlpha="0"/>
+                                                <chart:graphs>
+                                                    <chart:graph id="g1"
+                                                                 bullet="ROUND"
+                                                                 bulletBorderAlpha="1"
+                                                                 bulletBorderColor="WHITE"
+                                                                 hideBulletsCount="50"
+                                                                 lineThickness="2"
+                                                                 useNegativeColorIfDown="true"
+                                                                 negativeLineColor="YELLOWGREEN"
+                                                                 valueField="value"
+                                                                 balloonText="&lt;span style='font-size:18px;'&gt;[[value]]&lt;/span&gt;">
+                                                        <chart:balloon adjustBorderColor="false"
+                                                                       color="WHITE"
+                                                                       drop="true"/>
+                                                    </chart:graph>
+                                                </chart:graphs>
+                                                <chart:categoryAxis dashLength="1"
+                                                                    minorGridEnabled="true"/>
+                                                <chart:chartCursor cursorAlpha="1"
+                                                                   cursorColor="#258cbb"
+                                                                   cursorPosition="MOUSE"
+                                                                   limitToGraph="g1"
+                                                                   pan="true"
+                                                                   valueLineAlpha="0.2"
+                                                                   valueLineEnabled="true"
+                                                                   valueLineBalloonEnabled="true"
+                                                                   valueZoomable="true"/>
+                                                <chart:export/>
+                                            </chart:serialChart>
+                                        </vbox>
+                                    </hbox>
+                                </tab>
+                            </tabSheet>
+                        </vbox>
+                    </groupBox>
+                    <groupBox id="purposeGroupBox" caption="Цели" height="100%" spacing="true" width="100%" expand="selectedPurposeInfoVbox">
+                        <vbox id="purposeInfoVbox" expand="advPurposesTable" spacing="true" height="210px">
+
+                            <table id="advPurposesTable" dataContainer="purposesDc" settingsEnabled="false" sortable="false" columnControlVisible="false" width="100%" editable="false">
+                                <actions>
+                                    <action id="create" type="create" enable="false"/>
+                                    <action id="edit" type="edit"/>
+                                    <action id="remove" type="remove"/>
+                                </actions>
+                                <columns>
+                                    <column id="stickerType" />
+                                    <column id="carClass"/>
+                                    <column id="currentBudget"/>
+                                    <column id="carAmount"/>
+                                    <column id="pastingDate"/>
+                                </columns>
+                                <rowsCount autoLoad="true"/>
+                                <buttonsPanel>
+                                    <vbox>
+                                        <hbox spacing="true">
+                                            <label value="Общий бюджет:" stylename="bold" align="MIDDLE_CENTER"/>
+                                            <label id="totalBudgetField" stylename="h3">
+                                                <formatter class="com.haulmont.cuba.gui.components.formatters.NumberFormatter"/>
+                                            </label>
+                                        </hbox>
+                                        <hbox id="purposeButtonsPanel" spacing="true">
+                                            <button id="createPurposeBtn" action="advPurposesTable.create"/>
+                                            <button id="editPurposeBtn" action="advPurposesTable.edit"/>
+                                            <button id="removePurposeBtn" action="advPurposesTable.remove"/>
+                                        </hbox>
+                                    </vbox>
+                                </buttonsPanel>
+                            </table>
+                        </vbox>
+                        <vbox id="selectedPurposeInfoVbox" visible="false"/>
+                    </groupBox>
+                </vbox>
+            </hbox>
+            <vbox box.expandRatio="0.15" expand="cardScrollBox" height="100%" spacing="true" width="100%" stylename="card" margin="true">
+<!--                -->
+                <tabSheet id="imageTabSheet"  height="450px" width="100%">
+                    <tab id="advertiserInfoTab" expand="advertiserLogo" margin="true,false,false,false">
+<!--                        <groupBox id="advertiserGroupBox" expand="advertiserLogo">-->
+                            <label dataContainer="advertiserDc" property="desc" stylename="small"/>
+                            <image id="advertiserLogo" dataContainer="advertiserDc" property="logo" width="100%" align="MIDDLE_CENTER" scaleMode="CONTAIN"/>
+                            <hbox spacing="true" align="MIDDLE_RIGHT">
+                                <label value="Баланс"/>
+                                <label dataContainer="advertiserDc" property="balance" stylename="bold"/>
+                            </hbox>
+<!--                        </groupBox>-->
+                    </tab>
+                </tabSheet>
+<!--                </groupBox>-->
+                <scrollBox id="cardScrollBox" spacing="true" width="100%">
+                    <form id="advertisementDataForm" dataContainer="advertisementDc" width="100%" captionPosition="TOP">
+                        <column width="100%">
+                            <lookupField id="cityLookupField" optionsContainer="citiesDc" property="city" />
+                            <lookupField id="contractLengthField" optionsEnum="kz.alash.naklei.entity.dict.EContractTime" caption="Длительность"/>
+                            <dateField id="startDateField" property="startDate"/>
+                            <dateField id="endDateField" property="endDate"/>
+                            <textField id="startDateReadOnly" property="startDate" visible="false"/>
+                            <textField id="endDateReadOnly" property="endDate" visible="false"/>
+                        </column>
+                    </form>
+                    <label id="otherContractTimeLabel" visible="false"/>
+                </scrollBox>
+                <hbox id="startAdvertisementHbox" spacing="true" width="100%">
+                    <button id="startAdvertisementBtn" caption="Начать рекламную кампанию" width="100%" stylename="primary" icon="font-icon:PLAY"/>
+                </hbox>
+            </vbox>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://DClassEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.dclass">
+    <data>
+        <instance id="dClassDc"
+                  class="kz.alash.naklei.entity.dict.car.DClass"
+                  view="dClass-edit">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="dClassDc">
+            <column width="350px">
+                <textField id="nameField" property="name"/>
+                <textField id="codeField" property="code"/>
+                <textField property="pointCoef" datatype="double"/>
+                <textField property="coverageCoef" datatype="double"/>
+                <textField property="maxPointPerDay" datatype="int"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<views xmlns="http://schemas.haulmont.com/cuba/view.xsd">
+    <view entity="naklei_DStickerType" name="dStickerType-view" extends="_local"/>
+    <view entity="naklei_DStickerType" name="dStickerType-edit" extends="_local"/>
+    <view entity="naklei_Advertisement" name="advertisement-view" extends="_local">
+        <property name="advertiser" view="_minimal">
+            <property name="desc"/>
+            <property name="logo" view="_minimal"/>
+        </property>
+        <property name="city" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="purposes" view="_minimal">
+            <property name="stickerType" view="_minimal">
+                <property name="code"/>
+            </property>
+            <property name="carClass" view="_minimal">
+                <property name="code"/>
+            </property>
+            <property name="carModel" view="_minimal">
+                <property name="code"/>
+                <property name="mark" view="_minimal">
+                    <property name="code"/>
+                </property>
+            </property>
+            <property name="carColor" view="_minimal">
+                <property name="code"/>
+            </property>
+            <property name="sticker" view="_minimal"/>
+            <property name="carAmount"/>
+            <property name="budget"/>
+        </property>
+    </view>
+    <view entity="naklei_Advertisement" name="advertisement-edit" extends="_local">
+        <property name="advertiser" view="advertiser-view"/>
+
+        <property name="city" view="_base">
+        </property>
+        <property name="purposes" view="advPurpose-edit">
+        </property>
+    </view>
+    <view entity="naklei_Advertiser" name="advertiser-view" extends="_local" systemProperties="true">
+        <property name="logo" view="_minimal"/>
+    </view>
+    <view entity="naklei_AdvertisementDriver" name="advertisementDriver-view" extends="_local">
+        <property name="driver" view="driver-view">
+        </property>
+        <property name="routes" view="_base">
+        </property>
+        <property name="initialTachometerPhoto" view="_minimal">
+            <property name="sysTenantId"/>
+        </property>
+        <property name="finalTachometerPhoto" view="_minimal">
+            <property name="sysTenantId"/>
+        </property>
+        <property name="photos" view="_minimal">
+            <property name="sysTenantId"/>
+        </property>
+    </view>
+    <view entity="naklei_Advertiser" name="advertiser-edit" extends="_local" systemProperties="true">
+        <property name="logo" view="_minimal"/>
+    </view>
+    <view entity="naklei_Driver" name="driver-view" extends="_local">
+        <property name="user" view="_minimal">
+            <property name="phoneNumber"/>
+            <property name="city"/>
+        </property>
+        <property name="car" view="_minimal">
+            <property name="model" view="_minimal">
+                <property name="mark" view="_minimal"/>
+            </property>
+            <property name="year"/>
+            <property name="carClass" view="_minimal"/>
+            <property name="number"/>
+            <property name="color" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="naklei_Car" name="car-view" extends="_local">
+        <property name="driver" view="_minimal">
+            <property name="user" view="_minimal">
+                <property name="phoneNumber"/>
+                <property name="city"/>
+                <property name="firstName"/>
+                <property name="fcmToken"/>
+            </property>
+            <property name="withdrawnMoney"/>
+            <property name="totalRun"/>
+            <property name="driverStatus"/>
+        </property>
+        <property name="model" view="_minimal">
+            <property name="mark" view="_minimal"/>
+        </property>
+        <property name="color" view="_minimal"/>
+        <property name="carClass" view="_minimal"/>
+        <property name="photos" view="_minimal"/>
+    </view>
+    <view entity="naklei_Car" name="car-edit" extends="_local">
+        <property name="driver" view="_minimal">
+            <property name="user" view="_minimal">
+                <property name="phoneNumber"/>
+                <property name="firstName"/>
+                <property name="name"/>
+                <property name="city"/>
+            </property>
+            <property name="withdrawnMoney"/>
+            <property name="totalRun"/>
+            <property name="driverStatus"/>
+        </property>
+        <property name="model" view="_minimal">
+            <property name="mark" view="_minimal"/>
+        </property>
+        <property name="photos" view="_minimal"/>
+        <property name="carClass" view="_minimal"/>
+    </view>
+    <view entity="naklei_DCarClassification" name="dCarClassification-edit" extends="_local">
+        <property name="classs" view="_minimal"/>
+        <property name="model" view="_minimal">
+            <property name="mark" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="naklei_DClass" name="dClass-edit" extends="_local"/>
+    <view entity="naklei_DCarClassification" name="dCarClassification-view" extends="_local">
+        <property name="classs" view="_minimal"/>
+        <property name="model" view="_minimal">
+            <property name="mark" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="naklei_DClass" name="dClass-view" extends="_local"/>
+    <view entity="naklei_DColor" name="dColor-view" extends="_local"/>
+    <view entity="naklei_DColor" name="dColor-edit" extends="_local"/>
+    <view entity="naklei_DMark" name="dMark-edit" extends="_local"/>
+    <view entity="naklei_DMark" name="dMark-view" extends="_local">
+        <property name="models" view="_minimal">
+            <property name="code"/>
+        </property>
+    </view>
+    <view entity="naklei_DModel" name="dModel-edit" extends="_local">
+        <property name="mark" view="_minimal"/>
+    </view>
+    <view entity="naklei_DModel" name="dModel-view" extends="_local">
+        <property name="mark" view="_minimal"/>
+    </view>
+    <view entity="naklei_DCoverage" name="dCoverage-view" extends="_local">
+        <property name="zone" view="_minimal">
+            <property name="custom"/>
+        </property>
+        <property name="stickerType" view="_minimal"/>
+    </view>
+    <view entity="naklei_DCoverage" name="dCoverage-edit" extends="_local">
+        <property name="zone" view="_minimal">
+            <property name="custom"/>
+            <property name="city" view="_minimal"/>
+        </property>
+        <property name="stickerType" view="_minimal"/>
+    </view>
+    <view entity="naklei_DPointCost" name="dPointCost-edit" extends="_local">
+        <property name="stickerType" view="_minimal"/>
+        <property name="carClass" view="_minimal"/>
+    </view>
+    <view entity="naklei_DPointCost" name="dPointCost-view" extends="_local">
+        <property name="carClass" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="stickerType" view="_minimal"/>
+    </view>
+    <view entity="naklei_DZone" name="dZone-view" extends="_local">
+        <property name="city" view="_minimal"/>
+
+    </view>
+    <view entity="naklei_DZone" name="dZone-edit" extends="_local">
+        <property name="city" view="_minimal"/>
+        <property name="zoneType" view="_minimal">
+            <property name="code"/>
+        </property>
+    </view>
+    <view entity="naklei_Driver" name="driver-edit" extends="_local">
+        <property name="user" view="_minimal">
+            <property name="city" view="_minimal"/>
+            <property name="phoneNumber"/>
+            <property name="fcmToken"/>
+        </property>
+        <property name="car" view="_minimal">
+            <property name="model" view="_minimal">
+                <property name="mark" view="_minimal"/>
+            </property>
+            <property name="year"/>
+            <property name="carClass" view="_minimal"/>
+            <property name="color" view="_minimal"/>
+            <property name="photos" view="browse">
+            </property>
+            <property name="techPassport" view="_minimal"/>
+        </property>
+        <property name="advertisementDrivers" view="advertisementDriver-edit">
+            <property name="purpose" view="_minimal">
+                <property name="advertisement" view="_minimal"/>
+            </property>
+        </property>
+    </view>
+    <view entity="naklei_Advertisement" name="advertisement-map" extends="_local">
+        <property name="city" view="_minimal"/>
+    </view>
+    <view entity="naklei_DCity" name="dCity-view" extends="_base"/>
+    <view entity="naklei_DCity" name="dCity-edit" extends="_local"/>
+    <view entity="naklei_DZone" name="only-polygons">
+        <property name="polygon"/>
+        <property name="main"/>
+        <property name="name"/>
+    </view>
+    <view entity="naklei_Route" name="route-view" extends="_local">
+        <property name="advertisementDriver" view="_minimal">
+            <property name="driver" view="_minimal">
+                <property name="user" view="_minimal">
+                    <property name="name"/>
+                </property>
+                <property name="driverStatus"/>
+            </property>
+        </property>
+    </view>
+    <view entity="naklei_AdvLocation" name="location-view" extends="_local">
+        <property name="advertiser" view="_minimal">
+            <property name="logo" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="naklei_AdvLocation" name="location-edit" extends="_local">
+        <property name="advertiser" view="_minimal"/>
+    </view>
+    <view entity="naklei_DCity" name="only-zones" extends="_local">
+        <property name="zones" view="_minimal">
+            <property name="polygon"/>
+            <property name="code"/>
+        </property>
+    </view>
+    <view entity="naklei_Moderation" name="moderation-edit" extends="_local">
+        <property name="moderator" view="_base"/>
+        <property name="photos" view="_minimal"/>
+        <property name="advertisementDriver" view="advertisementDriver-edit">
+            <property name="purpose" view="advPurpose-edit">
+                <property name="advertisement" view="_minimal"/>
+            </property>
+            <property name="driver" view="_local">
+                <property name="user" view="_minimal">
+                    <property name="phoneNumber"/>
+                    <property name="city" view="_minimal"/>
+                    <property name="fcmToken"/>
+                    <property name="loginLowerCase"/>
+                    <property name="firstName"/>
+                    <property name="lastName"/>
+                </property>
+                <property name="car" view="_minimal">
+                    <property name="model" view="_minimal">
+                        <property name="mark" view="_minimal"/>
+                    </property>
+                    <property name="year"/>
+                    <property name="carClass" view="_minimal"/>
+                    <property name="color" view="_minimal"/>
+                    <property name="photos" view="_minimal"/>
+                    <property name="techPassport" view="_minimal"/>
+                </property>
+                <property name="techPassportDoc" view="_minimal"/>
+                <property name="photoWithoutSticker" view="_minimal"/>
+            </property>
+        </property>
+    </view>
+    <view entity="naklei_Moderation" name="moderation-browse" extends="_local" systemProperties="true">
+        <property name="moderator" view="_base"/>
+        <property name="advertisementDriver" view="advertisementDriver-view"/>
+    </view>
+    <view entity="naklei_Visit" name="visit-view" extends="_local">
+        <property name="assignedUser" view="_minimal"/>
+        <property name="advertisementDriver" view="_minimal"/>
+    </view>
+    <view entity="naklei_AdvertisementDriver" name="advertisementDriver-edit" extends="advertisementDriver-view">
+    </view>
+    <view entity="naklei_Visit" name="visit-edit" extends="_local">
+        <property name="assignedUser" view="_minimal">
+            <property name="loginLowerCase"/>
+            <property name="firstName"/>
+            <property name="lastName"/>
+            <property name="middleName"/>
+            <property name="position"/>
+            <property name="email"/>
+            <property name="language"/>
+            <property name="timeZone"/>
+            <property name="timeZoneAuto"/>
+            <property name="active"/>
+            <property name="group" view="_minimal"/>
+            <property name="groupNames"/>
+            <property name="userRoles" view="_minimal">
+                <property name="role" view="_minimal"/>
+            </property>
+        </property>
+        <property name="advertisementDriver" view="advertisementDriver-edit">
+            <property name="purpose" view="_minimal">
+                <property name="sticker" view="_minimal"/>
+                <property name="pastingTime"/>
+                <property name="advertisement" view="_minimal"/>
+            </property>
+            <property name="routes" view="_minimal">
+                <property name="line"/>
+                <property name="date"/>
+                <property name="distance"/>
+            </property>
+            <property name="driver" view="_base">
+                <property name="car" view="_minimal">
+                    <property name="model" view="_minimal"/>
+                </property>
+                <property name="user" view="_minimal">
+                    <property name="phoneNumber"/>
+                </property>
+            </property>
+        </property>
+    </view>
+    <view entity="naklei_VisitCompany" name="visitCompany-view" extends="_local">
+        <property name="city" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="employee" view="_minimal">
+            <property name="phoneNumber"/>
+        </property>
+    </view>
+    <view entity="naklei_AdvPurpose" name="advPurpose-view" extends="_local">
+        <property name="stickerType" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="carClass" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="carModel" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="carColor" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="sticker" view="_minimal"/>
+    </view>
+    <view entity="naklei_AdvPurpose" name="advPurpose-edit" extends="_local">
+        <property name="stickerType" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="carClass" view="_minimal">
+            <property name="code"/>
+            <property name="maxPointPerDay"/>
+            <property name="pointCoef"/>
+        </property>
+        <property name="carModel" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="carColor" view="_minimal">
+            <property name="code"/>
+        </property>
+
+        <property name="sticker" view="_minimal"/>
+        <property name="maket" view="_minimal"/>
+    </view>
+    <view entity="naklei_DZoneType" name="zone-type-view" extends="_local">
+        <property name="city" view="_minimal">
+            <property name="code"/>
+        </property>
+    </view>
+    <view entity="naklei_DZone" name="dZone-rest" extends="_local">
+        <property name="zoneType" view="_minimal">
+            <property name="coverage"/>
+            <property name="coveragePerHour"/>
+            <property name="coveragePerHourWeekend"/>
+            <property name="code"/>
+            <property name="color"/>
+            <property name="traffics" view="_minimal">
+                <property name="hour"/>
+                <property name="value"/>
+                <property name="valueWeekends"/>
+                <property name="coveragePerKm"/>
+                <property name="coveragePerKmWeekend"/>
+            </property>
+            <property name="coverageWeekend"/>
+            <property name="pointCoef"/>
+        </property>
+    </view>
+    <view entity="naklei_DZoneType" name="dZoneType-edit-view" extends="_local">
+        <property name="traffics" view="_minimal">
+            <property name="hour"/>
+            <property name="hourString"/>
+            <property name="averageSpeed"/>
+            <property name="averageSpeedWeekend"/>
+            <property name="coveragePerKm"/>
+            <property name="coveragePerKmWeekend"/>
+            <property name="value"/>
+            <property name="valueWeekends"/>
+        </property>
+        <property name="city" view="_minimal">
+            <property name="code"/>
+        </property>
+    </view>
+    <view entity="naklei_AdvertisementDriver" name="show-adv-driver-view" extends="_local">
+        <property name="photos" view="_minimal"/>
+        <property name="driver" view="_minimal">
+            <property name="car" view="_minimal">
+                <property name="model" view="_minimal">
+                    <property name="mark" view="_minimal"/>
+                </property>
+            </property>
+        </property>
+        <property name="routes" view="_base">
+        </property>
+        <property name="purpose" view="_minimal">
+            <property name="advertisement" view="_minimal">
+                <property name="advertiser" view="_minimal">
+                    <property name="desc"/>
+                </property>
+                <property name="status"/>
+                <property name="city" view="_minimal"/>
+            </property>
+            <property name="currentBudget"/>
+        </property>
+    </view>
+    <view entity="naklei_Car" name="car-show" extends="_local">
+        <property name="techPassport" view="_minimal"/>
+        <property name="photos" view="_minimal"/>
+        <property name="driver" view="_minimal">
+            <property name="user" view="_minimal">
+                <property name="city" view="_minimal"/>
+                <property name="phoneNumber"/>
+            </property>
+            <property name="totalRun"/>
+            <property name="withdrawnMoney"/>
+            <property name="driverStatus"/>
+            <property name="currentMoney"/>
+            <property name="earnedMoney"/>
+        </property>
+        <property name="color" view="_minimal"/>
+        <property name="carClass" view="_minimal"/>
+        <property name="model" view="_minimal">
+            <property name="mark" view="_minimal"/>
+        </property>
+    </view>
+    <view entity="naklei_Route" name="route-show" extends="_local" systemProperties="true"/>
+    <view entity="naklei_DPointCost" name="point-cost-rest-view" extends="_local">
+        <property name="stickerType" view="_minimal">
+            <property name="code"/>
+        </property>
+        <property name="carClass" view="_minimal">
+            <property name="code"/>
+            <property name="maxPointPerDay"/>
+        </property>
+    </view>
+</views>

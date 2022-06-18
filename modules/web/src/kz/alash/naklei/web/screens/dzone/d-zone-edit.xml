@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd"
+        caption="msg://DZoneEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.dzone">
+    <data>
+        <instance id="dZoneDc"
+                  class="kz.alash.naklei.entity.dict.DZone">
+            <view extends="dZone-edit"/>
+            <loader id="dZoneDl"/>
+        </instance>
+        <collection id="citiesDc" class="kz.alash.naklei.entity.dict.DCity" view="_local">
+            <loader id="citiesDl">
+                <query><![CDATA[select e from naklei_DCity e]]></query>
+            </loader>
+        </collection>
+        <collection id="cityZonesDc" class="kz.alash.naklei.entity.dict.DZone" view="only-polygons">
+            <loader id="cityZonesDl">
+                <query><![CDATA[select e from naklei_DZone e where e.city =:city]]></query>
+            </loader>
+        </collection>
+        <collection id="zoneTypesDc" class="kz.alash.naklei.entity.dict.DZoneType" view="zone-type-view">
+            <loader id="zoneTypesDl">
+                <query><![CDATA[select z from naklei_DZoneType z where z.city =:city]]></query>
+            </loader>
+        </collection>
+<!--        <collection id="dPointCoefDc" class="kz.alash.naklei.entity.dict.DPointCoef" view="_local">-->
+<!--            <loader id="dPointCoefDl">-->
+<!--                <query><![CDATA[select e from naklei_DPointCoef e]]></query>-->
+<!--            </loader>-->
+<!--        </collection>-->
+<!--        <collection id="dCoverageCoefDc" class="kz.alash.naklei.entity.dict.DCoverageCoef" view="_local">-->
+<!--            <loader id="dCoverageCoefDl">-->
+<!--                <query><![CDATA[select e from naklei_DCoverageCoef e]]></query>-->
+<!--            </loader>-->
+<!--        </collection>-->
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="container" spacing="true" stylename="well" margin="false,true,false,true">
+        <hbox id="editActions" spacing="true" margin="true,false,false,true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+
+        <hbox id="container" spacing="true" width="100%" stylename="card">
+            <vbox spacing="true" margin="true" box.expandRatio="0.4">
+                <form id="form" dataContainer="dZoneDc">
+                    <column width="350px">
+                        <textField id="nameField" property="name" enable="false"/>
+                        <textField id="codeField" property="code" enable="false"/>
+                        <checkBox id="customField" property="custom" enable="false"/>
+                        <lookupPickerField id="cityField" property="city" required="true"
+                                           optionsContainer="citiesDc">
+                            <actions>
+                                <action id="lookup" type="picker_lookup"/>
+                                <action id="clear" type="picker_clear"/>
+                            </actions>
+                        </lookupPickerField>
+                        <checkBox id="mainField" property="main" stylename=""/>
+                        <lookupPickerField id="zoneTypeField" property="zoneType"
+                                           optionsContainer="zoneTypesDc">
+                            <actions>
+                                <action id="lookup" type="picker_lookup"/>
+                                <action id="clear" type="picker_clear"/>
+                            </actions>
+                        </lookupPickerField>
+                    </column>
+                </form>
+            </vbox>
+            <vbox spacing="true" expand="map" height="100%" box.expandRatio="0.6">
+                <maps:geoMap id="map" width="100%" center="76.8512,43.2220" zoom="12">
+                    <maps:layers selectedLayer="editableZoneLayer">
+                        <maps:tile id="tiles"
+                                   tileProvider="maps_OpenStreetMap"/>
+                        <maps:vector id="editableZoneLayer" dataContainer="dZoneDc" editable="true"/>
+                    </maps:layers>
+                </maps:geoMap>
+            </vbox>
+        </hbox>
+    </layout>
+</window>

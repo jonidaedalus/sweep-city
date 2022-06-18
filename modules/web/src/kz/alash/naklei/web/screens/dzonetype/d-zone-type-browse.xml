@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://DZoneTypeBrowse.caption"
+        focusComponent="dZoneTypesTable"
+        messagesPack="kz.alash.naklei.web.screens.dzonetype">
+    <data readOnly="true">
+        <collection id="dZoneTypesDc"
+                    class="kz.alash.naklei.entity.dict.DZoneType">
+            <view extends="_local">
+                <property name="city" view="_minimal">
+                    <property name="code"/>
+                </property>
+            </view>
+            <loader id="dZoneTypesDl">
+                <query>
+                    <![CDATA[select e from naklei_DZoneType e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dZoneTypesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dZoneTypesTable"
+                dataLoader="dZoneTypesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dZoneTypesTable"
+                    width="100%"
+                    dataContainer="dZoneTypesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+                <column id="city"/>
+                <column id="coverage"/>
+                <column id="coveragePerHour"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dZoneTypesTable.create"/>
+                <button id="editBtn" action="dZoneTypesTable.edit"/>
+                <button id="removeBtn" action="dZoneTypesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

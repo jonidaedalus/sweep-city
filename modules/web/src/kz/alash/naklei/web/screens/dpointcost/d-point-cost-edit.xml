@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://DPointCostEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.dpointcost">
+    <data>
+        <instance id="dPointCostDc"
+                  class="kz.alash.naklei.entity.dict.DPointCost"
+                  view="dPointCost-edit">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="dPointCostDc">
+            <column width="350px">
+                <pickerField id="stickerTypeField" property="stickerType">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <pickerField id="carClassField" property="carClass">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="driverCostField" property="driverCost"/>
+                <textField id="advertiserCostField" property="advertiserCost"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

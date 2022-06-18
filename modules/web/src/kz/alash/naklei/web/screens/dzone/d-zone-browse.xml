@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DZoneBrowse.caption"
+        focusComponent="zonesTable"
+        messagesPack="kz.alash.naklei.web.screens.dzone">
+    <data readOnly="true">
+        <collection id="dZonesDc"
+                    class="kz.alash.naklei.entity.dict.DZone"
+                    view="dZone-view">
+            <loader id="dZonesDl">
+                <query>
+                    <![CDATA[select e from naklei_DZone e where e.city = :city]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="dCitiesDc" class="kz.alash.naklei.entity.dict.DCity" view="dCity-view">
+            <loader id="dCitiesDl">
+                <query>
+                    <![CDATA[select e from naklei_DCity e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true">
+        <hbox spacing="true" height="100%" width="100%">
+            <vbox spacing="true" height="100%" expand="zonesTable">
+                <filter id="filter"
+                        width="100%"
+                        applyTo="zonesTable"
+                        dataLoader="dZonesDl">
+                    <properties include=".*"/>
+                </filter>
+                <groupTable id="zonesTable" multiselect="false" width="100%"
+                            dataContainer="dZonesDc">
+                    <actions>
+                        <action id="create" type="create"/>
+                        <action id="edit" type="edit"/>
+                        <action id="remove" type="remove"/>
+                    </actions>
+                    <columns>
+                        <column id="city"/>
+                        <column id="main"/>
+                        <column id="name"/>
+                        <column id="code"/>
+                        <column id="custom"/>
+                    </columns>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                        <button id="createBtn" action="zonesTable.create"/>
+                        <button id="editBtn" action="zonesTable.edit"/>
+                        <button id="removeBtn" action="zonesTable.remove"/>
+                    </buttonsPanel>
+                </groupTable>
+            </vbox>
+            <vbox spacing="true" expand="map" height="100%">
+                <lookupField id="cityFilter" optionsContainer="dCitiesDc" caption="Город"/>
+<!--                <button id="test" caption="test"/>-->
+                <maps:geoMap id="map" width="100%" center="67,49" zoom="5">
+                    <maps:layers selectedLayer="canvas">
+                        <maps:tile id="tiles"
+                                   tileProvider="maps_OpenStreetMap"/>
+                    </maps:layers>
+                </maps:geoMap>
+            </vbox>
+        </hbox>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

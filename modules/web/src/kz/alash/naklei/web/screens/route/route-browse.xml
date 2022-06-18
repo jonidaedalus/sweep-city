@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd"
+        caption="msg://routeBrowse.caption"
+        focusComponent="container"
+        messagesPack="kz.alash.naklei.web.screens.route">
+    <data readOnly="true">
+        <keyValueCollection id="zonePointsDc">
+            <loader id="zonePointsDl" />
+            <properties>
+                <property name="zone" class="kz.alash.naklei.entity.dict.DZone"/>
+                <property name="points" datatype="double"/>
+                <property name="distance" datatype="double"/>
+            </properties>
+        </keyValueCollection>
+        <collection id="routesDc"
+                    class="kz.alash.naklei.entity.Route" view="route-view">
+            <loader id="routesDl">
+                <query>
+                    <![CDATA[select e from naklei_Route e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="zonesDc" class="kz.alash.naklei.entity.dict.DZone" view="_base">
+            <loader id="zonesDl">
+                <query>
+                    <![CDATA[select e from naklei_DZone e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="selectedRouteDc" class="kz.alash.naklei.entity.Route" view="route-view"/>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true">
+        <vbox expand="container" spacing="true" width="100%" height="100%">
+            <filter id="filter"
+                    applyTo="routesTable"
+                    dataLoader="routesDl">
+                <properties include=".*"/>
+            </filter>
+            <hbox id="container" spacing="true" width="100%">
+                <vbox spacing="true" height="100%">
+                    <groupTable id="routesTable"
+                                    dataContainer="routesDc" width="100%">
+                        <actions>
+                            <action id="refresh" type="refresh"/>
+                        </actions>
+                        <columns>
+                            <column id="points"/>
+                            <column id="advertisementDriver.driver.user.name"/>
+                            <column id="advertisementDriver.driver.driverStatus"/>
+                        </columns>
+                        <rowsCount/>
+                        <buttonsPanel id="buttonsPanel"
+                                      alwaysVisible="true">
+                            <button id="refreshBtn" action="routesTable.refresh"/>
+                        </buttonsPanel>
+                    </groupTable>
+                </vbox>
+                <vbox spacing="true" height="100%" expand="map">
+                    <vbox id="pointsInfo" visible="false" spacing="true">
+                        <form dataContainer="selectedRouteDc" captionPosition="TOP">
+                            <column>
+                                <textField caption="Общее колличество поинтов" datatype="double" property="points" editable="false"/>
+                            </column>
+                            <column>
+                                <textField id="resultsKilometer" datatype="double" caption="Пройдено киллометров" property="distance" editable="false"/>
+                            </column>
+                        </form>
+                        <table dataContainer="zonePointsDc" width="100%">
+                            <columns>
+                                <column id="zone" caption="msg://zone.caption"/>
+                                <column id="points" caption="msg://points.caption"/>
+                                <column id="distance" caption="msg://distance.caption"/>
+                            </columns>
+                            <rows/>
+                        </table>
+                    </vbox>
+                    <maps:geoMap id="map" width="100%" center="76.8512,43.2220" zoom="12">
+                        <maps:layers selectedLayer="canvas">
+                            <maps:tile id="tiles" tileProvider="maps_OpenStreetMap"/>
+                            <maps:vector id="zonesLayerVector" dataContainer="zonesDc"/>
+                        </maps:layers>
+                    </maps:geoMap>
+                </vbox>
+            </hbox>
+        </vbox>
+        <!--        <hbox id="lookupActions" spacing="true" visible="false">-->
+<!--            <button action="lookupSelectAction"/>-->
+<!--            <button action="lookupCancelAction"/>-->
+<!--        </hbox>-->
+
+
+    </layout>
+</window>

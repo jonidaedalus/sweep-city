@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://moderationEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.moderation">
+    <data>
+        <instance id="moderationDc"
+                  class="kz.alash.naklei.entity.moderation.Moderation"
+                  view="moderation-edit">
+            <collection id="photosDc" property="photos"/>
+            <instance id="advDriverDc" property="advertisementDriver"/>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="container" width="100%" height="100%" margin="true" stylename="well">
+        <hbox id="editActions" spacing="true" width="100%">
+            <hbox align="TOP_LEFT" spacing="true">
+                <buttonsPanel id="btnPanel">
+                    <button id="closeBtn" caption="Закрыть" action="windowClose"/>
+                    <button id="approveBtn" caption="msg://moderation.approveBtn" stylename="friendly"/>
+                    <button id="rejectBtn" caption="msg://moderation.rejectBtn" stylename="danger"/>
+                </buttonsPanel>
+            </hbox>
+            <hbox id="reasonHbox" align="TOP_CENTER" spacing="true" visible="false">
+                <label value="Причина отказа:"/>
+                <label id="reasonLabel" stylename="bold"/>
+            </hbox>
+            <hbox align="TOP_RIGHT" spacing="true">
+                <label value="Статус:"/>
+                <label dataContainer="moderationDc" property="status" stylename="bold"/>
+            </hbox>
+        </hbox>
+        <hbox id="container"  width="100%" stylename="card">
+            <vbox spacing="true" box.expandRatio="0.25" margin="true,true,false,true" expand="leftInfoScrollBox" height="100%">
+                <groupBox caption="Фото автомобиля" height="350px"  width="100%" expand="carPhoto">
+                    <image id="carPhoto"
+                           width="100%"
+                           align="MIDDLE_CENTER"
+                           scaleMode="CONTAIN">
+                    </image>
+                </groupBox>
+                <scrollBox id="leftInfoScrollBox" orientation="vertical" scrollBars="vertical">
+                    <form id="form" dataContainer="advDriverDc" width="100%" editable="false">
+                        <column width="100%">
+                            <textField id="sumToPayOutField" caption="Сумма на выплату" dataContainer="moderationDc" property="sum" editable="false" visible="false" stylename="align-right"/>
+                            <textField id="nameField" property="driver.user" caption="Водитель" editable="false" stylename="align-right"/>
+                            <textField  property="driver.car.number" editable="false" stylename="align-right"/>
+                            <textField id="driverBalanceField" property="driver.withdrawnMoney" stylename="align-right" visible="false"/>
+                            <pickerField id="classsField" property="driver.car.carClass" stylename="align-right">
+                                <actions>
+                                    <action id="lookup" type="picker_lookup"/>
+                                    <action id="clear" type="picker_clear"/>
+                                </actions>
+                            </pickerField>
+                            <pickerField id="markField" property="driver.car.model.mark" stylename="align-right">
+                                <actions>
+                                    <action id="lookup" type="picker_lookup"/>
+                                    <action id="clear" type="picker_clear"/>
+                                </actions>
+                            </pickerField>
+                            <pickerField id="modelField" property="driver.car.model" stylename="align-right">
+                                <actions>
+                                    <action id="lookup" type="picker_lookup"/>
+                                    <action id="clear" type="picker_clear"/>
+                                </actions>
+                            </pickerField>
+                            <lookupField id="cityField" property="driver.user.city" stylename="align-right"/>
+                            <textField id="phoneNumberField" property="driver.user.phoneNumber" editable="false" stylename="align-right"/>
+                            <textField id="totalRunField" property="driver.totalRun" editable="false" stylename="align-right"/>
+                            <textField id="balanceField" property="driver.withdrawnMoney" editable="false" stylename="align-right"/>
+                            <textField id="driverStatusField" property="driver.driverStatus" stylename="align-right"/>
+                            <textField id="yearField" property="driver.car.year" stylename="align-right"/>
+                        </column>
+                    </form>
+                </scrollBox>
+            </vbox>
+            <vbox spacing="true" expand="moderationPhotoBox" box.expandRatio="0.75" width="100%" height="100%" margin="true,true,true,false">
+                <vbox id="moderationPhotoBox" expand="photosBox" margin="false,false,true,false" spacing="true">
+                    <label property="type" dataContainer="moderationDc" align="TOP_CENTER" stylename="bold large" />
+                    <hbox id="photosBox" spacing="true" width="100%" stylename="card" >
+                        <linkButton id="typePrevBtn" icon="font-icon:CARET_LEFT" height="100%" invoke="typePrevImage" align="MIDDLE_LEFT" stylename="huge"/>
+                        <image id="typeImage" css="transform:rotate(270deg);" width="100%" height="100%" align="MIDDLE_CENTER" scaleMode="CONTAIN"/>
+                        <linkButton id="typeNextBtn" icon="font-icon:CARET_RIGHT" height="100%" invoke="typeNextImage" align="MIDDLE_RIGHT"/>
+                    </hbox>
+                </vbox>
+                <hbox id="smallPhotoImgHBox" align="MIDDLE_CENTER" spacing="true"/>
+            </vbox>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:wizard="http://schemas.diedavids.de/wizard/0.2/wizard-component.xsd"
+        caption="msg://DZoneTypeEdit.caption"
+        focusComponent="wizard"
+        messagesPack="kz.alash.naklei.web.screens.dzonetype">
+    <data>
+        <instance id="dZoneTypeDc"
+                  class="kz.alash.naklei.entity.dict.DZoneType" view="dZoneType-edit-view">
+            <loader/>
+            <collection id="trafficsDc" property="traffics"/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="wizard" spacing="true">
+        <wizard:wizard id="wizard" width="100%">
+            <wizard:tab id="step1"
+                        caption="Основная информация"
+                        spacing="true"
+                        margin="true">
+                <hbox spacing="true" width="100%" height="100%">
+                    <groupBox spacing="true" width="100%" height="100%">
+                        <form id="step1Form" dataContainer="dZoneTypeDc">
+                            <column width="350px">
+                                <textField id="nameField" property="name"/>
+                                <textField id="codeField" property="code"/>
+                                <pickerField id="cityField" property="city" required="true">
+                                    <actions>
+                                        <action id="lookup" type="picker_lookup"/>
+                                        <action id="clear" type="picker_clear"/>
+                                    </actions>
+                                </pickerField>
+                                <textField id="coverageField" property="coverage" datatype="decimal"/>
+                                <textField id="coverageWeekendField" property="coverageWeekend" datatype="decimal"/>
+                                <textField property="pointCoef"/>
+                                <colorPicker property="color"/>
+                            </column>
+                        </form>
+                    </groupBox>
+                </hbox>
+            </wizard:tab>
+            <wizard:tab id="step2"
+                        caption="Степень загружености/Охват"
+                        spacing="true"
+                        margin="true">
+                <hbox id="resultBox" spacing="true" width="100%" height="100%">
+                    <groupBox spacing="true" width="100%" height="100%" expand="trafficsTable">
+                        <form dataContainer="dZoneTypeDc">
+                            <column>
+                                <textField id="coveragePerHourField" caption="Охват в час(в будни):" property="coveragePerHour" editable="false" stylename="borderless"/>
+                            </column>
+                            <column>
+                                <textField id="coveragePerHourWeekendField" caption="Охват в час(в выходные):" property="coveragePerHourWeekend" editable="false" stylename="borderless"/>
+                            </column>
+                        </form>
+
+                        <table id="trafficsTable"
+                               editable="true"
+                               dataContainer="trafficsDc"
+                               sortable="false"
+                               width="100%">
+                            <columns>
+                                <column id="hourString"/>
+                                <column id="value" editable="true"/>
+                                <column id="valueWeekends" editable="true"/>
+                                <column id="averageSpeed" editable="true"/>
+                                <column id="averageSpeedWeekend" editable="true"/>
+                                <column id="coveragePerKm"/>
+                                <column id="coveragePerKmWeekend"/>
+                            </columns>
+                        </table>
+
+                    </groupBox>
+                </hbox>
+            </wizard:tab>
+        </wizard:wizard>
+    </layout>
+</window>

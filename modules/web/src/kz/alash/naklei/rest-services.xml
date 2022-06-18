@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<services xmlns="http://schemas.haulmont.com/cuba/rest-services-v2.xsd">
+    <!--Сервис для работы с пользователями-->
+    <service name="userService">
+        <!--Регистрация водителя -->
+<!--        <method name="driverRegistration" anonymousAllowed="true">-->
+<!--            <param name="driver" type="kz.alash.naklei.service.esb.dto.driver.DriverRegistrationRequest"/>-->
+<!--        </method>-->
+        <!--Получить профайл пользователя-->
+        <method name="getProfileData"/>
+        <method name="getHistoryAdvertisements"/>
+        <method name="updateUserToken">
+            <param name="token" type="java.lang.String"/>
+        </method>
+    </service>
+<!--    Сервис для работы с водителями-->
+    <service name="driverService">
+        <!--Регистрация водителя -->
+        <method name="register" anonymousAllowed="true">
+            <param name="driver" type="kz.alash.naklei.service.esb.dto.driver.DriverRegistrationRequest"/>
+        </method>
+        <method name="setCreditCard">
+            <param name="cardName" type="java.lang.String"/>
+            <param name="cardNumber" type="java.lang.String"/>
+        </method>
+        <method name="getNotifications"/>
+    </service>
+
+
+    <!--Сервис для работы с записями-->
+    <service name="naklei_EsbVisitService">
+        <!--Запись на оклейку + подписка на рекл/кампанию-->
+        <method name="createVisit">
+            <param name="request" type="kz.alash.naklei.service.esb.dto.visit.CreateVisitRequest"/>
+        </method>
+        <!--Свободное время на запись-->
+        <method name="getVisitFreeTime">
+            <param name="visitType"/>
+            <param name="day"/>
+            <param name="cityCode"/>
+            <param name="visitLength"/>
+        </method>
+        <method name="visitCompanies">
+            <param name="cityCode" type="java.lang.String"/>
+            <param name="visitType" type="java.lang.String"/>
+        </method>
+    </service>
+    <!--Сервис для проверок(Модерация)-->
+    <service name="naklei_ModerationService">
+        <!--Отправка на модерацию-->
+        <method name="sendModeration">
+            <param name="moderation" type="kz.alash.naklei.service.esb.dto.moderation.ModerationRequest"/>
+        </method>
+    </service>
+<!--    ??????????????????-->
+<!--    <service name="naklei_DocumentService">-->
+<!--        <method name="save">-->
+<!--            <param name="document" type="kz.alash.naklei.service.esb.dto.DocumentSaveRequest"/>-->
+<!--        </method>-->
+<!--    </service>-->
+<!--    ???????????????????-->
+    <service name="naklei_RouteService">
+        <method name="createRoute">
+            <param name="route" type="kz.alash.naklei.service.esb.dto.route.RouteCreateRequest"/>
+        </method>
+    </service>
+<!--    Подписка на рекл/кампанию. Это не используется-->
+    <service name="naklei_AdvertisementService">
+        <method name="setAdvertisement">
+            <param name="advertisementID"/>
+            <param name="purposeId"/>
+        </method>
+        <method name="terminationOfCurrentAdvContract"/>
+    </service>
+
+
+<!--    REDIS // пока не настроил на проде -->
+    <service name="naklei_RedisService">
+        <method name="getZonesByCode">
+            <param name="cityCode"/>
+        </method>
+    </service>
+
+
+    <service name="purposeService">
+        <method name="getPotentialPurposes" anonymousAllowed="false"/>
+        <method name="sticker">
+            <param name="purposeId"/>
+        </method>
+        <method name="maket">
+            <param name="purposeId"/>
+        </method>
+    </service>
+
+    <service name="advertiserService">
+        <method name="advertiserLogo">
+            <param name="advertiserId"/>
+        </method>
+    </service>
+</services>
+

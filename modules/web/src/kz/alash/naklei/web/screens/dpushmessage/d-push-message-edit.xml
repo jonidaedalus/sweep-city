@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://DPushMessageEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.dpushmessage">
+    <data>
+        <instance id="dPushMessageDc"
+                  class="kz.alash.naklei.entity.dict.DPushMessage">
+            <view extends="_local"/>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="dPushMessageDc">
+            <column width="350px">
+                <textField id="codeField" property="code"/>
+                <textField id="titleField" property="title"/>
+                <textField id="messageField" property="message"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

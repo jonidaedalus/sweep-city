@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://advertiserEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.advertiser">
+    <data>
+        <instance id="advertiserDc"
+                  class="kz.alash.naklei.entity.Advertiser"
+                  view="advertiser-edit">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="container" margin="true" spacing="true" stylename="well">
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" caption="Сохранить" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose" caption="Закрыть"/>
+        </hbox>
+        <vbox id="container" expand="scrollBox" spacing="true" margin="true" stylename="card">
+            <scrollBox id="scrollBox" orientation="vertical" spacing="true">
+                <groupBox caption="Логотип"
+                          height="350px" width="350px" expand="image">
+                    <image id="image"
+                           dataContainer="advertiserDc"
+                           property="logo"
+                           width="100%"
+                           align="MIDDLE_CENTER"
+                           scaleMode="CONTAIN"/>
+                    <hbox id="imageBtns" align="BOTTOM_LEFT"
+                          spacing="true">
+                        <upload id="uploadField"/>
+                        <button id="downloadImageBtn"
+                                caption="Download"
+                                invoke="onDownloadImageBtnClick"/>
+                        <button id="clearImageBtn"
+                                caption="Clear"
+                                invoke="onClearImageBtnClick"/>
+                    </hbox>
+                </groupBox>
+                <form id="form" captionPosition="TOP" dataContainer="advertiserDc">
+                    <column width="350px">
+                        <textField id="fullNameField" property="fullName"/>
+                        <textField id="balanceField" property="balance"/>
+                        <textField id="descField" property="desc"/>
+                    </column>
+                </form>
+            </scrollBox>
+        </vbox>
+    </layout>
+</window>

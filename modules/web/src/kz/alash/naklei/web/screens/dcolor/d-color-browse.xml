@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DColorBrowse.caption"
+        focusComponent="dColorsTable"
+        messagesPack="kz.alash.naklei.web.screens.dcolor">
+    <data readOnly="true">
+        <collection id="dColorsDc"
+                    class="kz.alash.naklei.entity.dict.car.DColor"
+                    view="dColor-view">
+            <loader id="dColorsDl">
+                <query>
+                    <![CDATA[select e from naklei_DColor e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dColorsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dColorsTable"
+                dataLoader="dColorsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dColorsTable"
+                    width="100%"
+                    dataContainer="dColorsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+                <action id="downloadExcel" type="excel"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dColorsTable.create"/>
+                <button id="editBtn" action="dColorsTable.edit"/>
+                <button id="removeBtn" action="dColorsTable.remove"/>
+                <button id="downloadExcelBtn" action="dColorsTable.downloadExcel"/>
+                <upload id="uploadExcelBtn"/>
+
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd"
+        caption="msg://advertisementDriverShow.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.advertisementdriver">
+    <data>
+        <instance id="advertisementDriverDc"
+                  class="kz.alash.naklei.entity.AdvertisementDriver" view="show-adv-driver-view">
+            <loader/>
+            <collection id="photosDc" property="photos"/>
+        </instance>
+        <keyValueCollection id="zonePointsDc">
+            <loader id="zonePointsDl" />
+            <properties>
+                <property name="zone" class="kz.alash.naklei.entity.dict.DZone"/>
+                <property name="points" datatype="double"/>
+                <property name="distance" datatype="double"/>
+            </properties>
+        </keyValueCollection>
+        <collection id="zonesDc" class="kz.alash.naklei.entity.dict.DZone" view="_base">
+            <loader id="zonesDl">
+                <query>
+                    <![CDATA[select e from naklei_DZone e]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="selectedRouteDc" class="kz.alash.naklei.entity.Route" view="route-view"/>
+    </data>
+    <dialogMode height="1000"
+                width="1400"/>
+    <layout expand="content" spacing="true" stylename="well" margin="true">
+        <hbox id="editActions" spacing="true" width="100%">
+            <button id="closeBtn" action="windowClose" caption="Закрыть"/>
+            <hbox align="MIDDLE_RIGHT" spacing="true">
+                <label value="Статус:"/>
+                <label dataContainer="advertisementDriverDc" property="status" stylename="bold"/>
+            </hbox>
+        </hbox>
+        <hbox id="content" width="100%" stylename="card" margin="true">
+            <scrollBox id="scrollBox" spacing="true">
+                <form id="form" dataContainer="advertisementDriverDc">
+                    <column width="350px">
+                        <pickerField id="driverField" property="driver">
+                            <actions>
+                                <action id="lookup" type="picker_lookup"/>
+                                <action id="clear" type="picker_clear"/>
+                            </actions>
+                        </pickerField>
+                        <textField id="earnedPointsField" property="earnedMoney"/>
+                        <dateField id="startDateField" property="startDate"/>
+                        <dateField id="endDateField" property="endDate"/>
+                        <lookupField id="statusField" property="status"/>
+                        <textField id="totalRunField" property="totalRun"/>
+                        <textField id="approvedTotalRunField" property="approvedTotalRun"/>
+                        <textField id="tachometerValueField" property="tachometerValue"/>
+                        <dateField id="lastWashDateField" property="lastWashDate"/>
+                        <dateField id="lastModerationDateField" property="lastModerationDate"/>
+                    </column>
+                </form>
+                <groupBox id="photosBox" caption="msg://kz.alash.naklei.entity/AdvertisementDriver.photos">
+                    <table id="photosTable" dataContainer="photosDc" width="100%" height="200px">
+                        <actions>
+                            <action id="add" type="add"/>
+                            <action id="exclude" type="exclude"/>
+                        </actions>
+                        <columns>
+                            <column id="name"/>
+                            <column id="createDate"/>
+                            <column id="extension"/>
+                        </columns>
+                        <buttonsPanel>
+                            <button action="photosTable.add"/>
+                            <button action="photosTable.exclude"/>
+                        </buttonsPanel>
+                    </table>
+                </groupBox>
+            </scrollBox>
+
+            <vbox spacing="true" height="100%" expand="map">
+                <vbox id="pointsInfo" visible="true" spacing="true">
+                    <form dataContainer="selectedRouteDc" captionPosition="TOP">
+                        <column>
+                            <textField caption="Общее колличество поинтов" datatype="double" property="points" editable="false"/>
+                        </column>
+                        <column>
+                            <textField id="resultsKilometer" datatype="double" caption="Пройдено киллометров" property="distance" editable="false"/>
+                        </column>
+                    </form>
+                    <table dataContainer="zonePointsDc" width="100%">
+                        <columns>
+                            <column id="zone"/>
+                            <column id="points"/>
+                            <column id="distance"/>
+                        </columns>
+                        <rows/>
+                    </table>
+                </vbox>
+                <maps:geoMap id="map" width="100%" center="76.8512,43.2220" zoom="12">
+                    <maps:layers selectedLayer="canvas">
+                        <maps:tile id="tiles" tileProvider="maps_OpenStreetMap"/>
+                        <maps:vector id="zonesLayerVector" dataContainer="zonesDc"/>
+                    </maps:layers>
+                </maps:geoMap>
+            </vbox>
+        </hbox>
+    </layout>
+</window>

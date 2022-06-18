@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DStickerTypeBrowse.caption"
+        focusComponent="dStickerTypesTable"
+        messagesPack="kz.alash.naklei.web.screens.dstickertype">
+    <data readOnly="true">
+        <collection id="dStickerTypesDc"
+                    class="kz.alash.naklei.entity.dict.DStickerType">
+            <view extends="dStickerType-view"/>
+            <loader id="dStickerTypesDl">
+                <query>
+                    <![CDATA[select e from naklei_DStickerType e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dStickerTypesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dStickerTypesTable"
+                dataLoader="dStickerTypesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dStickerTypesTable"
+                    width="100%"
+                    dataContainer="dStickerTypesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+                <column id="pointCoef"/>
+                <column id="coverageCoef"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dStickerTypesTable.create"/>
+                <button id="editBtn" action="dStickerTypesTable.edit"/>
+                <button id="removeBtn" action="dStickerTypesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://carEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.car">
+    <data>
+        <instance id="carDc"
+                  class="kz.alash.naklei.entity.Car" view="car-show">
+            <loader id="carDl"/>
+        </instance>
+        <keyValueCollection id="menuDc">
+            <loader id="menuDl"/>
+            <properties>
+                <property name="parent"/>
+                <property name="name"/>
+            </properties>
+        </keyValueCollection>
+        <instance id="currentAdvDriverDc" class="kz.alash.naklei.entity.AdvertisementDriver" view="show-adv-driver-view">
+            <loader id="currentAdvDriverDl">
+                <query>
+                    <![CDATA[select e from naklei_AdvertisementDriver e where e.endDate is null and e.driver = :driver and e.deleteTs is null]]>
+                </query>
+            </loader>
+        </instance>
+        <collection id="historyAdvDriversDc" class="kz.alash.naklei.entity.AdvertisementDriver" view="show-adv-driver-view">
+            <loader id="historyAdvDriversDl">
+                <query>
+                    <![CDATA[select e from naklei_AdvertisementDriver e where e.endDate is not null and e.driver = :driver]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode width="800px" height="600px"/>
+    <layout expand="container" spacing="true" margin="true" stylename="well" width="100%">
+        <hbox id="editActions" spacing="true" width="100%">
+            <hbox align="MIDDLE_LEFT" spacing="true">
+                <button id="closeBtn" action="windowClose" caption="Закрыть"/>
+<!--                <button id="commitAndCloseBtn" caption="Сохранить" action="windowCommitAndClose"/>-->
+<!--                <button id="sendForModeration" caption="msg://sendForModeration.btn.caption"/>-->
+<!--                <button id="createPush" caption="msg://createPush.btn.caption"/>-->
+<!--                <button id="testMap" caption="testMap"/>-->
+            </hbox>
+            <hbox align="MIDDLE_RIGHT" spacing="true">
+                <label value="Статус:"/>
+                <label dataContainer="carDc" property="driver.driverStatus" stylename="bold"/>
+            </hbox>
+        </hbox>
+        <vbox id="container" margin="true" spacing="true" stylename="card" width="100%">
+            <hbox expand="menuContainer" spacing="true" width="100%" height="100%">
+                <tree id="tree" align="TOP_LEFT" captionProperty="name" dataContainer="menuDc" height="100%" hierarchyProperty="parent" width="255px" showOrphans="false" stylename="my-tree"/>
+                <vbox id="menuContainer" spacing="true" height="100%">
+                    <hbox id="mainInfoHBox" spacing="true" width="100%" height="100%">
+                        <vbox box.expandRatio="0.3" spacing="true">
+                            <groupBox caption="Водитель" spacing="true" width="100%" showAsPanel="true">
+                                <form id="driverForm" dataContainer="carDc" width="100%">
+                                    <column width="100%">
+                                        <textField id="nameField" stylename="borderless align-right bold large" property="driver.user.name"/>
+                                        <textField id="cityField" stylename="borderless align-right bold large" property="driver.user.city"/>
+                                        <textField id="phoneNumberField" stylename="borderless align-right bold large" property="driver.user.phoneNumber"/>
+                                        <textField id="totalRunField" stylename="borderless align-right bold large" property="driver.totalRun"/>
+                                        <textField id="balanceField" stylename="borderless align-right bold large" property="driver.currentMoney"/>
+                                    </column>
+                                </form>
+                            </groupBox>
+                            <groupBox caption="Автомобиль" spacing="true" width="100%" showAsPanel="true">
+                                <form id="form" dataContainer="carDc" width="100%">
+                                    <column width="100%">
+                                        <textField id="numberField" stylename="borderless align-right bold large" property="number"/>
+                                        <textField id="markField" stylename="borderless align-right bold large" property="model.mark"/>
+                                        <textField id="modelField" stylename="borderless align-right bold large" property="model"/>
+                                        <textField id="yearField" stylename="borderless align-right bold large" property="year"/>
+                                        <textField id="classsField" stylename="borderless align-right bold large" property="carClass"/>
+                                    </column>
+                                </form>
+                            </groupBox>
+                        </vbox>
+                        <vbox box.expandRatio="0.7" expand="carPhotoGroupBox" height="100%" width="100%" spacing="true">
+                            <groupBox id="carPhotoGroupBox" caption="Фото автомобиля(с тех. паспортом)" width="100%" expand="carPhotosBox">
+                                <hbox id="carPhotosBox" width="100%" expand="carPhoto">
+                                    <linkButton id="typePrevBtn" icon="font-icon:CARET_LEFT" invoke="typePrevImage" align="MIDDLE_LEFT"/>
+                                    <image id="carPhoto" height="100%" align="MIDDLE_CENTER" scaleMode="CONTAIN"/>
+                                    <linkButton id="typeNextBtn" icon="font-icon:CARET_RIGHT" invoke="typeNextImage" align="MIDDLE_RIGHT"/>
+                                </hbox>
+                            </groupBox>
+                           <!-- <groupBox caption="Техпаспорт" height="350px" expand="techPassportPhoto" width="100%">
+                                <image id="techPassportPhoto" dataContainer="carDc" width="100%" property="techPassport" align="MIDDLE_CENTER" scaleMode="CONTAIN" />
+                            </groupBox>-->
+                        </vbox>
+                    </hbox>
+                    <hbox id="currentAdvDriverInfoHBox" expand="currentAdvDriverFragment" spacing="true" width="100%" height="100%">
+                        <fragment id="currentAdvDriverFragment" screen="naklei_AdvDriverShowFragment" height="100%"/>
+                    </hbox>
+                </vbox>
+            </hbox>
+        </vbox>
+
+    </layout>
+</window>

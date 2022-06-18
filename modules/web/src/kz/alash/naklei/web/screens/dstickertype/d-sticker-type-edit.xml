@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://DStickerTypeEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.dstickertype">
+    <data>
+        <instance id="dStickerTypeDc"
+                  class="kz.alash.naklei.entity.dict.DStickerType">
+            <view extends="dStickerType-edit"/>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="dStickerTypeDc">
+            <column width="350px">
+                <textField id="nameField" property="name"/>
+                <textField id="codeField" property="code"/>
+                <textField id="pointCoefField" property="pointCoef"/>
+                <textField id="coverageCoefField" property="coverageCoef"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

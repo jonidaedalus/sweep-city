@@ -1,0 +1,15 @@
+@import url(https://fonts.googleapis.com/css?family=Montserrat);
+@import "helium-defaults";
+@import "kz.alash.naklei/helium-ext-defaults";
+@import "app-components";
+@import "kz.alash.naklei/helium-ext";
+@import "kz.alash.naklei/helium-ext-dark";
+@import "kz.alash.naklei/side-menu-layout";
+
+
+.helium {
+  // include auto-generated app components SCSS
+  @include app_components;
+
+  @include kz_alash_naklei-helium-ext;
+}

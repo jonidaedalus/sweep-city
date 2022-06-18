@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd">
+    <data>
+        <instance id="advPurposeDc"
+                  class="kz.alash.naklei.entity.AdvPurpose">
+            <view extends="advPurpose-edit"/>
+            <loader/>
+        </instance>
+        <collection id="purposeDriversDc" class="kz.alash.naklei.entity.AdvertisementDriver" view="advertisementDriver-view">
+            <loader id="purposeDriversDl">
+                <query>
+                    <![CDATA[select e from naklei_AdvertisementDriver e where e.purpose =:purpose]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <layout stylename="card" margin="true" height="100%" expand="tabSheet" spacing="true">
+        <label value="Цель" stylename="huge bold"/>
+        <tabSheet id="tabSheet">
+            <tab id="mainInfoTab" caption="Основная информация" margin="true">
+                <hbox id="content" spacing="true" width="100%" expand="rightVbox">
+                    <vbox spacing="true" margin="true" box.expandRatio="0.4" width="100%">
+                        <vbox spacing="true" >
+                            <tabSheet id="imagesTabSheet" height="350px">
+                                <tab id="stikerTab" caption="наклейка" expand="image">
+                                    <image id="image"
+                                           dataContainer="advPurposeDc"
+                                           property="sticker"
+                                           width="100%"
+                                           align="MIDDLE_CENTER"
+                                           scaleMode="CONTAIN"/>
+                                </tab>
+                                <tab id="maketTab" caption="mockup" expand="maketImage">
+                                    <image id="maketImage"
+                                           dataContainer="advPurposeDc"
+                                           property="maket"
+                                           width="100%"
+                                           align="MIDDLE_CENTER"
+                                           scaleMode="CONTAIN"/>
+                                </tab>
+                            </tabSheet>
+                        </vbox>
+                    </vbox>
+                    <vbox id="rightVbox" margin="true" height="100%" box.expandRatio="0.6" spacing="true">
+                        <vbox spacing="true">
+                            <hbox id="carAmountHbox" spacing="true" width="100%">
+                                <label value="Количество машин" align="MIDDLE_LEFT" />
+                                <label id="carAmountLabel" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                            </hbox>
+                            <hbox spacing="true" width="100%">
+                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.budget" align="MIDDLE_LEFT"/>
+                                <label dataContainer="advPurposeDc" property="budget" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                            </hbox>
+                            <hbox id="allModelsLabel" spacing="true" width="100%">
+                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.carModel" align="MIDDLE_LEFT" contextHelpText="Только выбранного класса машин"/>
+                                <label id="allCarModel" value="Все" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                                <label id="carModelLabel" dataContainer="advPurposeDc" property="carModel" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                            </hbox>
+                            <hbox id="allColorsLabel" spacing="true" width="100%">
+                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.carColor" align="MIDDLE_LEFT"/>
+                                <label id="allCarColor" value="Все" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                                <label id="carColorLabel" dataContainer="advPurposeDc" property="carColor" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                            </hbox>
+                            <hbox spacing="true" width="100%">
+                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.pastingTime" align="MIDDLE_LEFT"/>
+                                <label dataContainer="advPurposeDc" property="pastingTime" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                            </hbox>
+                            <hbox spacing="true" width="100%">
+                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.pastingCost" align="MIDDLE_LEFT"/>
+                                <label dataContainer="advPurposeDc" property="pastingCost" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                            </hbox>
+                            <hbox spacing="true" width="100%">
+                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.rewardAmount" align="MIDDLE_LEFT"/>
+                                <label dataContainer="advPurposeDc" property="rewardAmount" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                            </hbox>
+                        </vbox>
+                    </vbox>
+                </hbox>
+            </tab>
+            <tab id="purposeCarsTab" caption="Машины" expand="purposeDriversTable" spacing="true" margin="true">
+
+                <table id="purposeDriversTable"
+                       dataContainer="purposeDriversDc"
+                       settingsEnabled="false"
+                       sortable="false"
+                       columnControlVisible="false"
+                       width="100%">
+                    <actions>
+                        <action id="view" type="view"/>
+                        <action id="refresh" type="refresh"/>
+                    </actions>
+                    <columns>
+                        <column id="driver" maxTextLength="1"/>
+                        <column id="status"/>
+                        <column id="driver.car.carClass"/>
+                        <column id="startDate"/>
+                        <column id="endDate"/>
+                    </columns>
+                    <rowsCount/>
+                    <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                        <button id="viewBtn" action="purposeDriversTable.view"/>
+                        <button id="refreshBtn" action="purposeDriversTable.refresh"/>
+                    </buttonsPanel>
+                </table>
+            </tab>
+        </tabSheet>
+    </layout>
+</fragment>

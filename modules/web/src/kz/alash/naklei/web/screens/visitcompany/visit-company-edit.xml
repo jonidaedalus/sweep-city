@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://visitCompanyEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.visitcompany">
+    <data>
+        <instance id="visitCompanyDc"
+                  class="kz.alash.naklei.entity.visit.VisitCompany">
+            <view extends="visitCompany-view"/>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="content" spacing="true" stylename="well" margin="true">
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+        <hbox id="content" stylename="card" margin="true" width="100%">
+            <hbox spacing="true">
+                <form id="form" dataContainer="visitCompanyDc">
+                    <column>
+                        <pickerField id="cityField" property="city">
+                            <actions>
+                                <action id="lookup" type="picker_lookup"/>
+                                <action id="clear" type="picker_clear"/>
+                            </actions>
+                        </pickerField>
+                        <textField id="nameField" property="name"/>
+                        <textField id="mapLinkField" property="mapLink"/>
+                        <textField id="addressTextField" property="addressText"/>
+                        <lookupField id="visitTypeField" property="visitType"/>
+                        <pickerField id="employeeField" property="employee">
+                            <actions>
+                                <action id="lookup" type="picker_lookup"/>
+                                <action id="clear" type="picker_clear"/>
+                            </actions>
+                        </pickerField>
+                    </column>
+                </form>
+                <vbox spacing="true" margin="false,false,false,true">
+                    <hbox spacing="true">
+                        <label value="Время работы в будни:" stylename="bold"/>
+                        <form dataContainer="visitCompanyDc">
+                            <column>
+                                <timeField id="workFromField" property="workFrom" caption="c"/>
+                            </column>
+                            <column>
+                                <timeField id="workToField" property="workTo" caption="по"/>
+                            </column>
+                        </form>
+                    </hbox>
+                    <label value="Время работы в выходные" stylename="bold"/>
+                    <optionsGroup id="weekendsOptionGroup" multiselect="true"/>
+                    <hbox id="satWorkTimeHbox" spacing="true" visible="false">
+                        <label value="Время работы в субботу:" stylename="bold"/>
+                        <form dataContainer="visitCompanyDc">
+                            <column>
+                                <timeField property="satWorkFrom" caption="c"/>
+                            </column>
+                            <column>
+                                <timeField property="satWorkTo" caption="по"/>
+                            </column>
+                        </form>
+                    </hbox>
+                    <hbox id="sunWorkTimeHbox" spacing="true" visible="false">
+                        <label value="Время работы в воскресенье:" stylename="bold"/>
+                        <form dataContainer="visitCompanyDc">
+                            <column>
+                                <timeField property="sunWorkFrom" caption="c"/>
+                            </column>
+                            <column>
+                                <timeField property="sunWorkTo" caption="по"/>
+                            </column>
+                        </form>
+                    </hbox>
+                </vbox>
+            </hbox>
+        </hbox>
+
+    </layout>
+</window>

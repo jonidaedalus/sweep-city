@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://advertiserBrowse.caption"
+        focusComponent="advertisersTable"
+        messagesPack="kz.alash.naklei.web.screens.advertiser">
+    <data readOnly="true">
+        <collection id="advertisersDc"
+                    class="kz.alash.naklei.entity.Advertiser"
+                    view="advertiser-view">
+            <loader id="advertisersDl">
+                <query>
+                    <![CDATA[select e from naklei_Advertiser e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="advertisersTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="advertisersTable"
+                dataLoader="advertisersDl">
+            <properties include=".*"/>
+        </filter>
+        <table id="advertisersTable"
+                    width="100%"
+                    settingsEnabled="false"
+                    sortable="false"
+                    columnControlVisible="false"
+                    dataContainer="advertisersDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+            </actions>
+            <columns>
+                <column id="logo" width="60"/>
+                <column id="balance"/>
+                <column id="fullName"/>
+                <column id="desc"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                <button id="createBtn" action="advertisersTable.create"/>
+<!--                <button id="editBtn" action="advertisersTable.edit"/>-->
+                <button id="addAdvertisement" invoke="addAdvertisement" caption="Создать рекламу" enable="false"/>
+                <button id="openStats" invoke="openStats" caption="Статистика" enable="false"/>
+            </buttonsPanel>
+        </table>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

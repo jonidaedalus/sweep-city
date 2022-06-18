@@ -1,0 +1,31 @@
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:ext="http://schemas.haulmont.com/cuba/window-ext.xsd"
+        xmlns:dashboard="http://schemas.haulmont.com/cubadshb/ui-component.xsd"
+        extends="/com/haulmont/cuba/web/app/main/main-screen.xml">
+    <actions>
+        <action id="switchThemeMode"/>
+    </actions>
+    <facets>
+        <timer id="refreshMyVisits" delay="3000" autostart="true" repeating="true"/>
+    </facets>
+    <layout>
+        <cssLayout>
+            <workArea>
+                <initialLayout>
+                    <vbox spacing="true">
+                        <image align="MIDDLE_CENTER" scaleMode="FILL" height="100%" width="100%">
+                            <theme path="branding/bg_sweep.png"/>
+                        </image>
+<!--                        <dashboard:dashboard id="mainDashboard" code="main-dashboard" timerDelay="60" width="100%"/>-->
+                    </vbox>
+
+                    <button
+                            id="switchThemeModeBtn"
+                            stylename="icon-only secondary"
+                            align="BOTTOM_RIGHT"
+                            action="switchThemeMode"/>
+                </initialLayout>
+            </workArea>
+        </cssLayout>
+    </layout>
+</window>

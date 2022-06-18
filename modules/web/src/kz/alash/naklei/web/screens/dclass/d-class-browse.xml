@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DClassBrowse.caption"
+        focusComponent="dClassesTable"
+        messagesPack="kz.alash.naklei.web.screens.dclass">
+    <data readOnly="true">
+        <collection id="dClassesDc"
+                    class="kz.alash.naklei.entity.dict.car.DClass"
+                    view="dClass-view">
+            <loader id="dClassesDl">
+                <query>
+                    <![CDATA[select e from naklei_DClass e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dClassesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dClassesTable"
+                dataLoader="dClassesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dClassesTable"
+                    width="100%"
+                    dataContainer="dClassesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+                <column id="pointCoef"/>
+                <column id="coverageCoef"/>
+                <column id="maxPointPerDay"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dClassesTable.create"/>
+                <button id="editBtn" action="dClassesTable.edit"/>
+                <button id="removeBtn" action="dClassesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

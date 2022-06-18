@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+    <persistence-unit name="naklei" transaction-type="RESOURCE_LOCAL">
+        <class>kz.alash.naklei.entity.ExtUser</class>
+        <class>kz.alash.naklei.entity.Advertiser</class>
+        <class>kz.alash.naklei.entity.Car</class>
+        <class>kz.alash.naklei.entity.Advertisement</class>
+        <class>kz.alash.naklei.entity.dict.car.DMark</class>
+        <class>kz.alash.naklei.entity.dict.car.DModel</class>
+        <class>kz.alash.naklei.entity.dict.car.DClass</class>
+        <class>kz.alash.naklei.entity.dict.car.DCarClassification</class>
+        <class>kz.alash.naklei.entity.dict.car.DColor</class>
+        <class>kz.alash.naklei.entity.dict.DZone</class>
+        <class>kz.alash.naklei.entity.dict.DStickerType</class>
+        <class>kz.alash.naklei.entity.dict.DPointCost</class>
+        <class>kz.alash.naklei.entity.dict.DCoverage</class>
+        <class>kz.alash.naklei.entity.AdvertisementDriver</class>
+        <class>kz.alash.naklei.entity.Driver</class>
+        <class>kz.alash.naklei.entity.dict.DDocType</class>
+        <class>kz.alash.naklei.entity.dict.DCity</class>
+        <class>kz.alash.naklei.entity.Route</class>
+        <class>kz.alash.naklei.entity.AdvLocation</class>
+        <class>kz.alash.naklei.entity.dict.DTime</class>
+        <class>kz.alash.naklei.entity.moderation.Moderation</class>
+        <class>kz.alash.naklei.entity.dict.DZoneType</class>
+        <class>kz.alash.naklei.entity.dict.DTraffic</class>
+        <class>kz.alash.naklei.entity.dict.DTrafficRate</class>
+        <class>kz.alash.naklei.entity.visit.Visit</class>
+        <class>kz.alash.naklei.entity.visit.VisitCompany</class>
+        <class>kz.alash.naklei.entity.AdvPurpose</class>
+        <class>kz.alash.naklei.entity.dict.DPushMessage</class>
+        <class>kz.alash.naklei.entity.CreditCard</class>
+        <class>kz.alash.naklei.entity.DAppConf</class>
+        <class>kz.alash.naklei.entity.PayOut</class>
+        <class>kz.alash.naklei.entity.Notification</class>
+        <class>kz.alash.naklei.entity.Transaction</class>
+    </persistence-unit>
+</persistence>

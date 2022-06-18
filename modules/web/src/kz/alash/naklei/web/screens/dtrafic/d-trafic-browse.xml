@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DTraficBrowse.caption"
+        focusComponent="dTraficsTable"
+        messagesPack="kz.alash.naklei.web.screens.dtrafic">
+    <data readOnly="true">
+        <collection id="dTraficsDc"
+                    class="kz.alash.naklei.entity.dict.DTraffic">
+            <view extends="_base">
+                <property name="zoneType" view="_minimal">
+                    <property name="code"/>
+                    <property name="city" view="_minimal">
+                        <property name="code"/>
+                    </property>
+                </property>
+<!--                <property name="rate" view="_minimal">-->
+<!--                    <property name="code"/>-->
+<!--                    <property name="value"/>-->
+<!--                    <property name="averageSpeed"/>-->
+<!--                </property>-->
+            </view>
+            <loader id="dTraficsDl">
+                <query>
+                    <![CDATA[select e from naklei_DTrafic e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dTraficsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dTraficsTable"
+                dataLoader="dTraficsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dTraficsTable"
+                    width="100%"
+                    dataContainer="dTraficsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="zoneType"/>
+                <column id="hour"/>
+                <column id="value"/>
+<!--                <column id="rate"/>-->
+<!--                <column id="otsPerKm"/>-->
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dTraficsTable.create"/>
+                <button id="editBtn" action="dTraficsTable.edit"/>
+                <button id="removeBtn" action="dTraficsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

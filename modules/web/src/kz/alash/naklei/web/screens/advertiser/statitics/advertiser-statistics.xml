@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://advertiserStatisticsRead.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.advertiser">
+    <data>
+        <instance id="advertiserDc"
+                  class="kz.alash.naklei.entity.Advertiser">
+            <view extends="_local">
+                <property name="advertisements" view="_minimal">
+                    <property name="name"/>
+                    <property name="purposes" view="_minimal">
+                        <property name="rewardAmount"/>
+                        <property name="carClass"/>
+                        <property name="pastingCost"/>
+                        <property name="currentBudget"/>
+                        <property name="carAmount"/>
+                        <property name="budget"/>
+                        <property name="advertisementDrivers">
+                            <property name="status"/>
+                            <property name="earnedMoney"/>
+                        </property>
+                    </property>
+                    <property name="status"/>
+                    <property name="startDate"/>
+                    <property name="endDate"/>
+                </property>
+            </view>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <vbox id="advertiserExpenses">
+            <resizableTextArea id="pasting" caption="оклейка: " editable="false"/>
+        </vbox>
+        <form id="form" dataContainer="advertiserDc">
+            <column width="350px">
+                <textField id="descField" property="desc"/>
+                <textField id="balanceField" property="balance"/>
+                <textField id="fullNameField" property="fullName"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

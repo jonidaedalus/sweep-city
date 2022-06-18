@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://payOutEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.payout">
+    <data>
+        <instance id="payOutDc"
+                  class="kz.alash.naklei.entity.PayOut">
+            <view extends="_local">
+                <property name="advertisementDriver">
+                    <property name="driver" view="_minimal">
+                        <property name="withdrawnMoney"/>
+                        <property name="creditCardNumber"/>
+                        <property name="creditCardName"/>
+                    </property>
+                </property>
+            </view>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="formCard" spacing="true" stylename="well" margin="true">
+        <hbox id="editActions" spacing="true" width="100%">
+            <hbox spacing="true">
+                <button id="approveBtn" caption="Выплачено" stylename="primary"/>
+                <button id="closeBtn" caption="Закрыть" action="windowClose"/>
+            </hbox>
+            <hbox align="MIDDLE_RIGHT" spacing="true">
+                <label value="Статус:"/>
+                <label id="statusField" dataContainer="payOutDc" property="status" stylename="align-right bold"/>
+            </hbox>
+        </hbox>
+        <vbox id="formCard" stylename="card" margin="true" expand="totalHbox" spacing="true">
+            <hbox spacing="true" >
+                <label value="Водитель" align="BOTTOM_CENTER"/>
+                <vbox align="TOP_CENTER">
+                    <linkButton id="carCardLink"  caption="Клиент"/>
+                </vbox>
+
+            </hbox>
+            <form id="form" dataContainer="payOutDc" captionPosition="LEFT">
+                <column width="350px">
+                    <textField id="sumField" property="sum" editable="false"/>
+                    <textField id="percentField" property="percent" editable="false"/>
+<!--                    <pickerField id="driverField" property="driver" editable="false">-->
+<!--                        <actions>-->
+<!--                            <action id="lookup" type="picker_lookup"/>-->
+<!--                            <action id="clear" type="picker_clear"/>-->
+<!--                        </actions>-->
+<!--                    </pickerField>-->
+                </column>
+                <column width="350px">
+                    <textField id="currentBalanceField" caption="Текущий баланс водителя" property="advertisementDriver.driver.withdrawnMoney" editable="false"/>
+                    <textField id="cardNumberField" caption="Номер карты" dataContainer="payOutDc" property="advertisementDriver.driver.creditCardNumber" editable="false"/>
+                </column>
+            </form>
+            <hbox id="totalHbox">
+                <form captionPosition="LEFT">
+                    <textField id="totalField" caption="Итого: " stylename="huge borderless" editable="false" datatype="decimal"/>
+                </form>
+            </hbox>
+        </vbox>
+    </layout>
+</window>

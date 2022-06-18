@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DAppConfBrowse.caption"
+        focusComponent="dAppConfsTable"
+        messagesPack="kz.alash.naklei.web.screens.dappconf">
+    <data readOnly="true">
+        <collection id="dAppConfsDc"
+                    class="kz.alash.naklei.entity.DAppConf">
+            <view extends="_local"/>
+            <loader id="dAppConfsDl">
+                <query>
+                    <![CDATA[select e from naklei_DAppConf e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dAppConfsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dAppConfsTable"
+                dataLoader="dAppConfsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dAppConfsTable"
+                    width="100%"
+                    dataContainer="dAppConfsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="transactionPercent"/>
+                <column id="days"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dAppConfsTable.create"/>
+                <button id="editBtn" action="dAppConfsTable.edit"/>
+                <button id="removeBtn" action="dAppConfsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

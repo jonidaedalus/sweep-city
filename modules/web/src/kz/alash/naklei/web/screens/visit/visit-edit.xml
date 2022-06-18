@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://visitEdit.caption"
+        focusComponent="fieldGroup"
+        messagesPack="kz.alash.naklei.web.screens.visit">
+    <data>
+        <instance id="visitDc"
+                  class="kz.alash.naklei.entity.visit.Visit"
+                  view="visit-edit">
+            <loader/>
+        </instance>
+        <collection id="assignedUsersDc" class="com.haulmont.cuba.security.entity.User" view="_minimal">
+            <loader id="assignedUsersDl">
+                <query>
+                    <![CDATA[select e from sec$User e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="750"
+                width="1000"/>
+    <layout expand="scrollBox" spacing="true" width="100%" stylename="well">
+        <hbox id="editActions" width="100%" margin="true,true,false,true">
+            <hbox spacing="true">
+                <button id="approveBtn" icon="font-icon:CHECK" caption="msg://kz.alash.naklei.entity.dict/EVisitStatus.DONE" invoke="changeStatusToDone"/>
+                <button id="rejectBtn" icon="font-icon:CLOSE" caption="msg://kz.alash.naklei.entity.dict/EVisitStatus.CANCELED" invoke="changeStatusToCancel"/>
+                <button id="saveActionBox" action="windowCommitAndClose" visible="false" caption="msg://save.btn.caption"/>
+            </hbox>
+            <hbox align="TOP_RIGHT" spacing="true">
+                <label value="msg://kz.alash.naklei.entity.visit/Visit.status" stylename="bold"/>
+                <label dataContainer="visitDc" property="status"/>
+            </hbox>
+        </hbox>
+        <scrollBox id="scrollBox" width="100%" orientation="vertical" scrollBars="vertical" margin="false,true,true,true" spacing="true" stylename="card">
+            <vbox stylename="card" spacing="true" margin="true">
+                <form id="fieldGroup" dataContainer="visitDc" editable="false" width="100%">
+
+                    <column width="100%">
+                        <textField id="visitStartReadOnlyField" property="visitStart" stylename="borderless "/>
+                        <dateField id="visitStartField" property="visitStart" visible="false"/>
+                        <lookupField id="assignedUserField" property="assignedUser" optionsContainer="assignedUsersDc" editable="false" stylename="borderless"/>
+                        <textField property="advertisementDriver.purpose.stickerType" editable="false" stylename="borderless"/>
+                        <textField property="advertisementDriver.driver.user.name" caption="msg://driver.name.caption" editable="false" stylename="borderless"/>
+
+                        <textField property="advertisementDriver.driver.user.login" caption="msg://driver.phoneNumber" editable="false" stylename="borderless"/>
+                        <textField id="cancelReasonField" property="cancelReason" visible="false" stylename="borderless" css="color:red;"/>
+                        <label id="cancelReasonEmptyLabel" visible="false" stylename="borderless"/>
+                    </column>
+
+                    <column width="100%">
+                        <textField id="visitEndReadOnlyField" property="visitEnd" editable="false" stylename="borderless"/>
+                        <dateField id="visitEndField" property="visitEnd" visible="false" editable="false"/>
+                        <textField property="advertisementDriver.driver.car.number" editable="false" stylename="borderless"/>
+                        <textField property="advertisementDriver.driver.car.model.name" caption="msg://car.model.caption" editable="false" stylename="borderless"/>
+                        <textArea rows="5" property="description" rowspan="2" width="100%" editable="false" />
+                        <textArea id="commentField" rows="5" rowspan="2" property="comment" width="100%" visible="false" css="color:red;"/>
+<!--                        <lookupField id="typeField" property="type" editable="false"/>-->
+                    </column>
+                </form>
+                <button icon="font-icon:DOWNLOAD" caption="msg://download.btn.caption" invoke="downloadSticker"/>
+            </vbox>
+        </scrollBox>
+    </layout>
+</window>

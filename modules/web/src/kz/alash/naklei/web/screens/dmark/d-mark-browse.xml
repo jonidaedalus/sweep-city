@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DMarkBrowse.caption"
+        focusComponent="dMarksTable"
+        messagesPack="kz.alash.naklei.web.screens.dmark">
+    <data readOnly="true">
+        <collection id="dMarksDc"
+                    class="kz.alash.naklei.entity.dict.car.DMark"
+                    view="dMark-view">
+            <loader id="dMarksDl">
+                <query>
+                    <![CDATA[select e from naklei_DMark e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dMarksTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dMarksTable"
+                dataLoader="dMarksDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dMarksTable"
+                    width="100%"
+                    dataContainer="dMarksDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dMarksTable.create"/>
+                <button id="editBtn" action="dMarksTable.edit"/>
+                <button id="removeBtn" action="dMarksTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

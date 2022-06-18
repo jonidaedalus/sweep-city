@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://advPurposeEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.advpurpose">
+    <data>
+        <instance id="advPurposeDc"
+                  class="kz.alash.naklei.entity.AdvPurpose">
+            <view extends="advPurpose-edit"/>
+            <loader/>
+        </instance>
+        <collection id="purposeDriversDc" class="kz.alash.naklei.entity.AdvertisementDriver" view="advertisementDriver-view">
+            <loader id="purposeDriverDl">
+                <query>
+                    <![CDATA[select e from naklei_AdvertisementDriver e where e.purpose =:purpose]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="colorsDc" class="kz.alash.naklei.entity.dict.car.DColor" view="dColor-view">
+            <loader id="colorsDl">
+                <query>
+                    <![CDATA[select e from naklei_DColor e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="carClassesDc" class="kz.alash.naklei.entity.dict.car.DClass" view="_base">
+            <loader id="carClassesDl">
+                <query>
+                    <![CDATA[select e from naklei_DClass e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="stickerTypesDc" class="kz.alash.naklei.entity.dict.DStickerType" view="_base">
+            <loader id="stickerTypesDl">
+                <query>
+                    <![CDATA[select e from naklei_DStickerType e]]>
+                </query>
+            </loader>
+        </collection>
+
+        <collection id="dModelDc" class="kz.alash.naklei.entity.dict.car.DModel" view="dModel-view">
+            <loader id="dModelDl">
+                <query>
+                    <![CDATA[select e from naklei_DModel e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="dPointCostDc" class="kz.alash.naklei.entity.dict.DPointCost" view="dPointCost-view">
+            <loader id="dPointCostDl">
+                <query>
+                    <![CDATA[select e from naklei_DPointCost e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="AUTO"
+                width="AUTO"
+                modal="true"
+                forceDialog="true"/>
+    <layout expand="content" spacing="true" stylename="well" margin="true">
+        <hbox id="editActions" spacing="true" width="100%">
+            <hbox align="MIDDLE_LEFT" spacing="true">
+                <button id="closeBtn" caption="Закрыть" action="windowClose"/>
+                <button id="commitAndCloseBtn" caption="Сохранить" icon="font-icon:SAVE" action="windowCommitAndClose"/>
+            </hbox>
+        </hbox>
+        <hbox id="content" spacing="true" stylename="card" margin="true">
+            <vbox spacing="true" margin="true">
+                <vbox width="350px" spacing="true" >
+                    <hbox id="carAmountHbox" spacing="true" width="100%">
+                        <label value="Количество машин" align="MIDDLE_LEFT" />
+                        <label id="carAmountLabel" stylename="bold h2"  dataContainer="advPurposeDc" property="carAmount" align="MIDDLE_RIGHT"/>
+                    </hbox>
+                    <hbox id="allModelsLabel" spacing="true" width="100%">
+                        <label value="Модель машины" align="MIDDLE_LEFT" contextHelpText="Только выбранного класса машин"/>
+                        <label value="все" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                    </hbox>
+                    <hbox id="allColorsLabel" spacing="true" width="100%">
+                        <label value="Цвет" align="MIDDLE_LEFT"/>
+                        <label value="все" stylename="bold h2" align="MIDDLE_RIGHT"/>
+                    </hbox>
+                    <hbox spacing="true">
+                        <button id="showModelTokenListBtn" caption="msg://changeModel.caption" invoke="showModelTokenList"/>
+                        <button id="showColorTokenListBtn" caption="msg://changeColorBtn.caption" invoke="showColorTokenList"/>
+                    </hbox>
+                </vbox>
+                <tabSheet id="imagesTabSheet" width="350px" height="350px">
+                    <tab id="stikerTab" caption="наклейка" expand="image">
+                        <image id="image"
+                               dataContainer="advPurposeDc"
+                               property="sticker"
+                               width="100%"
+                               align="MIDDLE_CENTER"
+                               scaleMode="CONTAIN"/>
+                        <hbox id="stickerImageBtnsHbox" spacing="true">
+                            <upload id="uploadField"
+                                    uploadButtonCaption=""
+                                    uploadButtonIcon="font-icon:UPLOAD"/>
+                            <button id="downloadImageBtn"
+                                    icon="font-icon:DOWNLOAD"
+                                    caption=""
+                                    invoke="onDownloadImageBtnClick"/>
+                            <button id="clearImageBtn"
+                                    icon="font-icon:TRASH"
+                                    caption=""
+                                    invoke="onClearImageBtnClick"/>
+                        </hbox>
+                    </tab>
+                    <tab id="maketTab" caption="mockup" expand="maketImage">
+                        <image id="maketImage"
+                               dataContainer="advPurposeDc"
+                               property="maket"
+                               width="100%"
+                               align="MIDDLE_CENTER"
+                               scaleMode="CONTAIN"/>
+                        <hbox id="maketImageBtnsHbox" spacing="true">
+                            <upload id="uploadMaketField"
+                                    uploadButtonCaption=""
+                                    uploadButtonIcon="font-icon:UPLOAD"/>
+                            <button id="downloadMaketImageBtn"
+                                    icon="font-icon:DOWNLOAD"
+                                    caption=""
+                                    invoke="onDownloadMaketImageBtnClick"/>
+                            <button id="clearMaketImageBtn"
+                                    icon="font-icon:TRASH"
+                                    caption=""
+                                    invoke="onClearMaketImageBtnClick"/>
+                        </hbox>
+                    </tab>
+                </tabSheet>
+            </vbox>
+            <vbox height="100%" margin="true">
+                <scrollBox id="scroolBox" spacing="true">
+                    <form id="form" dataContainer="advPurposeDc" captionPosition="TOP">
+                        <column width="350px">
+                            <lookupField id="stickerTypeField" property="stickerType" optionsContainer="stickerTypesDc"/>
+                            <lookupField id="classsField" property="carClass" optionsContainer="carClassesDc"/>
+                            <textField id="budgetField" property="budget" datatype="decimal"/>
+                            <tokenList id="modelTokenList" dataContainer="advPurposeDc" property="carModel" inline="true" simple="true" width="100%" visible="false">
+                                <lookup multiselect="true"
+                                        optionsContainer="dModelDc"/>
+                                <addButton icon="icons/plus-btn.png"/>
+                            </tokenList>
+                            <tokenList id="colorTokenList" dataContainer="advPurposeDc" property="carColor" inline="true" simple="false" width="100%" visible="false">
+                                <lookup multiselect="true"
+                                        optionsContainer="colorsDc"/>
+                                <addButton icon="icons/plus-btn.png"/>
+                            </tokenList>
+                            <textField id="pastingTimeField" property="pastingTime" datatype="int"/>
+                            <textField id="pastingCostField" property="pastingCost" datatype="decimal"/>
+                            <dateField id="pastingDateField" property="pastingDate"/>
+                            <textField id="pastingDateReadOnlyField" property="pastingDate" visible="false"/>
+                            <textField id="rewardAmountField" property="rewardAmount" datatype="decimal"/>
+                        </column>
+                    </form>
+
+                    <groupBox id="carsGroupBox"
+                              caption="Машины"
+                              expand="purposeDriversTable"
+                              spacing="true"
+                              width="100%"
+                              visible="false">
+                        <table id="purposeDriversTable"
+                               dataContainer="purposeDriversDc"
+                               settingsEnabled="false"
+                               sortable="false"
+                               columnControlVisible="false"
+                               width="100%">
+                            <actions>
+                                <action id="view" type="view"/>
+                                <action id="refresh" type="refresh"/>
+                            </actions>
+                            <columns>
+                                <column id="driver"/>
+                                <column id="status"/>
+                                <column id="driver.car.number"/>
+                                <column id="driver.car.model"/>
+<!--                                <column id="purpose"/>-->
+                                <column id="driver.car.carClass"/>
+                                <column id="startDate"/>
+                                <column id="endDate"/>
+                            </columns>
+                            <rowsCount/>
+                            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                                <button id="viewBtn" action="purposeDriversTable.view"/>
+                                <button id="refreshBtn" action="purposeDriversTable.refresh"/>
+                            </buttonsPanel>
+                        </table>
+                    </groupBox>
+                </scrollBox>
+            </vbox>
+        </hbox>
+    </layout>
+</window>

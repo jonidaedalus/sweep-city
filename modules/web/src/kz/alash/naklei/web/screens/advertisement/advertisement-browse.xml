@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://advertisementBrowse.caption"
+        focusComponent="advertisementsTable"
+        messagesPack="kz.alash.naklei.web.screens.advertisement">
+    <data readOnly="true">
+        <collection id="advertisementsDc"
+                    class="kz.alash.naklei.entity.Advertisement"
+                    view="advertisement-view">
+            <loader id="advertisementsDl">
+                <query>
+                    <![CDATA[select e from naklei_Advertisement e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="advertisementsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="advertisementsTable"
+                dataLoader="advertisementsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="advertisementsTable"
+                    width="100%"
+                    dataContainer="advertisementsDc">
+            <actions>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="advertiser"/>
+                <column id="status"/>
+                <column id="budget" caption="Бюджет"/>
+                <column id="startDate"/>
+                <column id="endDate"/>
+                <column id="city"/>
+                <column id="carAmount"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://advLocationBrowse.caption"
+        focusComponent="advLocationsTable"
+        messagesPack="kz.alash.naklei.web.screens.advlocation">
+    <data readOnly="true">
+        <collection id="advLocationsDc"
+                    class="kz.alash.naklei.entity.AdvLocation">
+            <view extends="location-view"/>
+            <loader id="advLocationsDl">
+                <query>
+                    <![CDATA[select e from naklei_AdvLocation e]]>
+                </query>
+            </loader>
+        </collection>
+        <collection id="advertisersDc" class="kz.alash.naklei.entity.Advertiser" view="_local">
+            <loader id="advertisersDl">
+                <query><![CDATA[select e from naklei_Advertiser e]]></query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true">
+        <vbox expand="container" spacing="true" width="100%" height="100%">
+            <filter id="filter" width="100%" height="AUTO"
+                    applyTo="advLocationsTable"
+                    dataLoader="advLocationsDl">
+                <properties include=".*" exclude="advertiser"/>
+            </filter>
+            <hbox id="container" spacing="true" width="100%">
+                <vbox spacing="true" height="100%" expand="advLocationsTable">
+                    <groupTable id="advLocationsTable"
+                                width="100%"
+                                dataContainer="advLocationsDc">
+                        <actions>
+                            <action id="create" type="create"/>
+                            <action id="edit" type="edit"/>
+                            <action id="remove" type="remove"/>
+                        </actions>
+                        <columns>
+                            <column id="location"/>
+                            <column id="advertiser"/>
+                            <column id="name"/>
+                        </columns>
+                        <rowsCount/>
+                        <buttonsPanel id="buttonsPanel"
+                                      alwaysVisible="true">
+                            <button id="createBtn" action="advLocationsTable.create"/>
+                            <button id="editBtn" action="advLocationsTable.edit"/>
+                            <button id="removeBtn" action="advLocationsTable.remove"/>
+                        </buttonsPanel>
+                    </groupTable>
+                </vbox>
+                <vbox spacing="true" expand="map" height="100%">
+                    <lookupField id="advertiserFilter" optionsContainer="advertisersDc" caption="Рекламодатель"/>
+                    <!--                <button id="test" caption="test"/>-->
+                    <maps:geoMap id="map" width="100%" center="67,49" zoom="5">
+                        <maps:layers selectedLayer="advLocationsLayer">
+                            <maps:tile id="tiles"
+                                       tileProvider="maps_OpenStreetMap"/>
+                            <maps:vector id="advLocationsLayer" dataContainer="advLocationsDc" >
+                                <maps:cluster/>
+                            </maps:vector>
+                        </maps:layers>
+                    </maps:geoMap>
+                </vbox>
+            </hbox>
+        </vbox>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

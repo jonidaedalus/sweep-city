@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DCarClassificationBrowse.caption"
+        focusComponent="dCarClassificationsTable"
+        messagesPack="kz.alash.naklei.web.screens.dcarclassification">
+    <data readOnly="true">
+        <collection id="dCarClassificationsDc"
+                    class="kz.alash.naklei.entity.dict.car.DCarClassification"
+                    view="dCarClassification-view">
+            <loader id="dCarClassificationsDl">
+                <query>
+                    <![CDATA[select e from naklei_DCarClassification e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dCarClassificationsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dCarClassificationsTable"
+                dataLoader="dCarClassificationsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dCarClassificationsTable"
+                    width="100%"
+                    dataContainer="dCarClassificationsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="classs"/>
+                <column id="model"/>
+                <column id="firstYear"/>
+                <column id="lastYear"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dCarClassificationsTable.create"/>
+                <button id="editBtn" action="dCarClassificationsTable.edit"/>
+                <button id="removeBtn" action="dCarClassificationsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

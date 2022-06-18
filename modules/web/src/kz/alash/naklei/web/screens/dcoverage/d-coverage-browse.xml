@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DCoverageBrowse.caption"
+        focusComponent="dCoveragesTable"
+        messagesPack="kz.alash.naklei.web.screens.dcoverage">
+    <data readOnly="true">
+        <collection id="dCoveragesDc"
+                    class="kz.alash.naklei.entity.dict.DCoverage"
+                    view="dCoverage-view">
+            <loader id="dCoveragesDl">
+                <query>
+                    <![CDATA[select e from naklei_DCoverage e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dCoveragesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dCoveragesTable"
+                dataLoader="dCoveragesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dCoveragesTable"
+                    width="100%"
+                    dataContainer="dCoveragesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="stickerType"/>
+                <column id="zone"/>
+                <column id="value"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dCoveragesTable.create"/>
+                <button id="editBtn" action="dCoveragesTable.edit"/>
+                <button id="removeBtn" action="dCoveragesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<fragment xmlns="http://schemas.haulmont.com/cuba/screen/fragment.xsd"
+          xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd">
+    <data>
+        <instance id="advDriverDc" class="kz.alash.naklei.entity.AdvertisementDriver" view="show-adv-driver-view">
+            <instance id="purposeDc" property="purpose"/>
+            <collection id="routesDc" property="routes"/>
+        </instance>
+        <keyValueCollection id="zonePointsDc">
+            <loader id="zonePointsDl" />
+            <properties>
+                <property name="zone" class="kz.alash.naklei.entity.dict.DZone"/>
+                <property name="points" datatype="double"/>
+                <property name="distance" datatype="double"/>
+            </properties>
+        </keyValueCollection>
+        <collection id="zonesDc" class="kz.alash.naklei.entity.dict.DZone">
+            <view extends="_base">
+                <property name="zoneType">
+                    <property name="code"/>
+                    <property name="pointCoef"/>
+                </property>
+            </view>
+            <loader id="zonesDl">
+                <query>
+                    <![CDATA[select e from naklei_DZone e where e.city =:city]]>
+                </query>
+            </loader>
+        </collection>
+        <instance id="selectedRouteDc" class="kz.alash.naklei.entity.Route" view="route-view"/>
+    </data>
+
+    <layout expand="tabSheet" height="100%">
+        <tabSheet id="tabSheet" stylename="equal-width-tabs">
+            <tab id="mainInfo" caption="Основная информация" margin="true">
+                <vbox id="content" width="100%" spacing="true">
+                    <groupBox>
+                        <form id="form" dataContainer="advDriverDc" width="100%" editable="false">
+                            <column width="100%">
+                                <textField id="driverField" property="driver" stylename="huge align-right borderless"/>
+                                <textField id="status" property="status" stylename="huge align-right borderless"/>
+                                <!--TODO Заработанные поинты может считать по-другому или при отправки роута будем перезаписывать этот значение-->
+                                <!--<textField id="earnedPointsField" property="earnedPoints" stylename="large align-right borderless"/>-->
+                                <!--TODO кол-во км которые проехал. Тоже самое что и с заработанными поинтами-->
+                                <textField id="totalRunField" property="totalRun" stylename="huge align-right borderless"/>
+                                <!--TODO Тоже самое что и с заработанными поинтами-->
+<!--                                <textField id="incomeField" property="income" stylename="huge align-right borderless"/>-->
+                                <!--TODO Это что и зачем?-->
+                                <!--<textField id="approvedTotalRunField" property="approvedTotalRun" stylename="huge align-right borderless"/>-->
+                                <!--TODO Откуда это брать? После модерации это изменяется-->
+                                <textField id="tachometerValueField" property="tachometerValue" stylename="huge align-right borderless"/>
+                                <!--TODO Может вытягивать с модераций? Вместо того чтобы изменять жто постоянно-->
+                                <!--<textField id="lastWashDateField" property="lastWashDate" stylename="huge align-right borderless"/>-->
+                                <!--TODO Может вытягивать с модераций? Вместо того чтобы изменять жто постоянно-->
+                                <!--<textField id="lastModerationDateField" property="lastModerationDate" stylename="huge align-right borderless"/>-->
+                                <textField id="startDateField" property="startDate" stylename="huge align-right borderless"/>
+                                <textField id="endDateField" property="endDate" stylename="huge align-right borderless"/>
+                            </column>
+                        </form>
+                    </groupBox>
+                    <groupBox caption="Рекл. кампания" showAsPanel="true" >
+                        <form dataContainer="purposeDc" width="100%" editable="false">
+                            <column width="100%">
+                                <textField property="advertisement.advertiser.fullName" stylename="huge align-right borderless" caption="Компания"/>
+                                <textField property="advertisement.advertiser.desc" stylename="huge align-right borderless" caption="Деятельность"/>
+                                <textField property="advertisement.status" stylename="huge align-right borderless"/>
+                                <textField property="stickerType" stylename="huge align-right borderless"/>
+                                <textField property="carClass" stylename="huge align-right borderless"/>
+                                <textField property="currentBudget" stylename="huge align-right borderless"/>
+                            </column>
+                        </form>
+                    </groupBox>
+                </vbox>
+            </tab>
+            <tab id="routesInfo" caption="Маршруты" margin="true">
+                <hbox spacing="true" expand="mapContent" height="100%" width="100%">
+                    <vbox box.expandRatio="0.3" width="100%">
+                        <groupTable id="routesGroupTable" dataContainer="routesDc" width="100%">
+                            <columns>
+                                <group>
+                                    <column id="date"/>
+                                </group>
+                                <column id="distance"/>
+                                <column id="points"/>
+                            </columns>
+                            <rows/>
+                        </groupTable>
+                    </vbox>
+                    <vbox id="mapContent" box.expandRatio="0.7" spacing="true" height="100%" expand="map">
+                        <popupView id="popupView"
+                                   minimizedValue="Расшифровка"
+                                   hideOnMouseOut="false">
+                            <vbox id="pointsInfo" width="400px" expand="pointsInfoScrollBox" height="200px">
+                                <scrollBox id="pointsInfoScrollBox" orientation="vertical" >
+                                    <hbox width="100%" height="100%">
+                                        <form dataContainer="selectedRouteDc" captionPosition="LEFT" childrenCaptionWidth="200px" width="100%">
+                                            <column width="100%">
+                                                <textField caption="Общее колличество поинтов" datatype="double" property="points" editable="false" stylename="borderless align-right"/>
+                                                <textField id="resultsKilometer" datatype="double" caption="Пройдено киллометров" property="distance" editable="false" stylename="borderless align-right"/>
+                                            </column>
+                                        </form>
+                                    </hbox>
+                                    <table id="zonesTable" dataContainer="zonePointsDc" width="100%">
+                                        <columns>
+                                            <column id="zone"/>
+                                            <column id="points"/>
+                                            <column id="distance"/>
+                                        </columns>
+                                        <rows/>
+                                    </table>
+                                </scrollBox>
+                            </vbox>
+                        </popupView>
+                        <maps:geoMap id="map" width="100%" center="76.8512,43.2220" zoom="12" box.expandRatio="0.7" >
+                            <maps:layers selectedLayer="canvas">
+                                <maps:tile id="tiles" tileProvider="maps_OpenStreetMap"/>
+                                <maps:vector id="zonesLayerVector" dataContainer="zonesDc"/>
+                            </maps:layers>
+                        </maps:geoMap>
+                    </vbox>
+                </hbox>
+            </tab>
+        </tabSheet>
+    </layout>
+</fragment>

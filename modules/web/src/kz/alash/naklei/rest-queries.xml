@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<queries xmlns="http://schemas.haulmont.com/cuba/rest-queries.xsd">
+    <!--Города вместе с зонами-->
+    <query name="getCities" entity="naklei_DCity" view="dCity-view">
+        <jpql><![CDATA[select e from naklei_DCity e]]></jpql>
+    </query>
+    <!--Марки машин вместе с моделями машин-->
+    <query name="getMarks" entity="naklei_DMark" view="dMark-view">
+        <jpql><![CDATA[select e from naklei_DMark e ]]></jpql>
+    </query>
+    <!--Цвет машины-->
+    <query name="getColors" entity="naklei_DColor" view="dColor-view">
+        <jpql><![CDATA[select e from naklei_DColor e ]]></jpql>
+    </query>
+    <!--Рекламные компании-->
+    <query name="getAdvertisementsByCityAndCarClass" entity="naklei_Advertisement" view="advertisement-view">
+        <jpql><![CDATA[select e from naklei_Advertisement e JOIN e.purposes p
+                        where e.city.code = :cityCode
+                        and size(e.purposes) > 0 and p.carClass.code =:carClassCode]]></jpql>
+        <params>
+            <param name="carClassCode" type="java.lang.String"/>
+            <param name="cityCode" type="java.lang.String"/>
+        </params>
+    </query>
+    <query name="getZonesByCity" entity="naklei_DZone" view="dZone-rest" cacheable="true">
+        <jpql><![CDATA[select e from naklei_DZone e where e.city.code =:cityCode]]>
+        </jpql>
+        <params>
+            <param name="cityCode" type="java.lang.String"/>
+        </params>
+    </query>
+    <query name="getPointCostsByStickerCodeAndCarClassCode" entity="naklei_DPointCost" view="point-cost-rest-view" cacheable="true">
+        <jpql><![CDATA[select e from naklei_DPointCost e where e.stickerType.code = :stickerTypeCode and e.carClass.code = :carClassCode]]></jpql>
+        <params>
+            <param name="stickerTypeCode" type="java.lang.String"/>
+            <param name="carClassCode" type="java.lang.String"/>
+        </params>
+    </query>
+
+
+<!--    <query name="allDCarClassifications" entity="naklei_DCarClassification" view="dCarClassification-edit">-->
+<!--        <jpql><![CDATA[select c from naklei_DCarClassification c ]]></jpql>-->
+<!--    </query>-->
+<!--    <query anonymousAllowed="true" name="allDClasses" entity="naklei_DClass" view="dClass-edit">-->
+<!--        <jpql><![CDATA[select c from naklei_DClass c ]]></jpql>-->
+<!--    </query>-->
+<!--    <query anonymousAllowed="true" name="allDModels" entity="naklei_DModel" view="dModel-edit">-->
+<!--        <jpql><![CDATA[select c from naklei_DModel c ]]></jpql>-->
+<!--    </query>-->
+<!--    <query anonymousAllowed="true" name="allDCoverages" entity="naklei_DCoverage" view="dCoverage-edit">-->
+<!--        <jpql><![CDATA[select c from naklei_DCoverage c ]]></jpql>-->
+<!--    </query>-->
+<!--    <query anonymousAllowed="true" name="allDPointCosts" entity="naklei_DPointCost" view="dPointCost-edit">-->
+<!--        <jpql><![CDATA[select c from naklei_DPointCost c ]]></jpql>-->
+<!--    </query>-->
+<!--    <query anonymousAllowed="true" cacheable="true" name="allDStickerTypes" entity="naklei_DStickerType" view="dStickerType-edit">-->
+<!--        <jpql><![CDATA[select c from naklei_DStickerType c ]]></jpql>-->
+<!--    </query>-->
+<!--    <query anonymousAllowed="true" name="allDZones" entity="naklei_DZone" view="dZone-edit">-->
+<!--        <jpql><![CDATA[select c from naklei_DZone c ]]></jpql>-->
+<!--    </query>-->
+
+</queries>
+

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://moderationBrowse.caption"
+        focusComponent="moderationsTable"
+        messagesPack="kz.alash.naklei.web.screens.moderation">
+    <data readOnly="true">
+        <collection id="moderationsDc"
+                    class="kz.alash.naklei.entity.moderation.Moderation">
+            <view extends="moderation-browse"/>
+            <loader id="moderationsDl">
+                <query>
+                    <![CDATA[select e from naklei_Moderation e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="moderationsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="moderationsTable"
+                dataLoader="moderationsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="moderationsTable"
+                    width="100%"
+                    dataContainer="moderationsDc">
+            <actions>
+<!--                <action id="create" type="create"/>-->
+                <action id="edit" type="edit"/>
+<!--                <action id="remove" type="remove"/>-->
+                <action id="refresh" type="refresh"/>
+            </actions>
+            <columns>
+                <group>
+                    <column id="status"/>
+                </group>
+                <column id="statusIcon" caption=""/>
+                <column id="createTs" dateFormat="dd.MM.yyyy">
+                    <formatter class="com.haulmont.cuba.gui.components.formatters.DateFormatter" format="dd-MM-yyyy"/>
+                </column>
+                <column id="type"/>
+                <column id="advertisementDriver.driver"/>
+                <column id="moderator"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+<!--                <button id="createBtn" action="moderationsTable.create"/>-->
+                <button id="editBtn" action="moderationsTable.edit"/>
+<!--                <button id="removeBtn" action="moderationsTable.remove"/>-->
+                <button id="refreshBtn" action="moderationsTable.refresh"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

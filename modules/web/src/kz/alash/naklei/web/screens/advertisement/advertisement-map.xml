@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:maps="http://schemas.haulmont.com/maps/0.1/ui-component.xsd"
+        caption="msg://advertisementMap.caption"
+        focusComponent="map"
+        messagesPack="kz.alash.naklei.web.screens.advertisement">
+    <data>
+        <instance id="advertisementDc"
+                  class="kz.alash.naklei.entity.Advertisement">
+            <view extends="advertisement-map"/>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout spacing="true">
+        <maps:geoMap id="map" height="100%" width="100%" center="76.908815,43.237953" zoom="12">
+            <maps:layers>
+                <maps:tile id="tiles"
+                           tileProvider="maps_OpenStreetMap"/>
+<!--   просто поместить картинку в какой-нить угол было бы прикольно            -->
+<!--                <maps:image id="imageLayer"-->
+<!--                            image="url:https://legacy.lib.utexas.edu/maps/historical/newark_nj_1922.jpg"-->
+<!--                            topLeft="76.908815,43.237953"-->
+<!--                            bottomRight="76.808815,43.197953"-->
+<!--                            opacity="0.5"/>-->
+                
+
+            </maps:layers>
+        </maps:geoMap>
+    </layout>
+</window>

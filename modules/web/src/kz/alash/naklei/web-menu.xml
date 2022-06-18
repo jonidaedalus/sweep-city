@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
+    <item id="advertisers" icon="kz.alash.naklei/menu/advertisers.svg" insertBefore="administration" screen="naklei_Advertiser.browse" caption="mainMsg://menu_config.naklei_Advertiser.browse"/>
+    <item id="advertisements" icon="kz.alash.naklei/menu/advertising-companies.svg" insertBefore="administration" screen="naklei_Advertisement.browse" caption="mainMsg://menu_config.naklei_Advertisement.browse"/>
+    <item id="cars" icon="kz.alash.naklei/menu/cars.svg" insertBefore="administration" screen="naklei_Car.browse" caption="mainMsg://menu_config.naklei_Cars.browse"/>
+    <item id="moderations" icon="kz.alash.naklei/menu/moderation.svg" insertBefore="administration" screen="naklei_Moderation.browse" caption="mainMsg://menu_config.naklei_Moderation.browse"/>
+    <item id="payOut" icon="kz.alash.naklei/menu/payouts.svg" screen="naklei_PayOut.browse" caption="mainMsg://menu_config.naklei_PayOut.browse"/>
+    <item id="visits" icon="kz.alash.naklei/menu/entries.svg" insertBefore="administration" screen="naklei_Visit.browse" caption="mainMsg://menu_config.naklei_Visit.browse"/>
+    <menu id="dicts" icon="kz.alash.naklei/menu/directory.svg" insertBefore="administration" caption="mainMsg://menu_config.dict">
+        <item screen="naklei_DAppConf.browse" caption="mainMsg://menu_config.naklei_DAppConf.browse"/>
+        <item screen="naklei_DStickerType.browse" caption="mainMsg://menu_config.naklei_DStickerType.browse"/>
+        <item screen="naklei_DCoverage.browse" caption="mainMsg://menu_config.naklei_DCoverage.browse"/>
+        <item screen="naklei_DZone.browse" caption="mainMsg://menu_config.naklei_DZone.browse"/>
+        <item screen="naklei_DPointCost.browse" caption="mainMsg://menu_config.naklei_DPointCost.browse"/>
+        <item screen="naklei_DCarClassification.browse" caption="mainMsg://menu_config.naklei_DCarClassification.browse"/>
+        <item screen="naklei_DClass.browse" caption="mainMsg://menu_config.naklei_DClass.browse"/>
+        <item screen="naklei_DColor.browse" caption="mainMsg://menu_config.naklei_Color.browse"/>
+        <item screen="naklei_DMark.browse" caption="mainMsg://menu_config.naklei_DMark.browse"/>
+        <item screen="naklei_DModel.browse" caption="mainMsg://menu_config.naklei_DModel.browse"/>
+        <item screen="naklei_DCity.browse" caption="mainMsg://menu_config.naklei_DCity.browse"/>
+        <!--        <item screen="naklei_Route.browse" caption="mainMsg://menu_config.naklei_Route.browse"/>-->
+        <!--<item screen="naklei_AdvLocation.browse" caption="mainMsg://menu_config.naklei_AdvLocation.browse"/>-->
+        <!--<item screen="naklei_DTrafficRate.browse" caption="mainMsg://menu_config.naklei_DTrafficRate.browse"/>-->
+        <!--<item screen="naklei_DTrafic.browse" caption="mainMsg://menu_config.naklei_DTrafic.browse"/>-->
+        <item screen="naklei_DZoneType.browse" caption="mainMsg://menu_config.naklei_DZoneType.browse"/>
+        <item screen="naklei_VisitCompany.browse" caption="mainMsg://menu_config.naklei_VisitCompany.browse"/>
+        <item screen="naklei_DPushMessage.browse" caption="mainMsg://menu_config.naklei_DPushMessage.browse"/>
+        <item screen="naklei_Transaction.browse" caption="mainMsg://menu_config.naklei_Transaction.browse"/>
+    </menu>
+</menu-config>

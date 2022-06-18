@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://DTrafficRateBrowse.caption"
+        focusComponent="dTrafficRatesTable"
+        messagesPack="kz.alash.naklei.web.screens.dtrafficrate">
+    <data readOnly="true">
+        <collection id="dTrafficRatesDc"
+                    class="kz.alash.naklei.entity.dict.DTrafficRate">
+            <view extends="_local"/>
+            <loader id="dTrafficRatesDl">
+                <query>
+                    <![CDATA[select e from naklei_DTrafficRate e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="dTrafficRatesTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="dTrafficRatesTable"
+                dataLoader="dTrafficRatesDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="dTrafficRatesTable"
+                    width="100%"
+                    dataContainer="dTrafficRatesDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="name"/>
+                <column id="code"/>
+                <column id="value"/>
+                <column id="averageSpeed"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="dTrafficRatesTable.create"/>
+                <button id="editBtn" action="dTrafficRatesTable.edit"/>
+                <button id="removeBtn" action="dTrafficRatesTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

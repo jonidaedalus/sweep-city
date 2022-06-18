@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://DTraficEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.dtrafic">
+    <data>
+        <instance id="dTraficDc"
+                  class="kz.alash.naklei.entity.dict.DTraffic">
+            <view extends="_local">
+                <property name="zoneType" view="_minimal">
+                    <property name="code"/>
+                    <property name="city" view="_minimal">
+                        <property name="code"/>
+                    </property>
+                </property>
+            </view>
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="dTraficDc">
+            <column width="350px">
+                <pickerField id="zoneTypeField" property="zoneType">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="hourField" property="hour"/>
+                <textField id="valueField" property="value"/>
+<!--                <pickerField id="rateField" property="rate">-->
+<!--                    <actions>-->
+<!--                        <action id="lookup" type="picker_lookup"/>-->
+<!--                        <action id="clear" type="picker_clear"/>-->
+<!--                    </actions>-->
+<!--                </pickerField>-->
+<!--                <textField id="otsField" property="otsPerKm"/>-->
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

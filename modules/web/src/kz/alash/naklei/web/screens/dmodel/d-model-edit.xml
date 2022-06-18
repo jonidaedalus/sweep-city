@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://DModelEdit.caption"
+        focusComponent="form"
+        messagesPack="kz.alash.naklei.web.screens.dmodel">
+    <data>
+        <instance id="dModelDc"
+                  class="kz.alash.naklei.entity.dict.car.DModel"
+                  view="dModel-edit">
+            <loader/>
+        </instance>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="editActions" spacing="true">
+        <form id="form" dataContainer="dModelDc">
+            <column width="350px">
+                <textField id="nameField" property="name"/>
+                <pickerField id="markField" property="mark">
+                    <actions>
+                        <action id="lookup" type="picker_lookup"/>
+                        <action id="clear" type="picker_clear"/>
+                    </actions>
+                </pickerField>
+                <textField id="codeField" property="code"/>
+            </column>
+        </form>
+        <hbox id="editActions" spacing="true">
+            <button id="commitAndCloseBtn" action="windowCommitAndClose"/>
+            <button id="closeBtn" action="windowClose"/>
+        </hbox>
+    </layout>
+</window>

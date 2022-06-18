@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        caption="msg://carBrowse.caption"
+        focusComponent="carsTable"
+        messagesPack="kz.alash.naklei.web.screens.car">
+    <data readOnly="true">
+        <collection id="carsDc"
+                    class="kz.alash.naklei.entity.Car">
+            <view extends="car-view"/>
+            <loader id="carsDl">
+                <query>
+                    <![CDATA[select e from naklei_Car e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="carsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="carsTable"
+                dataLoader="carsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="carsTable"
+                    width="100%"
+                    dataContainer="carsDc">
+            <columns>
+                <column id="driver.user.phoneNumber"/>
+                <column id="model"/>
+                <column id="model.mark"/>
+                <column id="carClass"/>
+                <column id="color"/>
+                <column id="number"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel" alwaysVisible="true">
+                <button id="createPush" caption="msg://createPush.btn.caption"/>
+                <button id="sendToModeration" caption="msg://sendToModeration.btn.caption" enable="false"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

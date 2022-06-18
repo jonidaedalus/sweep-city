@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
+        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
+        caption="msg://payOutBrowse.caption"
+        focusComponent="payOutsTable"
+        messagesPack="kz.alash.naklei.web.screens.payout">
+    <data readOnly="true">
+        <collection id="payOutsDc"
+                    class="kz.alash.naklei.entity.PayOut">
+            <view extends="_local">
+                <property name="advertisementDriver" view="_minimal"/>
+            </view>
+            <loader id="payOutsDl">
+                <query>
+                    <![CDATA[select e from naklei_PayOut e]]>
+                </query>
+            </loader>
+        </collection>
+    </data>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="payOutsTable"
+            spacing="true">
+        <filter id="filter"
+                applyTo="payOutsTable"
+                dataLoader="payOutsDl">
+            <properties include=".*"/>
+        </filter>
+        <groupTable id="payOutsTable"
+                    width="100%"
+                    dataContainer="payOutsDc">
+            <actions>
+                <action id="create" type="create"/>
+                <action id="edit" type="edit"/>
+                <action id="remove" type="remove"/>
+            </actions>
+            <columns>
+                <column id="sum"/>
+                <column id="percent"/>
+                <column id="advertisementDriver"/>
+                <column id="status"/>
+            </columns>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn" action="payOutsTable.create"/>
+                <button id="editBtn" action="payOutsTable.edit"/>
+                <button id="removeBtn" action="payOutsTable.remove"/>
+            </buttonsPanel>
+        </groupTable>
+        <hbox id="lookupActions" spacing="true" visible="false">
+            <button action="lookupSelectAction"/>
+            <button action="lookupCancelAction"/>
+        </hbox>
+    </layout>
+</window>

@@ -1,0 +1,49 @@
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+    <Call name="addConnector">
+        <Arg>
+            <New class="org.eclipse.jetty.server.ServerConnector">
+                <Arg name="server">
+                    <Ref refid="Server"/>
+                </Arg>
+                <Arg>
+                    <New class="org.eclipse.jetty.util.ssl.SslContextFactory$Server">
+                        <Set name="keyStorePath">/opt/naklei-home/keystore.jks</Set>
+                        <Set name="keyStorePassword">SalaMale1kum</Set>
+                        <Set name="keyManagerPassword">SalaMale1kum</Set>
+                        <Set name="trustStorePath">/opt/naklei-home/keystore.jks</Set>
+                        <Set name="trustStorePassword">SalaMale1kum</Set>
+                    </New>
+                </Arg>
+                <Set name="port">8080</Set>
+            </New>
+        </Arg>
+    </Call>
+</Configure>
+
+<!--<Configure id="Server" class="org.eclipse.jetty.server.Server">-->
+<!--    <Call name="addConnector">-->
+<!--        <Arg>-->
+<!--            <New class="org.eclipse.jetty.server.ServerConnector">-->
+<!--                <Arg name="server">-->
+<!--                    <Ref refid="Server"/>-->
+<!--                </Arg>-->
+<!--                <Set name="port">8090</Set>-->
+<!--            </New>-->
+<!--        </Arg>-->
+<!--    </Call>-->
+<!--    <Call name="addConnector">-->
+<!--        <Arg>-->
+<!--            <New class="org.eclipse.jetty.server.ServerConnector">-->
+<!--                <Arg name="server">-->
+<!--                    <Ref refid="Server"/>-->
+<!--                </Arg>-->
+<!--                <Arg>-->
+<!--                    <New class="org.eclipse.jetty.util.ssl.SslContextFactory">-->
+<!--                        -->
+<!--                    </New>-->
+<!--                </Arg>-->
+<!--                <Set name="port">8443</Set>-->
+<!--            </New>-->
+<!--        </Arg>-->
+<!--    </Call>-->
+<!--</Configure>-->

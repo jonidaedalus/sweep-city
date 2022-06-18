@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:gui="http://schemas.haulmont.com/cuba/spring/cuba-gui.xsd">
+
+    <!-- Annotation-based beans -->
+    <context:component-scan base-package="kz.alash.naklei">
+        <context:exclude-filter type="regex" expression="kz\.alash\.naklei\.web\.rest\..*"/>
+    </context:component-scan>
+    
+    <gui:screens base-packages="kz.alash.naklei.web"/>
+    <bean id="naklei_proxyCreator" class="com.haulmont.cuba.web.sys.remoting.WebRemoteProxyBeanCreator">
+        <property name="serverSelector" ref="cuba_ServerSelector"/>
+        <property name="remoteServices">
+            <map>
+                <entry key="naklei_RegistrationService" value="kz.alash.naklei.service.RegistrationService"/>
+                <entry key="naklei_DocumentService" value="kz.alash.naklei.service.DocumentService"/>
+                <entry key="driverService" value="kz.alash.naklei.service.DriverService"/>
+                <entry key="naklei_RouteService" value="kz.alash.naklei.service.RouteService"/>
+                <entry key="naklei_CarService" value="kz.alash.naklei.service.CarService"/>
+                <entry key="naklei_AdvertisementService" value="kz.alash.naklei.service.AdvertisementService"/>
+                <entry key="naklei_ModerationService" value="kz.alash.naklei.service.ModerationService"/>
+                <entry key="naklei_EsbVisitService" value="kz.alash.naklei.service.esb.EsbVisitService"/>
+                <entry key="userService" value="kz.alash.naklei.service.esb.EsbUserService"/>
+                <entry key="naklei_EsbFirebaseService" value="kz.alash.naklei.service.EsbFirebaseService"/>
+                <entry key="naklei_CityService" value="kz.alash.naklei.service.CityService"/>
+                <entry key="naklei_RedisService" value="kz.alash.naklei.service.RedisService"/>
+                <entry key="purposeService" value="kz.alash.naklei.service.PurposeService"/>
+                <entry key="advertiserService" value="kz.alash.naklei.service.AdvertiserService"/>
+                <entry key="naklei_TransactionService" value="kz.alash.naklei.service.TransactionService"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>
