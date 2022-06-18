@@ -9,10 +9,15 @@
             <view extends="_local">
                 <property name="advertisementDriver">
                     <property name="driver" view="_minimal">
+                        <property name="currentMoney"/>
                         <property name="withdrawnMoney"/>
                         <property name="creditCardNumber"/>
                         <property name="creditCardName"/>
                     </property>
+                    <property name="purpose">
+                        <property name="currentBudget"/>
+                    </property>
+                    <property name="currentMoney"/>
                 </property>
             </view>
             <loader/>
@@ -51,7 +56,7 @@
 <!--                    </pickerField>-->
                 </column>
                 <column width="350px">
-                    <textField id="currentBalanceField" caption="Текущий баланс водителя" property="advertisementDriver.driver.withdrawnMoney" editable="false"/>
+                    <textField id="currentBalanceField" caption="Текущий баланс водителя" property="advertisementDriver.driver.currentMoney" editable="false"/>
                     <textField id="cardNumberField" caption="Номер карты" dataContainer="payOutDc" property="advertisementDriver.driver.creditCardNumber" editable="false"/>
                 </column>
             </form>

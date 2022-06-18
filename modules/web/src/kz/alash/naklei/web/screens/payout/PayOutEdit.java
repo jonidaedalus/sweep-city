@@ -6,6 +6,7 @@ import com.haulmont.cuba.gui.components.LinkButton;
 import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.screen.*;
 import kz.alash.naklei.entity.PayOut;
+import kz.alash.naklei.entity.dict.EPayOutStatus;
 import kz.alash.naklei.service.TransactionService;
 import kz.alash.naklei.web.screens.car.CarEdit;
 
@@ -31,7 +32,7 @@ public class PayOutEdit extends StandardEditor<PayOut> {
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         totalField.setValue(getEditedEntity().getSum().add(getEditedEntity().getSum().multiply(BigDecimal.valueOf(getEditedEntity().getPercent()))));
-        if(getEditedEntity().getStatus().equals("Выплачено"))
+        if (getEditedEntity().getStatus().equals(EPayOutStatus.PAID))
             approveBtn.setVisible(false);
 
         carCardLink.setCaption(getEditedEntity().getAdvertisementDriver().getDriver().getUser().getName());
@@ -39,7 +40,7 @@ public class PayOutEdit extends StandardEditor<PayOut> {
     
     @Subscribe("approveBtn")
     public void onApproveBtnClick(Button.ClickEvent event) {
-        getEditedEntity().setStatus("Выплачено");
+        getEditedEntity().setStatus(EPayOutStatus.IN_WORK);
         getScreenData().getDataContext().merge(
                 transactionService.createTransaction(
                         getEditedEntity(), getEditedEntity().getSum()).getCommitInstances()

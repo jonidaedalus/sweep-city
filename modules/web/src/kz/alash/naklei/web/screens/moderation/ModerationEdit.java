@@ -15,8 +15,8 @@ import kz.alash.naklei.entity.*;
 import kz.alash.naklei.entity.dict.EAdvDriverStatus;
 import kz.alash.naklei.entity.dict.EModerationStatus;
 import kz.alash.naklei.entity.dict.EModerationType;
+import kz.alash.naklei.entity.dict.EPayOutStatus;
 import kz.alash.naklei.entity.moderation.Moderation;
-import kz.alash.naklei.entity.visit.Visit;
 import kz.alash.naklei.service.AdvertisementService;
 import kz.alash.naklei.service.EsbFirebaseService;
 
@@ -273,7 +273,7 @@ public class ModerationEdit extends StandardEditor<Moderation> {
                 getEditedEntity().getAdvertisementDriver().setStartDate(new Date());
             }
 
-            payOut.setStatus("В работе");
+            payOut.setStatus(EPayOutStatus.IN_WORK);
             getScreenData().getDataContext().merge(payOut);
         } else if (getEditedEntity().getType().equals(EModerationType.START)) {
             getEditedEntity().getAdvertisementDriver().setStatus(EAdvDriverStatus.ACTIVE);

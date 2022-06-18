@@ -5,8 +5,14 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
+import kz.alash.naklei.entity.dict.EPayOutStatus;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
@@ -24,8 +30,8 @@ public class PayOut extends StandardEntity {
     @NotNull
     private Double percent;
 
-    @NotNull
     @Column(name = "STATUS", nullable = false)
+    @NotNull
     private String status;
 
     @OnDeleteInverse(DeletePolicy.CASCADE)
@@ -34,20 +40,20 @@ public class PayOut extends StandardEntity {
     @JoinColumn(name = "ADVERTISEMENT_DRIVER_ID")
     private AdvertisementDriver advertisementDriver;
 
+    public void setStatus(EPayOutStatus status) {
+        this.status = status == null ? null : status.getId();
+    }
+
+    public EPayOutStatus getStatus() {
+        return status == null ? null : EPayOutStatus.fromId(status);
+    }
+
     public AdvertisementDriver getAdvertisementDriver() {
         return advertisementDriver;
     }
 
     public void setAdvertisementDriver(AdvertisementDriver advertisementDriver) {
         this.advertisementDriver = advertisementDriver;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public void setPercent(Double percent) {
