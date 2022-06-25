@@ -339,6 +339,7 @@ public class EsbUserServiceBean implements EsbUserService {
             advertisementDto.setTodayPoints(pointsSum);
             averagePoints = pointsSum / routesForCalcAverageData.size();
             double distanceSum = routesForCalcAverageData.stream().mapToDouble(Route::getDistance).sum();
+            advertisementDto.setTodayDistance(distanceSum);
             averageDistance = distanceSum / routesForCalcAverageData.size();
             double timeSum = routesForCalcAverageData.stream().mapToDouble(Route::getTime).sum();
             averageTime = (timeSum / routesForCalcAverageData.size());

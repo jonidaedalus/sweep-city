@@ -237,6 +237,16 @@ public class ProfileDataResponse extends GenericResponse<ProfileDataResponse.Res
         private double totalDistance;
         private double totalTimes;
         private double todayPoints;
+
+        public double getTodayDistance() {
+            return todayDistance;
+        }
+
+        public void setTodayDistance(double todayDistance) {
+            this.todayDistance = todayDistance;
+        }
+
+        private double todayDistance;
         private String status;
         private String stickerTypeName;
         private Integer advertiserPointCost;
