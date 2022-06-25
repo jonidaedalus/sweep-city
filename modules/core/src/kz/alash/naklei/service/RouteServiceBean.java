@@ -94,9 +94,9 @@ public class RouteServiceBean implements RouteService {
             route.setTime(spentMinutes / 60.0);
 
             if (advertisementDriver.getTotalRun() == null)
-                advertisementDriver.setTotalRun(0);
+                advertisementDriver.setTotalRun(0.0);
 
-            advertisementDriver.setTotalRun(advertisementDriver.getTotalRun() + routeRequest.getDistance().intValue());
+            advertisementDriver.setTotalRun(advertisementDriver.getTotalRun() + routeRequest.getDistance());
 
             //Высчитываем колличество поинтов // уже не нужно считать, берем с мобилки
 //            Double points = calculatePoints(advertisement.getCity(), line);

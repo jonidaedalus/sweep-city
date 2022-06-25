@@ -7,7 +7,18 @@ import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 import kz.alash.naklei.entity.dict.EAdvDriverStatus;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -54,17 +65,17 @@ public class AdvertisementDriver extends StandardEntity {
     @Column(name = "STATUS", nullable = false)
     private String status;
 
-    @Column(name = "TOTAL_RUN", columnDefinition = "integer default 0")
-    private Integer totalRun;
+    @Column(name = "TOTAL_RUN")
+    private Double totalRun;
 
     @Column(name = "APPROVED_TOTAL_RUN")
-    private Integer approvedTotalRun;
+    private Double approvedTotalRun;
 
     @OneToMany(mappedBy = "advertisementDriver")
     private List<Route> routes;
 
     @Column(name = "TACHOMETER_VALUE")
-    private Integer tachometerValue;
+    private Double tachometerValue;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "LAST_WASH_DATE")
@@ -79,6 +90,32 @@ public class AdvertisementDriver extends StandardEntity {
             inverseJoinColumns = @JoinColumn(name = "FILE_DESCRIPTOR_ID"))
     @ManyToMany
     private List<FileDescriptor> photos;
+
+    public void setTotalRun(Double totalRun) {
+        this.totalRun = totalRun;
+    }
+
+    public Double getTotalRun() {
+        if (totalRun == null)
+            totalRun = 0.0;
+        return totalRun;
+    }
+
+    public void setApprovedTotalRun(Double approvedTotalRun) {
+        this.approvedTotalRun = approvedTotalRun;
+    }
+
+    public Double getApprovedTotalRun() {
+        return approvedTotalRun;
+    }
+
+    public void setTachometerValue(Double tachometerValue) {
+        this.tachometerValue = tachometerValue;
+    }
+
+    public Double getTachometerValue() {
+        return tachometerValue;
+    }
 
     public void setEarnedMoney(BigDecimal earnedMoney) {
         this.earnedMoney = earnedMoney;
@@ -98,14 +135,6 @@ public class AdvertisementDriver extends StandardEntity {
 
     public void setCurrentMoney(BigDecimal currentMoney) {
         this.currentMoney = currentMoney;
-    }
-
-    public Integer getApprovedTotalRun() {
-        return approvedTotalRun;
-    }
-
-    public void setApprovedTotalRun(Integer approvedTotalRun) {
-        this.approvedTotalRun = approvedTotalRun;
     }
 
     public AdvPurpose getPurpose() {
@@ -172,28 +201,12 @@ public class AdvertisementDriver extends StandardEntity {
         this.routes = routes;
     }
 
-    public Integer getTotalRun() {
-        return totalRun;
-    }
-
-    public void setTotalRun(Integer totalRun) {
-        this.totalRun = totalRun;
-    }
-
     public void setDriver(Driver driver) {
         this.driver = driver;
     }
 
     public Driver getDriver() {
         return driver;
-    }
-
-    public Integer getTachometerValue() {
-        return tachometerValue;
-    }
-
-    public void setTachometerValue(Integer tachometerValue) {
-        this.tachometerValue = tachometerValue;
     }
 
     public Date getLastModerationDate() {

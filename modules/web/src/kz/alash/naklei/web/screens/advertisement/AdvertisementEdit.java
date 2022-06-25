@@ -136,7 +136,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     @Inject
     private LookupField<AdvPurpose> statPurposeField;
 
-    private CanvasLayer.Point labelPoint;
+//    private CanvasLayer.Point labelPoint;
     private List<Route> statRoutes;
 
 //    @Inject
@@ -186,9 +186,9 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
     @Subscribe("map")
     public void onMapMoveEnd(GeoMap.MoveEndEvent event) {
-        if (labelPoint == null) {
-            labelPoint = map.getCanvas().addPoint(event.getCenter());
-        }
+//        if (labelPoint == null) {
+//            labelPoint = map.getCanvas().addPoint(event.getCenter());
+//        }
         createLabelContent();
 //        labelPoint.setStyle(new PointStyle(
 //                new DivPointIcon(createLabelContent())
@@ -217,15 +217,15 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
         statCPMTextField.setValue(CPM.toString());
 
-        if(labelPoint != null)
-            labelPoint.setStyle(new PointStyle(
-                    new DivPointIcon(String.format(
-                            "<h1 style=font-size:25px> " +
-                                    "<br>Пробег: %s<br>OTS: %s</h1>",
-                            totalDistance,
-                            totalOts))
-                            .setIconSize(400, 80)
-                            .setStyles("my-style")));
+//        if (labelPoint != null)
+//            labelPoint.setStyle(new PointStyle(
+//                    new DivPointIcon(String.format(
+//                            "<h1 style=font-size:25px> " +
+//                                    "<br>Пробег: %s<br>OTS: %s</h1>",
+//                            totalDistance,
+//                            totalOts))
+//                            .setIconSize(400, 80)
+//                            .setStyles("my-style")));
 
         //Point labelPointJts = (Point) labelPoint.getGeometry();
        // return
@@ -282,14 +282,19 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                 VBoxLayout tab = uiComponents.create(VBoxLayout.NAME);
                 tab.setMargin(true, false, false,false);
 
+
                 Image image = uiComponents.create(Image.NAME);
-                image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getSticker());
-                image.setWidthFull();
-                image.setAlignment(Component.Alignment.MIDDLE_CENTER);
-                image.setScaleMode(Image.ScaleMode.CONTAIN);
-                image.setAlignment(Component.Alignment.BOTTOM_LEFT);
-                tab.add(image);
-                tab.expand(image);
+
+                if (advPurpose.getSticker() != null) {
+                    image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getSticker());
+                    image.setWidthFull();
+                    image.setAlignment(Component.Alignment.MIDDLE_CENTER);
+                    image.setScaleMode(Image.ScaleMode.CONTAIN);
+                    image.setAlignment(Component.Alignment.BOTTOM_LEFT);
+                    tab.add(image);
+                    tab.expand(image);
+                }
+
 
                 Button checkoutBtn = uiComponents.create(Button.NAME);
                 checkoutBtn.setStyleName("small");

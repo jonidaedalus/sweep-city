@@ -5,7 +5,14 @@ import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
 import com.haulmont.cuba.security.entity.User;
 import kz.alash.naklei.entity.dict.DCity;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @PublishEntityChangedEvents
 @DiscriminatorValue("naklei_ExtUser")

@@ -14,19 +14,19 @@
                 <property name="distance" datatype="double"/>
             </properties>
         </keyValueCollection>
-        <collection id="zonesDc" class="kz.alash.naklei.entity.dict.DZone">
-            <view extends="_base">
-                <property name="zoneType">
-                    <property name="code"/>
-                    <property name="pointCoef"/>
-                </property>
-            </view>
-            <loader id="zonesDl">
-                <query>
-                    <![CDATA[select e from naklei_DZone e where e.city =:city]]>
-                </query>
-            </loader>
-        </collection>
+<!--        <collection id="zonesDc" class="kz.alash.naklei.entity.dict.DZone">-->
+<!--            <view extends="_base">-->
+<!--                <property name="zoneType">-->
+<!--                    <property name="code"/>-->
+<!--                    <property name="pointCoef"/>-->
+<!--                </property>-->
+<!--            </view>-->
+<!--            <loader id="zonesDl">-->
+<!--                <query>-->
+<!--                    <![CDATA[select e from naklei_DZone e where e.city =:city]]>-->
+<!--                </query>-->
+<!--            </loader>-->
+<!--        </collection>-->
         <instance id="selectedRouteDc" class="kz.alash.naklei.entity.Route" view="route-view"/>
     </data>
 
@@ -114,7 +114,7 @@
                         <maps:geoMap id="map" width="100%" center="76.8512,43.2220" zoom="12" box.expandRatio="0.7" >
                             <maps:layers selectedLayer="canvas">
                                 <maps:tile id="tiles" tileProvider="maps_OpenStreetMap"/>
-                                <maps:vector id="zonesLayerVector" dataContainer="zonesDc"/>
+<!--                                <maps:vector id="zonesLayerVector" dataContainer="zonesDc"/>-->
                             </maps:layers>
                         </maps:geoMap>
                     </vbox>
