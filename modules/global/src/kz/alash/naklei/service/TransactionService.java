@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public interface TransactionService {
     String NAME = "naklei_TransactionService";
 
-    CommitContext createTransaction(
+    void createTransaction(
             PayOut payOut,
             BigDecimal sum
     );

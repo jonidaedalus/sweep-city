@@ -291,7 +291,18 @@ public class EsbUserServiceBean implements EsbUserService {
                         "where e.type = 'STICK' " +
                         "and e.advertisementDriver =:advDriver")
                 .parameter("advDriver", currentAdvDriver)
-                .viewProperties("status", "type", "cancelReason", "comment", "visitStart", "visitEnd", "createTs", "company", "company.addressText", "company.mapLink").list();
+                .viewProperties(
+                        "status",
+                        "type",
+                        "cancelReason",
+                        "comment",
+                        "visitStart",
+                        "visitEnd",
+                        "createTs",
+                        "company",
+                        "company.addressText",
+                        "company.mapLink"
+                ).list();
 
         if (visits.size() > 0) {
             Visit visit = visits.stream().max(Comparator.comparing(Visit::getCreateTs)).orElse(null);

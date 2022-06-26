@@ -37,24 +37,25 @@
                     <groupBox>
                         <form id="form" dataContainer="advDriverDc" width="100%" editable="false">
                             <column width="100%">
-                                <textField id="driverField" property="driver" stylename="huge align-right borderless"/>
+<!--                                <textField id="driverField" property="driver" stylename="huge align-right borderless"/>-->
                                 <textField id="status" property="status" stylename="huge align-right borderless"/>
+                                <textField id="startDateField" property="startDate" stylename="huge align-right borderless"/>
+                                <textField id="endDateField" property="endDate" stylename="huge align-right borderless"/>
                                 <!--TODO Заработанные поинты может считать по-другому или при отправки роута будем перезаписывать этот значение-->
                                 <!--<textField id="earnedPointsField" property="earnedPoints" stylename="large align-right borderless"/>-->
                                 <!--TODO кол-во км которые проехал. Тоже самое что и с заработанными поинтами-->
-                                <textField id="totalRunField" property="totalRun" stylename="huge align-right borderless"/>
+<!--                                <textField id="totalRunField" property="totalRun" stylename="huge align-right borderless"/>-->
                                 <!--TODO Тоже самое что и с заработанными поинтами-->
 <!--                                <textField id="incomeField" property="income" stylename="huge align-right borderless"/>-->
                                 <!--TODO Это что и зачем?-->
                                 <!--<textField id="approvedTotalRunField" property="approvedTotalRun" stylename="huge align-right borderless"/>-->
                                 <!--TODO Откуда это брать? После модерации это изменяется-->
-                                <textField id="tachometerValueField" property="tachometerValue" stylename="huge align-right borderless"/>
+<!--                                <textField id="tachometerValueField" property="tachometerValue" stylename="huge align-right borderless"/>-->
                                 <!--TODO Может вытягивать с модераций? Вместо того чтобы изменять жто постоянно-->
                                 <!--<textField id="lastWashDateField" property="lastWashDate" stylename="huge align-right borderless"/>-->
                                 <!--TODO Может вытягивать с модераций? Вместо того чтобы изменять жто постоянно-->
                                 <!--<textField id="lastModerationDateField" property="lastModerationDate" stylename="huge align-right borderless"/>-->
-                                <textField id="startDateField" property="startDate" stylename="huge align-right borderless"/>
-                                <textField id="endDateField" property="endDate" stylename="huge align-right borderless"/>
+
                             </column>
                         </form>
                     </groupBox>
@@ -66,8 +67,15 @@
                                 <textField property="advertisement.status" stylename="huge align-right borderless"/>
                                 <textField property="stickerType" stylename="huge align-right borderless"/>
                                 <textField property="carClass" stylename="huge align-right borderless"/>
-                                <textField property="currentBudget" stylename="huge align-right borderless"/>
+                                <textField id="carColors" caption="msg://adv-driver-show-fragment.car-colors.caption" stylename="huge align-right borderless"/>
+<!--                                <textField property="currentBudget" stylename="huge align-right borderless"/>-->
                             </column>
+                        </form>
+                    </groupBox>
+                    <groupBox showAsPanel="true">
+                        <form dataContainer="advDriverDc">
+                            <textField id="totalRunField" property="totalRun" stylename="huge align-right borderless"/>
+                            <textField id="earnedPointsField" property="earnedMoney" stylename="huge align-right borderless"/>
                         </form>
                     </groupBox>
                 </vbox>

@@ -58,7 +58,9 @@
                                         <textField id="cityField" stylename="borderless align-right bold large" property="driver.user.city"/>
                                         <textField id="phoneNumberField" stylename="borderless align-right bold large" property="driver.user.phoneNumber"/>
                                         <textField id="totalRunField" stylename="borderless align-right bold large" property="driver.totalRun"/>
+                                        <textField stylename="borderless align-right bold large" property="driver.driverStatus"/>
                                         <textField id="balanceField" stylename="borderless align-right bold large" property="driver.currentMoney"/>
+                                        <textField stylename="borderless align-right bold large" property="driver.earnedMoney"/>
                                     </column>
                                 </form>
                             </groupBox>
@@ -69,6 +71,7 @@
                                         <textField id="markField" stylename="borderless align-right bold large" property="model.mark"/>
                                         <textField id="modelField" stylename="borderless align-right bold large" property="model"/>
                                         <textField id="yearField" stylename="borderless align-right bold large" property="year"/>
+                                        <textField stylename="borderless align-right bold large" property="color"/>
                                         <textField id="classsField" stylename="borderless align-right bold large" property="carClass"/>
                                     </column>
                                 </form>

@@ -1,5 +1,6 @@
 package kz.alash.naklei.web.screens.payout;
 
+import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.Screens;
 import com.haulmont.cuba.gui.components.Button;
 import com.haulmont.cuba.gui.components.LinkButton;
@@ -28,6 +29,8 @@ public class PayOutEdit extends StandardEditor<PayOut> {
     private LinkButton carCardLink;
     @Inject
     private TransactionService transactionService;
+    @Inject
+    private DataManager dataManager;
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
@@ -40,10 +43,10 @@ public class PayOutEdit extends StandardEditor<PayOut> {
     
     @Subscribe("approveBtn")
     public void onApproveBtnClick(Button.ClickEvent event) {
-        getEditedEntity().setStatus(EPayOutStatus.IN_WORK);
-        getScreenData().getDataContext().merge(
-                transactionService.createTransaction(
-                        getEditedEntity(), getEditedEntity().getSum()).getCommitInstances()
+        getEditedEntity().setStatus(EPayOutStatus.PAID);
+        transactionService.createTransaction(
+                getEditedEntity(),
+                getEditedEntity().getSum()
         );
         closeWithCommit();
     }

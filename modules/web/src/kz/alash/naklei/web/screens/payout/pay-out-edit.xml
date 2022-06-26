@@ -15,6 +15,9 @@
                         <property name="creditCardName"/>
                     </property>
                     <property name="purpose">
+                        <property name="advertisement">
+                            <property name="advertiser"/>
+                        </property>
                         <property name="currentBudget"/>
                     </property>
                     <property name="currentMoney"/>
@@ -28,7 +31,7 @@
     <layout expand="formCard" spacing="true" stylename="well" margin="true">
         <hbox id="editActions" spacing="true" width="100%">
             <hbox spacing="true">
-                <button id="approveBtn" caption="Выплачено" stylename="primary"/>
+                <button id="approveBtn" caption="Одобрить" stylename="primary"/>
                 <button id="closeBtn" caption="Закрыть" action="windowClose"/>
             </hbox>
             <hbox align="MIDDLE_RIGHT" spacing="true">
@@ -46,6 +49,7 @@
             </hbox>
             <form id="form" dataContainer="payOutDc" captionPosition="LEFT">
                 <column width="350px">
+                    <textField property="advertisementDriver.purpose.advertisement"/>
                     <textField id="sumField" property="sum" editable="false"/>
                     <textField id="percentField" property="percent" editable="false"/>
 <!--                    <pickerField id="driverField" property="driver" editable="false">-->

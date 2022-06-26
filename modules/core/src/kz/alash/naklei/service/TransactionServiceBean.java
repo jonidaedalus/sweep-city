@@ -15,7 +15,7 @@ public class TransactionServiceBean implements TransactionService {
     private DataManager dataManager;
 
     @Override
-    public CommitContext createTransaction(
+    public void createTransaction(
             PayOut payOut,
             BigDecimal sum
     ) {
@@ -42,10 +42,13 @@ public class TransactionServiceBean implements TransactionService {
         driver.setCurrentMoney(
                 driver.getCurrentMoney().subtract(sum)
         );
-
-        return new CommitContext(
-                transaction,
-                advPurpose
+        dataManager.commit(
+                new CommitContext(
+                        transaction,
+                        advertisementDriver,
+                        advPurpose,
+                        driver
+                )
         );
     }
 }

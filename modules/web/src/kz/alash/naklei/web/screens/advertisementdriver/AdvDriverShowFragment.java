@@ -5,28 +5,25 @@ import com.haulmont.addon.maps.web.gui.components.GeoMap;
 import com.haulmont.addon.maps.web.gui.components.HeatMapOptions;
 import com.haulmont.addon.maps.web.gui.components.layer.HeatMapLayer;
 import com.haulmont.addon.maps.web.gui.components.layer.style.PolygonStyle;
-import com.haulmont.cuba.core.entity.KeyValueEntity;
 import com.haulmont.cuba.core.global.DataManager;
-import com.haulmont.cuba.core.global.ValueLoadContext;
 import com.haulmont.cuba.gui.Notifications;
 import com.haulmont.cuba.gui.components.GroupTable;
 import com.haulmont.cuba.gui.components.Table;
-import com.haulmont.cuba.gui.model.CollectionContainer;
-import com.haulmont.cuba.gui.model.CollectionLoader;
+import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.model.InstanceContainer;
+import com.haulmont.cuba.gui.model.InstancePropertyContainer;
 import com.haulmont.cuba.gui.model.KeyValueCollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
+import kz.alash.naklei.entity.AdvPurpose;
 import kz.alash.naklei.entity.AdvertisementDriver;
 import kz.alash.naklei.entity.Route;
-import kz.alash.naklei.entity.dict.DZone;
+import kz.alash.naklei.entity.dict.car.DColor;
 import kz.alash.naklei.service.RouteService;
 import org.locationtech.jts.geom.*;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @UiController("naklei_AdvDriverShowFragment")
@@ -54,6 +51,10 @@ public class AdvDriverShowFragment extends ScreenFragment {
 //    private CollectionContainer<DZone> zonesDc;
     @Inject
     private DataManager dataManager;
+    @Inject
+    private InstancePropertyContainer<AdvPurpose> purposeDc;
+    @Inject
+    private TextField<String> carColors;
 //    @Named("map.zonesLayerVector")
 //    private VectorLayer<DZone> zonesLayerVector;
 
@@ -68,8 +69,8 @@ public class AdvDriverShowFragment extends ScreenFragment {
             return;
 
         advDriver = dataManager.reload(advDriver, "show-adv-driver-view");
-
         advDriverDc.setItem(advDriver);
+        carColors.setValue(carColorValue());
 //        zonesDl.setParameter("city", advDriver.getPurpose().getAdvertisement().getCity());
 //        zonesDl.load();
 
@@ -152,6 +153,20 @@ public class AdvDriverShowFragment extends ScreenFragment {
 //        return list;
 //    }
 
+    private String carColorValue() {
+        List<DColor> colorList = purposeDc.getItem().getCarColor();
+        if (colorList == null)
+            return "Не удалось подгрузить информацию";
+        if (colorList.size() == 0)
+            return "Все";
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < colorList.size(); i++) {
+            sb.append(colorList.get(i).getName());
+            if (i != colorList.size() - 1)
+                sb.append(", ");
+        }
+        return sb.toString();
+    }
     private void setSelectedRouteToCanvas(LineString line) {
         CanvasLayer canvasLayer = map.getCanvas();
         canvasLayer.clear();
