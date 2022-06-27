@@ -252,7 +252,7 @@ public class AdvPurposeEdit extends StandardEditor<AdvPurpose> {
 
         Long carAmount = null;
         try {
-            carAmount = advertisementService.calculateCarAmount(
+            carAmount = advertisementService.calculateMaxCarAmount(
                     budget,
                     carClass,
                     stickerType,

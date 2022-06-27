@@ -16,7 +16,7 @@ public interface AdvertisementService {
 
     SetAdvertisementResponse setAdvertisement(UUID purposeId);
 
-    Long calculateCarAmount(
+    Long calculateMaxCarAmount(
             BigDecimal budget,
             DClass carClass,
             DStickerType stickerType,

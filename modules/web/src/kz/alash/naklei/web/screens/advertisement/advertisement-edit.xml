@@ -84,7 +84,13 @@
         </hbox>
         <hbox id="mainHBox" margin="true" spacing="true" stylename="card" width="100%">
             <hbox expand="container" spacing="true" width="100%" height="100%" box.expandRatio="0.65">
-                <tree id="tree" captionProperty="name" dataContainer="menuDc" height="100%" hierarchyProperty="parent" width="150px" showOrphans="false"/>
+                <tree id="tree"
+                      captionProperty="name"
+                      dataContainer="menuDc"
+                      height="100%"
+                      hierarchyProperty="parent"
+                      width="150px"
+                      showOrphans="false"/>
                 <vbox id="container" height="100%">
                     <groupBox id="carsGroupBox" caption="Машины" expand="advertisementDriversTable" spacing="true" width="100%">
                         <table id="advertisementDriversTable" dataContainer="advertisementDriversDc" settingsEnabled="false" sortable="false" columnControlVisible="false" width="100%" >
@@ -131,6 +137,12 @@
                                             <textField id="statPointsTextField" caption="Расход(тг.)" stylename="borderless" editable="false" width="100%"/>
                                             <textField id="statOTSTextField" caption="OTS" stylename="borderless" editable="false" width="100%"/>
                                             <textField id="statCPMTextField" caption="CPM(тг.)" stylename="borderless" editable="false" width="100%"/>
+
+                                            <groupBox>
+                                                <textField id="pastingCostsField" caption="Оклейка" stylename="borderless" editable="false" width="100%"/>
+                                                <textField id="distanceCostsField" caption="Пробег" stylename="borderless" editable="false" width="100%"/>
+                                                <textField id="rewardCostsField" caption="Вознаграждение" stylename="borderless" editable="false" width="100%"/>
+                                            </groupBox>
                                         </vbox>
                                         <vbox id="lineChartVbox" box.expandRatio="0.7" expand="lineChart" height="100%" width="100%" margin="true">
                                             <chart:serialChart id="lineChart"

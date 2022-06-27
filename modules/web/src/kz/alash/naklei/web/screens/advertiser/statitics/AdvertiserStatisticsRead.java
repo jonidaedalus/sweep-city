@@ -2,7 +2,6 @@ package kz.alash.naklei.web.screens.advertiser.statitics;
 
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.gui.components.ResizableTextArea;
-import com.haulmont.cuba.gui.components.TextField;
 import com.haulmont.cuba.gui.screen.*;
 import kz.alash.naklei.entity.*;
 import kz.alash.naklei.entity.dict.DPointCost;
@@ -52,7 +51,7 @@ public class AdvertiserStatisticsRead extends StandardEditor<Advertiser> {
 
             for (AdvPurpose advPurpose : advertisement.getPurposes()) {
                 long operatedDays = DateUtility.differenceBetween(advertisement.getEndDate(), advertisement.getStartDate());
-                Long maxCarAmount = advertisementService.calculateCarAmount(
+                Long maxCarAmount = advertisementService.calculateMaxCarAmount(
                         advPurpose.getBudget(),
                         advPurpose.getCarClass(),
                         advPurpose.getStickerType(),

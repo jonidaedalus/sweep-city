@@ -1,11 +1,8 @@
 package kz.alash.naklei.web.screens.advertisement;
 
-import com.haulmont.addon.maps.web.gui.components.CanvasLayer;
 import com.haulmont.addon.maps.web.gui.components.GeoMap;
 import com.haulmont.addon.maps.web.gui.components.HeatMapOptions;
 import com.haulmont.addon.maps.web.gui.components.layer.HeatMapLayer;
-import com.haulmont.addon.maps.web.gui.components.layer.style.DivPointIcon;
-import com.haulmont.addon.maps.web.gui.components.layer.style.PointStyle;
 import com.haulmont.cuba.core.entity.KeyValueEntity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.PersistenceHelper;
@@ -158,6 +155,12 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     private TextField<String> statCPMTextField;
     @Inject
     private LookupField chartTypeLookupField;
+    @Inject
+    private TextField<String> pastingCostsField;
+    @Inject
+    private TextField<String> distanceCostsField;
+    @Inject
+    private TextField<String> rewardCostsField;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -165,23 +168,27 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             //Цели
             //Машины
             //Сотрудники
-        tree.addSelectionListener(selectionEvent -> selectionEvent.getSelected().stream().findFirst().ifPresent(selectedMenu -> tree.getItems().getItems().forEach(item -> {
-            EAdvertisementMenu menu = EAdvertisementMenu.fromId(item.getId().toString());
+        tree.addSelectionListener(selectionEvent ->
+                selectionEvent.getSelected().stream().findFirst().ifPresent(
+                        selectedMenu -> tree.getItems().getItems().forEach(
+                                item -> {
+                                    EAdvertisementMenu menu = EAdvertisementMenu.fromId(item.getId().toString());
+                                    if (menu != null && menu.equals(EAdvertisementMenu.PURPOSE)) {
+                                        advPurposesTable.setSelected(new ArrayList<>());
+                                    }
+                                    if (menu != null && menu.getContentId() != null) {
+                                        Component component = container.getComponent(menu.getContentId());
+                                        if (component != null) {
+                                            component.setVisible(menu.getId().equals(selectedMenu.getId()));
+                                        }
+                                    }
 
-            if(menu != null && menu.equals(EAdvertisementMenu.PURPOSE)){
-                advPurposesTable.setSelected(new ArrayList<>());
-            }
-
-            if (menu != null && menu.getContentId() != null) {
-                Component component = container.getComponent(menu.getContentId());
-                if (component != null) {
-                    component.setVisible(menu.getId().equals(selectedMenu.getId()));
-                }
-            }
-
-            if(getEditedEntity().getStatus().equals(EAdvStatus.IN_PROCESS))
-                tree.setVisible(false);
-        })));
+                                    if (getEditedEntity().getStatus().equals(EAdvStatus.IN_PROCESS))
+                                        tree.setVisible(false);
+                                }
+                                )
+                )
+        );
     }
 
     @Subscribe("map")
@@ -263,11 +270,11 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
         menuDl.load();
 
-        if(tree.getItems().size() > 0) {
+        if (tree.getItems().size() > 0) {
             tree.setSelected(tree.getItems().getItems().findFirst().orElse(null));
         }
 
-        if(advertisementDriversDl.getContainer().getItems().size() > 0){
+        if (advertisementDriversDl.getContainer().getItems().size() > 0) {
             advRoutesDl.setParameter("drivers", advertisementDriversDl.getContainer().getItems());
             advRoutesDl.load();
 
@@ -334,7 +341,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
         HeatMapLayer heatMapLayer = map.getLayerOrNull("heatMapLayer");
 
-        if(heatMapLayer != null)
+        if (heatMapLayer != null)
             map.removeLayer(heatMapLayer);
 
         heatMapLayer = new HeatMapLayer("heatMapLayer");
@@ -374,29 +381,40 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             menu.setId(eMenu.getId());
             String name;
 
-            if(eMenu.equals(EAdvertisementMenu.PURPOSE)){
+            if (eMenu.equals(EAdvertisementMenu.PURPOSE)) {
                 int purposeSize = 0;
-                if(getEditedEntity().getPurposes() != null) {
+                if (getEditedEntity().getPurposes() != null) {
                     purposeSize = getEditedEntity().getPurposes().size();
                 }
                 name = eMenu.getName() + " (" + purposeSize + ")";
             }
 
-            else if(eMenu.equals(EAdvertisementMenu.CARS)){
+            else if (eMenu.equals(EAdvertisementMenu.CARS)) {
                 List<AdvertisementDriver> advDrivers = advertisementDriversDl.getContainer().getItems();
-                int advDriversAmount = 0;
-
-                if(advDrivers.size() > 0){
-                    advDriversAmount = (int) advDrivers.stream()
-                            .filter(advertisementDriver -> !advertisementDriver.getStatus().equals(EAdvDriverStatus.REJECTED)
-                                    && !advertisementDriver.getStatus().equals(EAdvDriverStatus.FINISHED))
-                            .count();
-                }
-
+                //показываем количество активных машин
+                int advDriversAmount = getActiveCars(advDrivers).size();
                 name = eMenu.getName() + " (" + advDriversAmount + ")";
             }
-            else
+            else {
                 name = eMenu.getName();
+                List<AdvertisementDriver> advertisementDrivers = advertisementDriversDl.getContainer().getItems();
+                int maxCarAmount = getEditedEntity().getPurposes().stream().mapToInt(AdvPurpose::getCarAmount).sum();
+                int stickedCarAmount = getStickedCars(advertisementDrivers).size();
+                BigDecimal pastingCost = BigDecimal.ZERO;
+                List<AdvertisementDriver> stickedAdvDrivers = getStickedCars(advertisementDrivers);
+                for (AdvertisementDriver advertisementDriver : stickedAdvDrivers) {
+                    pastingCost = pastingCost.add(advertisementDriver.getPurpose().getPastingCost());
+                }
+
+                BigDecimal maxPastingCost = BigDecimal.ZERO;
+                List<AdvPurpose> purposes = getEditedEntity().getPurposes();
+                for (AdvPurpose purpose : purposes) {
+                    maxPastingCost = maxPastingCost.add(
+                            purpose.getPastingCost().multiply(BigDecimal.valueOf(purpose.getCarAmount()))
+                    );
+                }
+                pastingCostsField.setValue(stickedCarAmount + "/" + maxCarAmount + "\t" + pastingCost + "/" + maxPastingCost);
+            }
 
             menu.setValue("name", name);
 
@@ -404,6 +422,23 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         }
 
         return list;
+    }
+
+    private List<AdvertisementDriver> getActiveCars(List<AdvertisementDriver> advertisementDrivers) {
+        return advertisementDrivers.stream()
+                .filter(advertisementDriver ->
+                            advertisementDriver.getStatus().equals(EAdvDriverStatus.ACTIVE))
+                .collect(Collectors.toList());
+    }
+
+    private List<AdvertisementDriver> getStickedCars(List<AdvertisementDriver> advertisementDrivers) {
+        return advertisementDrivers.stream()
+                .filter(advertisementDriver ->
+                        (advertisementDriver.getStatus().equals(EAdvDriverStatus.ACTIVE) ||
+                                advertisementDriver.getStatus().equals(EAdvDriverStatus.FINISHED) ||
+                                advertisementDriver.getStatus().equals(EAdvDriverStatus.RESTICK)) &&
+                        advertisementDriver.getStartDate() != null)
+                .collect(Collectors.toList());
     }
 
     @Install(to = "dateValueDl", target = Target.DATA_LOADER)
@@ -580,10 +615,6 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         getScreenData().getDataContext().commit();
     }
 
-//    private BigDecimal getAdvBudget() {
-//        return BigDecimal.ZERO;
-//    }
-
     private boolean validateStartDate() {
         Date startDate = startDateField.getValue();
 
@@ -656,7 +687,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         getEditedEntity().getPurposes().forEach(advPurpose -> {
             Long carAmount = null;
             try {
-                carAmount = advertisementService.calculateCarAmount(
+                carAmount = advertisementService.calculateMaxCarAmount(
                         advPurpose.getBudget(),
                         advPurpose.getCarClass(),
                         advPurpose.getStickerType(),

@@ -179,7 +179,7 @@ public class AdvertisementServiceBean implements AdvertisementService {
 
     //todo STATEFUL SERVICE
     @Override
-    public Long calculateCarAmount(
+    public Long calculateMaxCarAmount(
             BigDecimal budget,
             DClass carClass,
             DStickerType stickerType,
@@ -199,10 +199,10 @@ public class AdvertisementServiceBean implements AdvertisementService {
                 .optional()
                 .orElse(null);
 
-        if(appConfig == null || appConfig.getTransactionPercent() == null)
+        if (appConfig == null || appConfig.getTransactionPercent() == null)
             throw new Exception("Бизнес конфигурации не заполнены");
 
-        if(thePointCost == null){
+        if (thePointCost == null) {
 //            notifications
 //                    .create()
 //                    .withType(Notifications.NotificationType.ERROR)
