@@ -9,19 +9,28 @@ import com.haulmont.cuba.security.app.Authentication;
 import com.haulmont.cuba.security.entity.User;
 import kz.alash.naklei.entity.AdvertisementDriver;
 import kz.alash.naklei.entity.Driver;
+import kz.alash.naklei.entity.dict.DPointCost;
 import kz.alash.naklei.entity.dict.EModerationStatus;
 import kz.alash.naklei.entity.dict.EModerationType;
 import kz.alash.naklei.entity.moderation.Moderation;
+import kz.alash.naklei.service.esb.dto.GenericResponse;
+import kz.alash.naklei.service.esb.dto.advertisement.GetHistoryAdvertisementResponse;
+import kz.alash.naklei.service.esb.dto.moderation.ModerationDto;
 import kz.alash.naklei.service.esb.dto.moderation.ModerationRequest;
 import kz.alash.naklei.service.esb.dto.moderation.ModerationResponse;
 import org.slf4j.Logger;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
+import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service(ModerationService.NAME)
 public class ModerationServiceBean implements ModerationService {
@@ -148,7 +157,7 @@ public class ModerationServiceBean implements ModerationService {
                     fileStorageAPI.saveFile(fd, bytes);
                     context.addInstanceToCommit(fd);
 
-                    if(moderationType.equals(EModerationType.FINISH))
+                    if (moderationType.equals(EModerationType.FINISH))
                         advertisementDriver.setFinalTachometerPhoto(fd);
                     else
                         advertisementDriver.setInitialTachometerPhoto(fd);
@@ -203,4 +212,66 @@ public class ModerationServiceBean implements ModerationService {
         moderation.setType(type);
         return moderation;
     }
+
+    @Override
+    public GenericResponse<List<ModerationDto>> getValidModerations() {
+
+        long start = System.currentTimeMillis();
+        User user = authentication.begin().getUser();
+        GenericResponse<List<ModerationDto>> response = new GenericResponse<>();
+
+        try {
+
+            Driver driver = driverService.getDriverByUserId(user.getId())
+                    .viewProperties(
+                            "advertisementDrivers",
+                            "advertisementDrivers.createTs"
+                    )
+                    .one();
+            List<AdvertisementDriver> advertisementDrivers =
+                        driver.getAdvertisementDrivers().stream()
+                                .sorted(Comparator.comparing(AdvertisementDriver::getCreateTs).reversed())
+                                .collect(Collectors.toList());
+            if (advertisementDrivers.size() == 0) {
+                response.setTimeElapsedMillis(System.currentTimeMillis() - start);
+                response.setMessage("Проверок не найдено");
+                return response;
+            }
+            AdvertisementDriver last = advertisementDrivers.get(0);
+            List<Moderation> moderations = dataManager.load(Moderation.class)
+                    .query("select m from naklei_Moderation m " +
+                            "where m.advertisementDriver.id = :id ")
+                    .parameter("id", last.getId())
+                    .viewProperties(
+                            "type",
+                            "status",
+                            "message",
+                            "reason"
+                    )
+                    .list();
+
+            response.setResult(new ArrayList<>());
+            moderations.forEach(moderation -> {
+                ModerationDto dto = new ModerationDto();
+                dto.setModerationId(String.valueOf(moderation.getId()));
+                dto.setModerationType(String.valueOf(moderation.getType()));
+                dto.setModerationStatus(String.valueOf(moderation.getStatus()));
+                dto.setMessage(moderation.getMessage());
+                dto.setReason(moderation.getReason());
+                response.getResult().add(dto);
+            });
+            response.setTimeElapsedMillis(System.currentTimeMillis() - start);
+            response.setCode("0");
+        } catch (Exception e) {
+            response.setCode("-1");
+            response.setMessage("Ошибка при получении данных. Текст ошибки: " + e.getMessage());
+            response.setStackTrace(Arrays.toString(e.getStackTrace()));
+            log.error("Error", e);
+        } finally {
+            authentication.end();
+        }
+
+        return response;
+    }
+
 }

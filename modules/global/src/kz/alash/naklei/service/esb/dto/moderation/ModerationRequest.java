@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 public class ModerationRequest implements Serializable {
-
     private String purposeId;
     private String moderationID;
     private String moderationType;

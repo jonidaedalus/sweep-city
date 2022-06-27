@@ -51,6 +51,7 @@
         <method name="sendModeration">
             <param name="moderation" type="kz.alash.naklei.service.esb.dto.moderation.ModerationRequest"/>
         </method>
+        <method name="getValidModerations"/>
     </service>
 <!--    ??????????????????-->
 <!--    <service name="naklei_DocumentService">-->

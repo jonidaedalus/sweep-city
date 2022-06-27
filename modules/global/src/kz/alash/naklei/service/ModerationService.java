@@ -1,8 +1,11 @@
 package kz.alash.naklei.service;
 
-import kz.alash.naklei.entity.Car;
+import kz.alash.naklei.service.esb.dto.GenericResponse;
+import kz.alash.naklei.service.esb.dto.moderation.ModerationDto;
 import kz.alash.naklei.service.esb.dto.moderation.ModerationRequest;
 import kz.alash.naklei.service.esb.dto.moderation.ModerationResponse;
+
+import java.util.List;
 
 public interface ModerationService {
     String NAME = "naklei_ModerationService";
@@ -18,4 +21,5 @@ public interface ModerationService {
 //    ModerationResponse sendToPrecheckModeration(ModerationRequest moderation);
 
     ModerationResponse sendModeration(ModerationRequest moderationRequest);
+    GenericResponse<List<ModerationDto>> getValidModerations();
 }

@@ -1,6 +1,7 @@
 package kz.alash.naklei.service.esb.dto.profile;
 
 import kz.alash.naklei.service.esb.dto.GenericResponse;
+import kz.alash.naklei.service.esb.dto.moderation.ModerationDto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -383,9 +384,8 @@ public class ProfileDataResponse extends GenericResponse<ProfileDataResponse.Res
         }
 
         public List<ModerationDto> getModerations() {
-            if(moderations == null)
+            if (moderations == null)
                 moderations = new ArrayList<>();
-
             return moderations;
         }
 
@@ -463,54 +463,6 @@ public class ProfileDataResponse extends GenericResponse<ProfileDataResponse.Res
 
         public void setPhoto(String photo) {
             this.photo = photo;
-        }
-    }
-    public static class ModerationDto implements Serializable {
-        private String moderationId;
-        private String moderationStatus;
-        private String moderationType;
-        private String message;
-
-        private String reason;
-
-        public String getReason() {
-            return reason;
-        }
-
-        public void setReason(String reason) {
-            this.reason = reason;
-        }
-
-        public String getModerationId() {
-            return moderationId;
-        }
-
-        public void setModerationId(String moderationId) {
-            this.moderationId = moderationId;
-        }
-
-        public String getModerationStatus() {
-            return moderationStatus;
-        }
-
-        public void setModerationStatus(String moderationStatus) {
-            this.moderationStatus = moderationStatus;
-        }
-
-        public String getModerationType() {
-            return moderationType;
-        }
-
-        public void setModerationType(String moderationType) {
-            this.moderationType = moderationType;
-        }
-
-        public String getMessage() {
-            return message;
-        }
-
-        public void setMessage(String message) {
-            this.message = message;
         }
     }
 

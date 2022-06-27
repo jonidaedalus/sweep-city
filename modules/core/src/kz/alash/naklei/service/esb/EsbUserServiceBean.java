@@ -14,6 +14,7 @@ import kz.alash.naklei.entity.visit.Visit;
 import kz.alash.naklei.service.DriverService;
 import kz.alash.naklei.service.esb.dto.UpdateFcmTokenResponse;
 import kz.alash.naklei.service.esb.dto.advertisement.GetHistoryAdvertisementResponse;
+import kz.alash.naklei.service.esb.dto.moderation.ModerationDto;
 import kz.alash.naklei.service.esb.dto.profile.ProfileDataResponse;
 import kz.alash.naklei.service.utils.NumberUtility;
 import org.apache.commons.lang3.time.DateUtils;
@@ -379,30 +380,29 @@ public class EsbUserServiceBean implements EsbUserService {
 //                .parameter("advDriver", currentAdvDriver)
 //                .viewProperties("status", "type", "cancelReason", "comment", "visitStart", "visitEnd").list();
 //
-        List<Moderation> moderations = dataManager.load(Moderation.class)
-                .query("select m from naklei_Moderation m " +
-                        "where m.advertisementDriver.id = :id ")
-//                        "where m.advertisementDriver.id = :id " +
-//                        "and m.status = :status")
-                .parameter("id", currentAdvDriver.getId())
-//                .parameter("status", EModerationStatus.IN_WORK)
-                .viewProperties(
-                        "type",
-                        "status",
-                        "message",
-                        "reason"
-                )
-                .list();
-        moderations.forEach(moderation -> {
-            ProfileDataResponse.ModerationDto dto = new ProfileDataResponse.ModerationDto();
-            dto.setModerationId(String.valueOf(moderation.getId()));
-            dto.setModerationType(String.valueOf(moderation.getType()));
-            dto.setModerationStatus(String.valueOf(moderation.getStatus()));
-            dto.setMessage(moderation.getMessage());
-            dto.setReason(moderation.getReason());
-
-            advertisementDto.getModerations().add(dto);
-        });
+//        List<Moderation> moderations = dataManager.load(Moderation.class)
+//                .query("select m from naklei_Moderation m " +
+//                        "where m.advertisementDriver.id = :id ")
+////                        "where m.advertisementDriver.id = :id " +
+////                        "and m.status = :status")
+//                .parameter("id", currentAdvDriver.getId())
+////                .parameter("status", EModerationStatus.IN_WORK)
+//                .viewProperties(
+//                        "type",
+//                        "status",
+//                        "message",
+//                        "reason"
+//                )
+//                .list();
+//        moderations.forEach(moderation -> {
+//            ModerationDto dto = new ModerationDto();
+//            dto.setModerationId(String.valueOf(moderation.getId()));
+//            dto.setModerationType(String.valueOf(moderation.getType()));
+//            dto.setModerationStatus(String.valueOf(moderation.getStatus()));
+//            dto.setMessage(moderation.getMessage());
+//            dto.setReason(moderation.getReason());
+//            advertisementDto.getModerations().add(dto);
+//        });
 
         advertisementDto.setPurposeId(String.valueOf(currentAdvDriver.getPurpose().getId()));
         advertisementDto.setAdvertiserId(String.valueOf(currentAdvDriver.getPurpose().getAdvertisement().getAdvertiser().getId()));
