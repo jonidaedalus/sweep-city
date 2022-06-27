@@ -34,6 +34,12 @@ public class AdvertisementDriver extends StandardEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     private Driver driver;
 
+    @Column(name = "IS_STICKED")
+    private Boolean isSticked;
+
+    @Column(name = "STICKED_WITHIN_PERIOD")
+    private Boolean stickedWithinPeriod;
+
     @Column(name = "EARNED_MONEY")
     private BigDecimal earnedMoney = BigDecimal.ZERO;
 
@@ -90,6 +96,22 @@ public class AdvertisementDriver extends StandardEntity {
             inverseJoinColumns = @JoinColumn(name = "FILE_DESCRIPTOR_ID"))
     @ManyToMany
     private List<FileDescriptor> photos;
+
+    public Boolean getStickedWithinPeriod() {
+        return stickedWithinPeriod;
+    }
+
+    public void setStickedWithinPeriod(Boolean stickedWithinPeriod) {
+        this.stickedWithinPeriod = stickedWithinPeriod;
+    }
+
+    public Boolean getIsSticked() {
+        return isSticked;
+    }
+
+    public void setIsSticked(Boolean isSticked) {
+        this.isSticked = isSticked;
+    }
 
     public void setTotalRun(Double totalRun) {
         this.totalRun = totalRun;

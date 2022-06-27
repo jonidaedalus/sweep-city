@@ -139,9 +139,9 @@
                                             <textField id="statCPMTextField" caption="CPM(тг.)" stylename="borderless" editable="false" width="100%"/>
 
                                             <groupBox>
-                                                <textField id="pastingCostsField" caption="Оклейка" stylename="borderless" editable="false" width="100%"/>
-                                                <textField id="distanceCostsField" caption="Пробег" stylename="borderless" editable="false" width="100%"/>
-                                                <textField id="rewardCostsField" caption="Вознаграждение" stylename="borderless" editable="false" width="100%"/>
+                                                <textField id="pastingCostsField" stylename="borderless" editable="false" width="100%"/>
+                                                <textField id="distanceCostsField" stylename="borderless" editable="false" width="100%"/>
+                                                <textField id="rewardCostsField" stylename="borderless" editable="false" width="100%"/>
                                             </groupBox>
                                         </vbox>
                                         <vbox id="lineChartVbox" box.expandRatio="0.7" expand="lineChart" height="100%" width="100%" margin="true">

@@ -235,7 +235,9 @@
         <property name="photos" view="_minimal"/>
         <property name="advertisementDriver" view="advertisementDriver-edit">
             <property name="purpose" view="advPurpose-edit">
-                <property name="advertisement" view="_minimal"/>
+                <property name="advertisement" view="_minimal">
+                    <property name="startDate"/>
+                </property>
             </property>
             <property name="driver" view="_local">
                 <property name="user" view="_minimal">

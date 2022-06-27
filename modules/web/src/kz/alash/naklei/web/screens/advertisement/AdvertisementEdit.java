@@ -18,10 +18,12 @@ import com.haulmont.cuba.gui.screen.*;
 import kz.alash.naklei.entity.Route;
 import kz.alash.naklei.entity.*;
 import kz.alash.naklei.entity.dict.DCity;
+import kz.alash.naklei.entity.dict.DPointCost;
 import kz.alash.naklei.entity.dict.EAdvDriverStatus;
 import kz.alash.naklei.entity.dict.EAdvStatus;
 import kz.alash.naklei.entity.dict.EContractTime;
 import kz.alash.naklei.service.AdvertisementService;
+import kz.alash.naklei.service.utils.DateUtility;
 import kz.alash.naklei.web.screens.advpurpose.AdvPuproseShowFragment;
 import kz.alash.naklei.web.screens.advpurpose.AdvPurposeEdit;
 import kz.alash.naklei.web.screens.car.CarEdit;
@@ -397,23 +399,14 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             }
             else {
                 name = eMenu.getName();
+                //показываем статистику
                 List<AdvertisementDriver> advertisementDrivers = advertisementDriversDl.getContainer().getItems();
-                int maxCarAmount = getEditedEntity().getPurposes().stream().mapToInt(AdvPurpose::getCarAmount).sum();
-                int stickedCarAmount = getStickedCars(advertisementDrivers).size();
-                BigDecimal pastingCost = BigDecimal.ZERO;
-                List<AdvertisementDriver> stickedAdvDrivers = getStickedCars(advertisementDrivers);
-                for (AdvertisementDriver advertisementDriver : stickedAdvDrivers) {
-                    pastingCost = pastingCost.add(advertisementDriver.getPurpose().getPastingCost());
-                }
-
-                BigDecimal maxPastingCost = BigDecimal.ZERO;
-                List<AdvPurpose> purposes = getEditedEntity().getPurposes();
-                for (AdvPurpose purpose : purposes) {
-                    maxPastingCost = maxPastingCost.add(
-                            purpose.getPastingCost().multiply(BigDecimal.valueOf(purpose.getCarAmount()))
-                    );
-                }
-                pastingCostsField.setValue(stickedCarAmount + "/" + maxCarAmount + "\t" + pastingCost + "/" + maxPastingCost);
+                //расходы за стикеры на 1 автомобиль
+                setPastingCosts(advertisementDrivers);
+                //максимальный расход за сутки на 1 автомобиль
+                List<AdvPurpose> advPurposes = getEditedEntity().getPurposes();
+                setDistanceCosts(getEditedEntity(), advPurposes);
+                setRewardCosts(getStickedCars(advertisementDrivers), advPurposes);
             }
 
             menu.setValue("name", name);
@@ -424,6 +417,70 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         return list;
     }
 
+    private void setRewardCosts(List<AdvertisementDriver> stickedAdvDrivers, List<AdvPurpose> advPurposes) {
+        int maxCars = 0;
+        int rewardedCars = 0;
+        BigDecimal maxAmount = BigDecimal.ZERO;
+        BigDecimal spentAmount = BigDecimal.ZERO;
+        for (AdvPurpose purpose : advPurposes) {
+            maxCars += purpose.getCarAmount();
+            maxAmount = maxAmount.add(
+                    purpose.getRewardAmount()
+                            .multiply(BigDecimal.valueOf(maxCars))
+            );
+        }
+
+        for (AdvertisementDriver advDriver : stickedAdvDrivers) {
+            if (advDriver.getStickedWithinPeriod() != null && advDriver.getStickedWithinPeriod()) {
+                spentAmount = spentAmount.add(advDriver.getPurpose().getPastingCost());
+                rewardedCars++;
+            }
+        }
+
+        rewardCostsField.setValue("Вознаграждения " + rewardedCars + "/" + maxCars + "\t" + spentAmount.intValue() + "/" + maxAmount.intValue());
+    }
+
+    private void setDistanceCosts(Advertisement advertisement, List<AdvPurpose> advPurposes) {
+        for (AdvPurpose advPurpose : advPurposes) {
+            long operatedDays = DateUtility.differenceBetween(advertisement.getEndDate(), advertisement.getStartDate());
+            int maxCars = advPurpose.getCarAmount();
+            DPointCost thePointCost = dataManager.load(DPointCost.class).view("dPointCost-view").list().stream()
+                    .filter(pointCost -> pointCost.getCarClass().equals(advPurpose.getCarClass())
+                            && pointCost.getStickerType().equals(advPurpose.getStickerType()))
+                    .findFirst()
+                    .orElse(null);
+            BigDecimal theoreticalPurposeCost =
+                    thePointCost.getAdvertiserCost()
+                            .multiply(BigDecimal.valueOf(maxCars * operatedDays))
+                            .multiply(BigDecimal.valueOf(advPurpose.getCarClass().getMaxPointPerDay()));
+            BigDecimal actualPurposeCost =
+                    advertisementDriversDl.getContainer().getItems()
+                            .stream()
+                            .map(AdvertisementDriver::getEarnedMoney)
+                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+            distanceCostsField.setValue("Пробег " + actualPurposeCost.intValue() + "/" + theoreticalPurposeCost.intValue());
+        }
+    }
+
+    private void setPastingCosts(List<AdvertisementDriver> advertisementDrivers) {
+        int maxCarAmount = getEditedEntity().getPurposes().stream().mapToInt(AdvPurpose::getCarAmount).sum();
+        int stickedCarAmount = getStickedCars(advertisementDrivers).size();
+        BigDecimal pastingCost = BigDecimal.ZERO;
+        List<AdvertisementDriver> stickedAdvDrivers = getStickedCars(advertisementDrivers);
+        for (AdvertisementDriver advertisementDriver : stickedAdvDrivers) {
+            pastingCost = pastingCost.add(advertisementDriver.getPurpose().getPastingCost());
+        }
+
+        BigDecimal maxPastingCost = BigDecimal.ZERO;
+        List<AdvPurpose> purposes = getEditedEntity().getPurposes();
+        for (AdvPurpose purpose : purposes) {
+            maxPastingCost = maxPastingCost.add(
+                    purpose.getPastingCost().multiply(BigDecimal.valueOf(purpose.getCarAmount()))
+            );
+        }
+        pastingCostsField.setValue("Оклейка " + stickedCarAmount + "/" + maxCarAmount + "\t" + pastingCost.intValue() + "/" + maxPastingCost.intValue());
+    }
+
     private List<AdvertisementDriver> getActiveCars(List<AdvertisementDriver> advertisementDrivers) {
         return advertisementDrivers.stream()
                 .filter(advertisementDriver ->
@@ -432,6 +489,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     }
 
     private List<AdvertisementDriver> getStickedCars(List<AdvertisementDriver> advertisementDrivers) {
+        //todo переделать через isSticked
         return advertisementDrivers.stream()
                 .filter(advertisementDriver ->
                         (advertisementDriver.getStatus().equals(EAdvDriverStatus.ACTIVE) ||
@@ -867,14 +925,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                             return field;
                         })
                 )
-//                .withValidator(context -> {
-//                    String name = context.getValue("name");
-//                    Customer customer = context.getValue("customer");
-//                    if (Strings.isNullOrEmpty(name) && customer == null) {
-//                        return ValidationErrors.of("Enter name or select a customer");
-//                    }
-//                    return ValidationErrors.none();
-//                })
+
                 .withActions(DialogActions.OK_CANCEL)
                 .withCloseListener(closeEvent -> {
                     if (closeEvent.getCloseAction().equals(InputDialog.INPUT_DIALOG_OK_ACTION)) {

@@ -270,14 +270,18 @@ public class ModerationEdit extends StandardEditor<Moderation> {
             } else {
                 payOut.setSum(getEditedEntity().getSum());
                 getEditedEntity().getAdvertisementDriver().setStatus(EAdvDriverStatus.ACTIVE);
-                getEditedEntity().getAdvertisementDriver().setStartDate(new Date());
+//                getEditedEntity().getAdvertisementDriver().setStartDate(new Date());
             }
 
             payOut.setStatus(EPayOutStatus.IN_WORK);
             getScreenData().getDataContext().merge(payOut);
         } else if (getEditedEntity().getType().equals(EModerationType.START)) {
             getEditedEntity().getAdvertisementDriver().setStatus(EAdvDriverStatus.ACTIVE);
+            Date advertisementStartDate = getEditedEntity().getAdvertisementDriver().getPurpose().getAdvertisement().getStartDate();
+            boolean stickedWithinPeriod = getEditedEntity().getCreateTs().before(advertisementStartDate);
+            getEditedEntity().getAdvertisementDriver().setStickedWithinPeriod(stickedWithinPeriod);
             getEditedEntity().getAdvertisementDriver().setStartDate(new Date());
+            getEditedEntity().getAdvertisementDriver().setIsSticked(true);
         }
         getEditedEntity().setMessage("Отличного дня :)");
         closeModeration();
