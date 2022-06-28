@@ -42,7 +42,7 @@
     <view entity="naklei_Advertiser" name="advertiser-view" extends="_local" systemProperties="true">
         <property name="logo" view="_minimal"/>
     </view>
-    <view entity="naklei_AdvertisementDriver" name="advertisementDriver-view" extends="_local">
+    <view entity="naklei_AdvertisementDriver" name="advertisementDriver-view" extends="_local" systemProperties="true">
         <property name="driver" view="driver-view">
         </property>
         <property name="routes" view="_base">
@@ -230,7 +230,7 @@
             <property name="code"/>
         </property>
     </view>
-    <view entity="naklei_Moderation" name="moderation-edit" extends="_local">
+    <view entity="naklei_Moderation" name="moderation-edit" extends="_local" systemProperties="true">
         <property name="moderator" view="_base"/>
         <property name="photos" view="_minimal"/>
         <property name="advertisementDriver" view="advertisementDriver-edit">
@@ -271,7 +271,8 @@
         <property name="assignedUser" view="_minimal"/>
         <property name="advertisementDriver" view="_minimal"/>
     </view>
-    <view entity="naklei_AdvertisementDriver" name="advertisementDriver-edit" extends="advertisementDriver-view">
+    <view entity="naklei_AdvertisementDriver" name="advertisementDriver-edit" extends="advertisementDriver-view"
+    >
     </view>
     <view entity="naklei_Visit" name="visit-edit" extends="_local">
         <property name="assignedUser" view="_minimal">
