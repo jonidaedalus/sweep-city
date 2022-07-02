@@ -432,7 +432,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
         for (AdvertisementDriver advDriver : stickedAdvDrivers) {
             if (advDriver.getStickedWithinPeriod() != null && advDriver.getStickedWithinPeriod()) {
-                spentAmount = spentAmount.add(advDriver.getPurpose().getPastingCost());
+                spentAmount = spentAmount.add(advDriver.getPurpose().getRewardAmount());
                 rewardedCars++;
             }
         }
