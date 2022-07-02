@@ -11,7 +11,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@Table(name = "NAKLEI_ROUTE")
+@Table(name = "NAKLEI_ROUTE", indexes = {
+        @Index(name = "IDX_NAKLEI_ROUTE", columnList = "ADVERTISEMENT_DRIVER_ID")
+})
 @Entity(name = "naklei_Route")
 @NamePattern("%s|points")
 public class Route extends StandardEntity {
