@@ -55,7 +55,7 @@ public class ModerationBrowse extends StandardLookup<Moderation> {
             return null;
         });
 
-        if (userSessionSource.getUserSession().getRoles().contains(ADVERTISER_EMPLOYEE)){
+        if (userSessionSource.getUserSession().getRoles().contains(ADVERTISER_EMPLOYEE)) {
             ExtUser user = (ExtUser) userSessionSource.getUserSession().getUser();
             user = dataManager.reload(user, "advertiser-user-view");
             if (user.getAdvertiser() != null) {
