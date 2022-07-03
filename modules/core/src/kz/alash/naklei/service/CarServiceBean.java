@@ -51,7 +51,7 @@ public class CarServiceBean implements CarService {
     public DClass getCarClassByModelAndYear(DModel model, int year) {
         try {
             return dataManager.load(DClass.class)
-                    .query("select a.classs from naklei_DCarClassification a where a.model= :model and a.firstYear <= :year and a.lastYear > :year")
+                    .query("select a.classs from naklei_DCarClassification a where a.model= :model and a.firstYear <= :year and a.lastYear >= :year")
                     .parameter("model", model)
                     .parameter("year", year)
                     .view("dClass-view")
