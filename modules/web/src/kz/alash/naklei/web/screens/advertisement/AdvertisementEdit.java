@@ -6,6 +6,7 @@ import com.haulmont.addon.maps.web.gui.components.layer.HeatMapLayer;
 import com.haulmont.cuba.core.entity.KeyValueEntity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.PersistenceHelper;
+import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.core.global.ValueLoadContext;
 import com.haulmont.cuba.gui.*;
 import com.haulmont.cuba.gui.actions.list.CreateAction;
@@ -43,6 +44,7 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import static kz.alash.naklei.ConstantsRole.ADVERTISER_EMPLOYEE;
 import static kz.alash.naklei.entity.Advertisement.DAYS_PER_MONTH;
 
 @UiController("naklei_Advertisement.edit")
@@ -163,6 +165,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     private TextField<String> distanceCostsField;
     @Inject
     private TextField<String> rewardCostsField;
+    @Inject
+    private UserSessionSource userSessionSource;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -191,6 +195,20 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                                 )
                 )
         );
+
+        //убираем отображение контактов водителя для рекламодателя
+        changeAdvertiserScreen();
+    }
+
+    private void changeAdvertiserScreen() {
+        if (isAdvertiser()) {
+            advertisementDriversTable.getColumn("driver").setValueProvider(advertisementDriver -> advertisementDriver.getDriver().getUser().getName());
+            advertisementDriversTable.getActionNN("view").setVisible(false);
+        }
+    }
+
+    private boolean isAdvertiser() {
+        return userSessionSource.getUserSession().getRoles().contains(ADVERTISER_EMPLOYEE);
     }
 
     @Subscribe("map")
@@ -286,7 +304,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         }
         imageTabSheet.getTab("advertiserInfoTab").setCaption(getEditedEntity().getAdvertiser().getFullName());
 
-        if(getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
+        if (getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
             getEditedEntity().getPurposes().forEach(advPurpose -> {
                 VBoxLayout tab = uiComponents.create(VBoxLayout.NAME);
                 tab.setMargin(true, false, false,false);
@@ -310,10 +328,10 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                 checkoutBtn.setCaption("mockup");
                 tab.add(checkoutBtn);
                 checkoutBtn.addClickListener(clickEvent -> {
-                   if(clickEvent.getButton().getCaption() != null && clickEvent.getButton().getCaption().equals("mockup")){
+                   if (clickEvent.getButton().getCaption() != null && clickEvent.getButton().getCaption().equals("mockup")){
                        image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getMaket());
                        checkoutBtn.setCaption("наклейка");
-                   }else{
+                   } else {
                        image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getSticker());
                        checkoutBtn.setCaption("mockup");
                    }
@@ -785,7 +803,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                     .withScreenClass(AdvPurposeEdit.class)
                     .withLaunchMode(OpenMode.DIALOG)
                     .build();
-        if(numberOfDaysBetweenStartAndEnd == null){
+        if (numberOfDaysBetweenStartAndEnd == null){
             log.error("Кол-во дней пустые");
             return;
         }
@@ -827,7 +845,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
     @Subscribe("advertisementDriversTable.view")
     public void onAdvertisementDriversTableView(Action.ActionPerformedEvent event) {
-        if(advertisementDriversTable.getSingleSelected() == null) return;
+        if (advertisementDriversTable.getSingleSelected() == null) return;
+        if (isAdvertiser()) return;
 
         CarEdit viewScreen =
                 screenBuilders.editor(Car.class, this)
@@ -847,7 +866,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         //Выбрать можно тока одну рекл кампанию
         Set<AdvPurpose> selectedPurposes = event.getSelected();
         AdvPurpose purpose = selectedPurposes.stream().findFirst().orElse(null);
-        if(purpose != null){
+        if (purpose != null){
             AdvPuproseShowFragment advPurposeShowFragment = fragments.create(this, AdvPuproseShowFragment.class);
             advPurposeShowFragment.setAdvPurposeParam(purpose);
             selectedPurposeInfoVbox.removeAll();

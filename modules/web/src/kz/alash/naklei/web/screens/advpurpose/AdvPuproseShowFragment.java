@@ -2,6 +2,7 @@ package kz.alash.naklei.web.screens.advpurpose;
 
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.PersistenceHelper;
+import com.haulmont.cuba.core.global.UserSessionSource;
 import com.haulmont.cuba.gui.ScreenBuilders;
 import com.haulmont.cuba.gui.components.Action;
 import com.haulmont.cuba.gui.components.Label;
@@ -20,6 +21,8 @@ import kz.alash.naklei.web.screens.car.CarEdit;
 
 import javax.inject.Inject;
 import java.util.List;
+
+import static kz.alash.naklei.ConstantsRole.ADVERTISER_EMPLOYEE;
 
 @UiController("naklei_AdvPuproseShowFragment")
 @UiDescriptor("adv-puprose-show-fragment.xml")
@@ -46,6 +49,8 @@ public class AdvPuproseShowFragment extends ScreenFragment {
     private Table<AdvertisementDriver> purposeDriversTable;
     @Inject
     private ScreenBuilders screenBuilders;
+    @Inject
+    private UserSessionSource userSessionSource;
 
 
     public void setAdvPurposeParam(AdvPurpose advPurpose){
@@ -54,6 +59,7 @@ public class AdvPuproseShowFragment extends ScreenFragment {
         advPurposeDc.setItem(advPurpose);
 
         purposeDriversDl.setParameter("purpose", advPurpose);
+        changeAdvertiserScreen();
         purposeDriversDl.load();
 
 
@@ -70,10 +76,21 @@ public class AdvPuproseShowFragment extends ScreenFragment {
         carAmountLabel.setValue(carAmount);
     }
 
+    private void changeAdvertiserScreen() {
+        if (isAdvertiser()) {
+            purposeDriversTable.getColumn("driver").setValueProvider(advertisementDriver -> advertisementDriver.getDriver().getUser().getName());
+            purposeDriversTable.getActionNN("view").setVisible(false);
+        }
+    }
+
+    private boolean isAdvertiser() {
+        return userSessionSource.getUserSession().getRoles().contains(ADVERTISER_EMPLOYEE);
+    }
+
     @Subscribe("purposeDriversTable.view")
     public void onPurposeDriversTableView(Action.ActionPerformedEvent event) {
-        if(purposeDriversTable.getSingleSelected() == null) return;
-
+        if (purposeDriversTable.getSingleSelected() == null) return;
+        if (isAdvertiser()) return;
         CarEdit viewScreen =
                 screenBuilders.editor(Car.class, this)
                         .withScreenClass(CarEdit.class)

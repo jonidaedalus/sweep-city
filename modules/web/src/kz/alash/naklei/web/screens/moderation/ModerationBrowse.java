@@ -64,6 +64,8 @@ public class ModerationBrowse extends StandardLookup<Moderation> {
                 params.put("advertiser", user.getAdvertiser());
                 params.put("type", EModerationType.START);
                 moderationsDl.setParameters(params);
+                moderationsTable.getColumn("advertisementDriver.driver").setValueProvider(moderation ->
+                        moderation.getAdvertisementDriver().getDriver().getUser().getName());
             }
         }
     }
