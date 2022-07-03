@@ -24,6 +24,10 @@ public class ExtUser extends User {
     @Column(name = "PHONE_NUMBER", unique = true, length = 20)
     private String phoneNumber;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "ADVERTISER_ID")
+    private Advertiser advertiser;
+
     @Column(name = "APPLE_ID")
     @Lob
     private String appleID;
@@ -37,6 +41,14 @@ public class ExtUser extends User {
 
     @Column(name = "FCM_TOKEN")
     private String fcmToken;
+
+    public Advertiser getAdvertiser() {
+        return advertiser;
+    }
+
+    public void setAdvertiser(Advertiser advertiser) {
+        this.advertiser = advertiser;
+    }
 
     public String getAppleID() {
         return appleID;

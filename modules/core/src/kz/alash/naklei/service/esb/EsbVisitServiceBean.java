@@ -75,7 +75,7 @@ public class EsbVisitServiceBean implements EsbVisitService {
             LocalDateTime visitStart = request.getVisitStart().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
             LocalDateTime visitEnd;
 
-            if(advertisementDriver == null)
+            if (advertisementDriver == null)
                 throw new Exception("Не найден водитель рекл. кампании");
 
             Integer pastingTime = advertisementDriver.getPurpose().getPastingTime();

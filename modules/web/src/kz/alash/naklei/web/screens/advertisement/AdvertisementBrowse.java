@@ -6,17 +6,17 @@ import com.haulmont.cuba.gui.UiComponents;
 import com.haulmont.cuba.gui.components.Component;
 import com.haulmont.cuba.gui.components.Filter;
 import com.haulmont.cuba.gui.components.TextField;
+import com.haulmont.cuba.gui.model.CollectionLoader;
 import com.haulmont.cuba.gui.screen.*;
 import kz.alash.naklei.entity.AdvPurpose;
 import kz.alash.naklei.entity.Advertisement;
 import kz.alash.naklei.entity.AdvertisementDriver;
+import kz.alash.naklei.entity.ExtUser;
 
 import javax.inject.Inject;
 
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static kz.alash.naklei.ConstantsRole.ADVERTISER_EMPLOYEE;
 
@@ -33,10 +33,18 @@ public class AdvertisementBrowse extends StandardLookup<Advertisement> {
     private DataManager dataManager;
     @Inject
     private UiComponents uiComponents;
+    @Inject
+    private CollectionLoader<Advertisement> advertisementsDl;
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
-        if(userSessionSource.getUserSession().getRoles().contains(ADVERTISER_EMPLOYEE)){
+        if (userSessionSource.getUserSession().getRoles().contains(ADVERTISER_EMPLOYEE)){
+            ExtUser user = (ExtUser) userSessionSource.getUserSession().getUser();
+            user = dataManager.reload(user, "advertiser-user-view");
+            if (user.getAdvertiser() != null) {
+                advertisementsDl.setQuery("select e from naklei_Advertisement e where e.advertiser = :advertiser");
+                advertisementsDl.setParameter("advertiser", user.getAdvertiser());
+            }
             filter.setVisible(false);
         }
     }

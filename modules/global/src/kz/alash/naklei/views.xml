@@ -446,4 +446,7 @@
             <property name="maxPointPerDay"/>
         </property>
     </view>
+    <view entity="naklei_ExtUser" name="advertiser-user-view" extends="_local">
+        <property name="advertiser" view="_minimal"/>
+    </view>
 </views>

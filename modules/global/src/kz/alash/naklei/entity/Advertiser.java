@@ -7,7 +7,14 @@ import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
 import com.haulmont.cuba.core.global.DeletePolicy;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
@@ -44,6 +51,17 @@ public class Advertiser extends StandardEntity {
     @Column(name = "FULL_NAME", nullable = false, length = 75)
     @NotNull
     private String fullName;
+
+    @OneToOne(fetch = FetchType.LAZY, mappedBy = "advertiser")
+    private ExtUser extUser;
+
+    public ExtUser getExtUser() {
+        return extUser;
+    }
+
+    public void setExtUser(ExtUser extUser) {
+        this.extUser = extUser;
+    }
 
     public String getDesc() {
         return desc;
