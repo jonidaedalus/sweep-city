@@ -151,8 +151,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     @Inject
     private TextField<String> statDistanceTextField;
     private BigDecimal totalPoints;
-    @Inject
-    private TextField<String> statPointsTextField;
+//    @Inject
+//    private TextField<String> statPointsTextField;
     @Inject
     private TextField<String> statOTSTextField;
     @Inject
@@ -228,18 +228,18 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         totalOts = BigDecimal.ZERO;
         totalPoints = BigDecimal.ZERO;
 
-        if(statRoutes != null && statRoutes.size() > 0){
+        if (statRoutes != null && statRoutes.size() > 0){
             totalOts = BigDecimal.valueOf(statRoutes.stream().filter(route -> route.getOts() != null).mapToDouble(Route::getOts).sum());
             totalDistance = BigDecimal.valueOf(statRoutes.stream().filter(route -> route.getDistance() != null).mapToDouble(Route::getDistance).sum());
         }
 
         statDistanceTextField.setValue(totalDistance.toString());
-        statPointsTextField.setValue(totalPoints.toString());
+//        statPointsTextField.setValue(totalPoints.toString());
         statOTSTextField.setValue(totalOts.toString());
         BigDecimal CPM = BigDecimal.ZERO;
 
 
-        if(totalOts.compareTo(BigDecimal.ZERO) != 0)
+        if (totalOts.compareTo(BigDecimal.ZERO) != 0)
             CPM = totalPoints.divide(totalOts, RoundingMode.HALF_UP);
 
         statCPMTextField.setValue(CPM.toString());

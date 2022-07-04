@@ -134,7 +134,7 @@
                                         <vbox box.expandRatio="0.3" spacing="true" width="100%">
                                             <lookupField id="chartTypeLookupField" caption="График" nullOptionVisible="false" width="100%"/>
                                             <textField id="statDistanceTextField" caption="Пробег(км.)" stylename="borderless" editable="false" width="100%"/>
-                                            <textField id="statPointsTextField" caption="Расход(тг.)" stylename="borderless" editable="false" width="100%"/>
+<!--                                            <textField id="statPointsTextField" caption="Расход(тг.)" stylename="borderless" editable="false" width="100%"/>-->
                                             <textField id="statOTSTextField" caption="OTS" stylename="borderless" editable="false" width="100%"/>
                                             <textField id="statCPMTextField" caption="CPM(тг.)" stylename="borderless" editable="false" width="100%"/>
 
