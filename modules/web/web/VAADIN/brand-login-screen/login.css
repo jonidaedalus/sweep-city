@@ -7,14 +7,16 @@
 }
 
 .c-login-wrapper .c-login-field {
-  height: 40px !important;
+  height: 53px !important;
   width: 350px !important;
   border-radius: 0px !important;
 }
 
 .c-login-wrapper .c-login-field.password-field {
-  border-bottom-left-radius: 6px !important;
-  border-bottom-right-radius: 6px !important;
+  border-radius: 8px !important;
+  margin-bottom: 23px !important;
+  border: none !important;
+  background-color: #e7efff !important;
   margin-top: -15px;
 }
 
@@ -27,8 +29,10 @@
 }
 
 .c-login-wrapper .c-login-field.username-field {
-  border-top-left-radius: 6px !important;
-  border-top-right-radius: 6px !important;
+  border-radius: 8px !important;
+  margin-bottom: 23px !important;
+  border: none !important;
+  background-color: #e7efff !important;
 }
 
 .c-login-wrapper .c-login-button {

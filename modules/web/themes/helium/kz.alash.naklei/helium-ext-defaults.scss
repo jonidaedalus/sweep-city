@@ -1,2 +1,230 @@
 /* Override global theme constants or define new ones here */
 $v-font-family: 'Montserrat';
+
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-panel .c-sidemenu > .c-sidemenu-item {
+  color: #000;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-panel > .c-sidemenu {
+  background-color: #fff;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-panel .c-sidemenu > .c-sidemenu-item {
+  font-size: 15px;
+  font-weight: 600;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-title {
+  height: 52px;
+  padding: 0 10px;
+  background-color: #fff8de;
+}
+.v-label.v-widget.c-user-timezone-label.v-label-c-user-timezone-label.v-label-undef-w {
+  display: none;
+}
+.v-button.v-widget.c-sidemenu-collapse-button.v-button-c-sidemenu-collapse-button {
+  display: none;
+}
+.v-csslayout.v-layout.v-widget.c-sidemenu-controls.v-csslayout-c-sidemenu-controls.v-has-width {
+  background-color: #e6edfc;
+}
+.v-label.v-widget.c-user-select-label.v-label-c-user-select-label.v-label-undef-w {
+  color: #000;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-controls {
+  height: 60px;
+  padding-right: 22px;
+}
+.v-button.v-widget.c-logout-button.v-button-c-logout-button.icon.v-button-icon.v-button-empty-caption {
+  font-size: 22px;
+  color: #000;
+}.v-button.v-widget.c-settings-button.v-button-c-settings-button.v-button-empty-caption.icon {
+   font-size: 22px;
+   color: #000;
+ }
+.c-app-workarea.v-layout.v-widget.c-workarea.c-app-workarea-c-workarea.c-app-workarea-tabbed.c-app-workarea-c-app-workarea-tabbed.c-app-workarea-initial.c-app-workarea-c-app-workarea-initial.v-has-height {
+  background-color: #f1f4fa;
+}
+.v-label.v-widget.c-app-title.v-label-c-app-title.v-label-undef-w {
+  display: none;
+}
+.v-csslayout.v-layout.v-widget.c-sidemenu-controls.v-csslayout-c-sidemenu-controls.v-has-width {
+  height: 60px;
+}
+.v-button.v-widget.icon-only.v-button-icon-only.secondary.v-button-secondary.dark-switch.v-button-dark-switch.v-button-empty-caption.icon {
+  display: none;
+}
+.c-sidemenu.v-widget.v-has-width {
+  padding-top: 60px;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-container {
+  width: 286px !important;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-panel {
+  width: 286px !important;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-main-tabsheet > .v-tabsheet-content, .helium .c-sidemenu-layout.v-csslayout .c-main-tabsheet > .v-tabsheet-content > .v-tabsheet-tabsheetpanel, .helium .c-sidemenu-layout.v-csslayout .c-main-tabsheet > .v-tabsheet-content > .v-tabsheet-tabsheetpanel > .v-scrollable {
+  background: #f1f4fa;
+}
+.c-app-window-wrap.v-layout.v-widget.c-app-tabbed-window.c-app-window-wrap-c-app-tabbed-window.v-has-width.v-has-height {
+  padding: 35px 28px !important;
+}
+.helium .v-table {
+  color: #06152b;
+  font-weight: 600;
+  padding: 20px;
+  border-radius: 10px;
+}
+.helium .v-table .v-table-header-wrap, .helium .v-table .v-table-footer-wrap, .helium .v-table .v-table-header-drag {
+  border: 0 !important;
+}
+.helium .v-table .v-table-body {
+  border-top: 1px solid #e8e9f9 !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+.helium .v-table-cell-wrapper {
+  padding: 8px 16px !important;
+}
+.helium .v-table .v-table-cell-content {
+  font-size: 15px !important;
+  height: 54px !important;
+}
+.helium .v-table-row-odd {
+  background-color: #f1f4fa !important;
+}
+.helium .v-table .v-table-header table, .helium .v-table .v-table-footer table, .helium .v-table .v-table-table {
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+}
+.helium .v-verticallayout-well, .helium .v-horizontallayout-well {
+  background: #fff !important;
+  border: none !important;
+  color: #000 !important;
+}
+.helium .v-verticallayout-card, .helium .v-horizontallayout-card {
+  background: #fff !important;
+  border: none !important;
+  color: #000 !important;
+}
+.helium .c-tree-composition .c-tree-wrapper {
+  border: 1px solid #e9e9e9 !important;
+  border-radius: 6px;
+}
+.helium .c-groupbox {
+  border: 1px solid #e9e9e9 !important;
+  color: #000 !important;
+}
+.helium .c-groupbox-caption {
+  padding: 0 16px 0 16px !important;
+  padding-left: 16px !important;
+  line-height: 48px !important;
+  font-size: 14px !important;
+  color: #000 !important;
+}
+.c-headline-container.v-layout.v-widget.v-has-width {
+  display: none !important;
+}
+.helium .v-tree8-expander {
+  display: none !important;
+}
+.helium .v-table .c-grouptable-group-divider-header + .v-table-header-cell-asc .v-table-caption-container, .helium .v-table .c-grouptable-group-divider-header + .v-table-header-cell-desc .v-table-caption-container, .helium .v-table .c-grouptable-group-divider-header + .v-table-header-cell .v-table-caption-container {
+  border-left: none !important;
+}
+.v-horizontallayout.v-layout.v-horizontal.v-widget.v-has-width {
+  padding: 10px 13px !important;;
+}
+.helium .v-button {
+  font-size: 15px !important;
+}
+.c-login-wrapper .c-login-button:hover {
+  border: none !important;
+  background: #FFA27D !important;
+  color: #e8eff5 !important;
+}
+.v-label.c-login-welcome-label {
+  color: #000 !important;
+}
+.v-slot.v-slot-link.v-align-right.v-align-bottom {
+  display: none !important;
+}
+.c-login-wrapper .c-login-field {
+  border-radius: 8px !important;
+  margin-bottom: 23px !important;
+  border: none !important;
+  background-color: #e7efff !important;
+}
+.c-login-wrapper .c-login-field {
+  height: 53px !important;
+  width: 350px !important;
+}
+.v-slot-inline-icon .v-caption-c-login-field.v-caption-inline-icon span.v-icon {
+  color: #000 !important;
+  font-size: 19px !important;
+  line-height: 52px !important;
+}
+.helium .v-textfield.inline-icon {
+  padding-left: 44px !important;
+}
+.v-button.v-widget.c-login-button.v-button-c-login-button {
+  height: 53px !important;
+  background: #FF8144 !important;
+  border: none !important;
+}
+:root .helium .v-checkbox > input ~ label::before, :root .helium .v-checkbox > input ~ label::after {
+  height: 20px !important;
+  width: 20px !important;
+}
+.helium .v-tabsheet-tabcontainer::before {
+  border-top: none;
+}
+.helium .v-tabsheet.c-main-tabsheet.framed.padded-tabbar > .v-tabsheet-tabcontainer > .v-tabsheet-tabs {
+  padding: 3px;
+}
+.helium .v-tabsheet.c-main-tabsheet.framed.padded-tabbar > .v-tabsheet-tabcontainer .v-tabsheet-tabitem-selected .v-caption.v-caption {
+  border-bottom-color: #0f0f0f;
+  color: #010101;
+}
+.helium .c-groupbox {
+  color: #000 !important;
+}
+.helium .c-generic-filter .filter-control-no-border {
+  height: 53px !important;
+}
+.helium .v-button-link, .helium .v-button.link.c-primary-action {
+  color: #4e4e4e !important;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-panel .c-sidemenu > .c-sidemenu-item {
+  padding: 12px 40px 0 18px !important;
+}
+.v-slot.v-slot-c-login-welcome-label.v-align-center.v-align-middle {
+  margin-bottom: 70px;
+}
+.c-sidemenu-item-caption {
+  color: #000;
+}
+.helium .c-sidemenu-panel:not(.collapsed) .c-sidemenu-item-header .c-sidemenu-item-wrap::after {
+  font-family: FontAwesome;
+  content: "\f107" !important;
+  margin-left: -2.8em;
+}
+.helium .v-tabsheet-tabcontainer::before {
+  border-top: none !important;
+}
+.helium .v-tabsheet-framed > .v-tabsheet-tabcontainer .v-caption {
+  padding: 5px 13px !important;
+}
+.helium .c-sidemenu-layout.v-csslayout .c-sidemenu-title {
+  height: 44px !important;
+}
+.helium .v-tabsheet.c-main-tabsheet > .v-tabsheet-tabcontainer .v-tabsheet-caption-close {
+  top: 16px !important;
+  right: -4px !important;
+}
+.c-groupbox.v-widget.c-panel-groupbox.c-groupbox-c-panel-groupbox.c-generic-filter.c-groupbox-c-generic-filter.v-has-width.collapsed {
+  background-color: #fff;
+}
+.v-horizontallayout.v-layout.v-horizontal.v-widget.v-has-width {
+  padding: 0px 13px !important;
+}
+helium .c-groupbox-content {
+  padding: 0 16px 25px 0px !important;
+  padding-left: 4px !important;
+}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <menu-config xmlns="http://schemas.haulmont.com/cuba/menu.xsd">
-    <item id="advertisers" icon="kz.alash.naklei/menu/advertisers.svg" insertBefore="administration" screen="naklei_Advertiser.browse" caption="mainMsg://menu_config.naklei_Advertiser.browse"/>
+    <item id="advertisers" icon="kz.alash.naklei/menu/a.svg" insertBefore="administration" screen="naklei_Advertiser.browse" caption="mainMsg://menu_config.naklei_Advertiser.browse"/>
     <item id="advertisements" icon="kz.alash.naklei/menu/advertising-companies.svg" insertBefore="administration" screen="naklei_Advertisement.browse" caption="mainMsg://menu_config.naklei_Advertisement.browse"/>
     <item id="cars" icon="kz.alash.naklei/menu/cars.svg" insertBefore="administration" screen="naklei_Car.browse" caption="mainMsg://menu_config.naklei_Cars.browse"/>
     <item id="moderations" icon="kz.alash.naklei/menu/moderation.svg" insertBefore="administration" screen="naklei_Moderation.browse" caption="mainMsg://menu_config.naklei_Moderation.browse"/>

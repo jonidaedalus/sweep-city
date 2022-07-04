@@ -14,7 +14,7 @@
                 <initialLayout>
                     <vbox spacing="true">
                         <image align="MIDDLE_CENTER" scaleMode="FILL" height="100%" width="100%">
-                            <theme path="branding/bg_sweep.png"/>
+<!--                            <theme path="branding/bg_sweep.png"/>-->
                         </image>
 <!--                        <dashboard:dashboard id="mainDashboard" code="main-dashboard" timerDelay="60" width="100%"/>-->
                     </vbox>
