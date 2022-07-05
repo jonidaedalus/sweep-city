@@ -462,20 +462,28 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         for (AdvPurpose advPurpose : advPurposes) {
             long operatedDays = DateUtility.differenceBetween(advertisement.getEndDate(), advertisement.getStartDate());
             int maxCars = advPurpose.getCarAmount();
+//            point cost
             DPointCost thePointCost = dataManager.load(DPointCost.class).view("dPointCost-view").list().stream()
                     .filter(pointCost -> pointCost.getCarClass().equals(advPurpose.getCarClass())
                             && pointCost.getStickerType().equals(advPurpose.getStickerType()))
                     .findFirst()
                     .orElse(null);
+//            maximum cost
             BigDecimal theoreticalPurposeCost =
                     thePointCost.getAdvertiserCost()
                             .multiply(BigDecimal.valueOf(maxCars * operatedDays))
                             .multiply(BigDecimal.valueOf(advPurpose.getCarClass().getMaxPointPerDay()));
-            BigDecimal actualPurposeCost =
-                    advertisementDriversDl.getContainer().getItems()
-                            .stream()
-                            .map(AdvertisementDriver::getEarnedMoney)
-                            .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+            BigDecimal actualPurposeCost = BigDecimal.ZERO;
+            List<AdvertisementDriver> advList = advertisementDriversDl.getContainer().getItems();
+            for (AdvertisementDriver advertisementDriver : advList) {
+//                add = earned money by driver * advertiser point cost / driver point cost
+                BigDecimal add = advertisementDriver.getEarnedMoney()
+                        .divide(thePointCost.getDriverCost(), RoundingMode.HALF_UP)
+                        .multiply(thePointCost.getAdvertiserCost());
+                actualPurposeCost = actualPurposeCost.add(add);
+            }
+
             distanceCostsField.setValue("Пробег " + actualPurposeCost.intValue() + "/" + theoreticalPurposeCost.intValue());
         }
     }
