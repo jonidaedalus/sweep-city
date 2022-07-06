@@ -60,7 +60,11 @@ public class CarServiceBean implements CarService {
         catch (Exception e) {
             log.error(e.getMessage(), e);
         }
-        return null;
+        return dataManager.load(DClass.class)
+                .query("select d from naklei_DClass d where d.code = :code")
+                .parameter("code", "ECONOM")
+                .view("dClass-view")
+                .one();
     }
 
 }

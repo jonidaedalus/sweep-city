@@ -98,16 +98,8 @@ public class RouteServiceBean implements RouteService {
 
             advertisementDriver.setTotalRun(advertisementDriver.getTotalRun() + routeRequest.getDistance());
 
-            //Высчитываем колличество поинтов // уже не нужно считать, берем с мобилки
-//            Double points = calculatePoints(advertisement.getCity(), line);
             //обновляем поинты для каждой из сущностей
             route.setPoints(routeRequest.getPoints());
-//            if (driver.getEarnedMoney() == null)
-//                driver.setEarnedMoney(BigDecimal.ZERO);
-//            if (advertisementDriver.getEarnedMoney() == null)
-//                advertisementDriver.setEarnedMoney(BigDecimal.ZERO);
-//            if (driver.getCurrentMoney() == null)
-//                driver.setCurrentMoney(BigDecimal.ZERO);
 
             driver.setCurrentMoney(driver.getCurrentMoney().add(BigDecimal.valueOf(routeRequest.getPoints())));
             driver.setEarnedMoney(driver.getEarnedMoney().add(BigDecimal.valueOf(routeRequest.getPoints())));
@@ -122,6 +114,8 @@ public class RouteServiceBean implements RouteService {
             context.addInstanceToCommit(advertisementDriver);
 
             dataManager.commit(context);
+
+            log.info("{} created a route with {} km, {} money, ", advertisementDriver, routeRequest.getDistance(), routeRequest.getPoints());
 
             result.setDriverCurrentPoints(driver.getCurrentMoney().doubleValue());
             result.setDistance(routeRequest.getDistance());
