@@ -44,7 +44,7 @@
                     <vbox id="rightVbox" margin="true" height="100%" box.expandRatio="0.6" spacing="true">
                         <vbox spacing="true">
                             <hbox id="carAmountHbox" spacing="true" width="100%">
-                                <label value="Количество машин" align="MIDDLE_LEFT" />
+                                <label value="Количество авто" align="MIDDLE_LEFT" />
                                 <label id="carAmountLabel" stylename="bold h2" align="MIDDLE_RIGHT"/>
                             </hbox>
                             <hbox spacing="true" width="100%">
@@ -52,7 +52,7 @@
                                 <label dataContainer="advPurposeDc" property="budget" stylename="bold h2" align="MIDDLE_RIGHT"/>
                             </hbox>
                             <hbox id="allModelsLabel" spacing="true" width="100%">
-                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.carModel" align="MIDDLE_LEFT" contextHelpText="Только выбранного класса машин"/>
+                                <label value="msg://kz.alash.naklei.entity/AdvPurpose.carModel" align="MIDDLE_LEFT" contextHelpText="Только выбранного класса авто"/>
                                 <label id="allCarModel" value="Все" stylename="bold h2" align="MIDDLE_RIGHT"/>
                                 <label id="carModelLabel" dataContainer="advPurposeDc" property="carModel" stylename="bold h2" align="MIDDLE_RIGHT"/>
                             </hbox>
@@ -77,7 +77,7 @@
                     </vbox>
                 </hbox>
             </tab>
-            <tab id="purposeCarsTab" caption="Машины" expand="purposeDriversTable" spacing="true" margin="true">
+            <tab id="purposeCarsTab" caption="Автомобили" expand="purposeDriversTable" spacing="true" margin="true">
 
                 <table id="purposeDriversTable"
                        dataContainer="purposeDriversDc"

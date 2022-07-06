@@ -7,7 +7,7 @@ import javax.annotation.Nullable;
 public enum EAdvertisementMenu {
 
     PURPOSE("purposeMenu", "Цели", "purposeGroupBox"),
-    CARS("carsMenu", "Машины", "carsGroupBox"),
+    CARS("carsMenu", "Авто", "carsGroupBox"),
     STATISTICS("statisticsMenu", "Статистика", "statisticGroupBox");
 
     private final String id;

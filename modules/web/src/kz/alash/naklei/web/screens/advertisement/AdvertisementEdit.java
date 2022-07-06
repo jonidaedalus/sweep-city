@@ -742,7 +742,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             if(getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
                 dialogs.createOptionDialog()
                         .withCaption("Изменились даты рекламной кампании")
-                        .withMessage("Пересчитать кол-во машин в созданных целях?")
+                        .withMessage("Пересчитать кол-во авто в созданных целях?")
                         .withType(Dialogs.MessageType.CONFIRMATION)
                         .withActions(
                                 new DialogAction(DialogAction.Type.OK)
@@ -799,7 +799,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         //
 
         notifications.create()
-                .withCaption("Изменены кол-во машин")
+                .withCaption("Изменены кол-во авто")
                 .show();
     }
 
@@ -889,7 +889,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             if(getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
                 dialogs.createOptionDialog()
                         .withCaption("Изменились даты рекламной кампании")
-                        .withMessage("Пересчитать кол-во машин в созданных целях?")
+                        .withMessage("Пересчитать кол-во авто в созданных целях?")
                         .withType(Dialogs.MessageType.CONFIRMATION)
                         .withActions(
                                 new DialogAction(DialogAction.Type.OK)
@@ -919,7 +919,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             if(getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
                 dialogs.createOptionDialog()
                         .withCaption("Изменились даты рекламной кампании")
-                        .withMessage("Пересчитать кол-во машин в созданных целях?")
+                        .withMessage("Пересчитать кол-во авто в созданных целях?")
                         .withType(Dialogs.MessageType.CONFIRMATION)
                         .withActions(
                                 new DialogAction(DialogAction.Type.OK)

@@ -55,11 +55,15 @@ public class DriverServiceBean implements DriverService {
         try {
             CommitContext context = new CommitContext();
             //TODO обработать валидацию(MethodParametersValidationException) и написать тест на postman
+            log.info("Trying to register {}", request.getPhoneNumber());
             ExtUser user = registrationService.registerUser(request.getPhoneNumber(), request.getPassword(), "Driver", "DRIVER",
                     request.getCityCode(), request.getFullName(), request.getAppleID(), context);
             driverRegistration(user, request, context);
             //save everything into database
             dataManager.commit(context);
+
+            log.info("Registered {}", request.getPhoneNumber());
+
             response.setCode("0");
             response.setMessage("Успешно зарегистрирован");
         } catch (Exception e) {
@@ -215,6 +219,7 @@ public class DriverServiceBean implements DriverService {
 //        ExtUser extUser = dataManager.load(ExtUser.class).id(userUUID).optional().orElse(null);
 //        if (extUser == null)
 //            extUser = dataManager.create(ExtUser.class);
+        log.info("Registration of driver {}", request.getPhoneNumber());
         Driver driver = dataManager.create(Driver.class);
         Car car = dataManager.create(Car.class);
 
@@ -238,6 +243,7 @@ public class DriverServiceBean implements DriverService {
         context.addInstanceToCommit(car);
 
         //загрузка фотографий машины
+        log.info("Uploading photos of {}", request.getFullName());
         String[] images = request.getCarPhoto();
         if (images != null) {
             for (String image : images) {

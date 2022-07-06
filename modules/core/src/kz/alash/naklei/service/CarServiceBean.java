@@ -62,6 +62,7 @@ public class CarServiceBean implements CarService {
                         .parameter("code", "ECONOM")
                         .view("dClass-view")
                         .one();
+            log.info("Found car class : {}", carClass);
             return carClass;
         }
         catch (Exception e) {

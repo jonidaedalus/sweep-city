@@ -33,6 +33,7 @@
                 <column id="carClass"/>
                 <column id="color"/>
                 <column id="number"/>
+                <column id="createTs" caption="msg://registration-date.caption"/>
             </columns>
             <rowsCount/>
             <buttonsPanel id="buttonsPanel" alwaysVisible="true">

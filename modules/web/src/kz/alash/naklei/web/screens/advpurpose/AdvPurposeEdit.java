@@ -273,7 +273,7 @@ public class AdvPurposeEdit extends StandardEditor<AdvPurpose> {
             notifications
                     .create()
                     .withType(Notifications.NotificationType.ERROR)
-                    .withDescription("Произошла ошибка при подсчете кол-ва машин")
+                    .withDescription("Произошла ошибка при подсчете кол-ва авто")
                     .show();
             return;
         }

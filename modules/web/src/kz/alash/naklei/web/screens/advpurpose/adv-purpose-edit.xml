@@ -68,11 +68,11 @@
             <vbox spacing="true" margin="true">
                 <vbox width="350px" spacing="true" >
                     <hbox id="carAmountHbox" spacing="true" width="100%">
-                        <label value="Количество машин" align="MIDDLE_LEFT" />
+                        <label value="Количество авто" align="MIDDLE_LEFT" />
                         <label id="carAmountLabel" stylename="bold h2"  dataContainer="advPurposeDc" property="carAmount" align="MIDDLE_RIGHT"/>
                     </hbox>
                     <hbox id="allModelsLabel" spacing="true" width="100%">
-                        <label value="Модель машины" align="MIDDLE_LEFT" contextHelpText="Только выбранного класса машин"/>
+                        <label value="Модель авто" align="MIDDLE_LEFT" contextHelpText="Только выбранного класса машин"/>
                         <label value="все" stylename="bold h2" align="MIDDLE_RIGHT"/>
                     </hbox>
                     <hbox id="allColorsLabel" spacing="true" width="100%">
@@ -155,7 +155,7 @@
                     </form>
 
                     <groupBox id="carsGroupBox"
-                              caption="Машины"
+                              caption="Автомобили"
                               expand="purposeDriversTable"
                               spacing="true"
                               width="100%"

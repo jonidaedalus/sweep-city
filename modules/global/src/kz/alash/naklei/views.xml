@@ -75,7 +75,7 @@
             <property name="color" view="_minimal"/>
         </property>
     </view>
-    <view entity="naklei_Car" name="car-view" extends="_local">
+    <view entity="naklei_Car" name="car-view" extends="_local" systemProperties="true">
         <property name="driver" view="_minimal">
             <property name="user" view="_minimal">
                 <property name="phoneNumber"/>
