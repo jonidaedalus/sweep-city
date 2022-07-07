@@ -137,10 +137,10 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     @Inject
     private LookupField<AdvPurpose> statPurposeField;
 
-//    private CanvasLayer.Point labelPoint;
+    //    private CanvasLayer.Point labelPoint;
     private List<Route> statRoutes;
 
-//    @Inject
+    //    @Inject
 //    private GroupBoxLayout advertiserGroupBox;
     @Inject
     private TabSheet imageTabSheet;
@@ -151,7 +151,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     @Inject
     private TextField<String> statDistanceTextField;
     private BigDecimal totalPoints;
-//    @Inject
+    //    @Inject
 //    private TextField<String> statPointsTextField;
     @Inject
     private TextField<String> statOTSTextField;
@@ -171,9 +171,9 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     @Subscribe
     public void onInit(InitEvent event) {
         //Устанавливаем меню(дерево):
-            //Цели
-            //Машины
-            //Сотрудники
+        //Цели
+        //Машины
+        //Сотрудники
         tree.addSelectionListener(selectionEvent ->
                 selectionEvent.getSelected().stream().findFirst().ifPresent(
                         selectedMenu -> tree.getItems().getItems().forEach(
@@ -192,7 +192,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                                     if (getEditedEntity().getStatus().equals(EAdvStatus.IN_PROCESS))
                                         tree.setVisible(false);
                                 }
-                                )
+                        )
                 )
         );
 
@@ -228,7 +228,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         totalOts = BigDecimal.ZERO;
         totalPoints = BigDecimal.ZERO;
 
-        if (statRoutes != null && statRoutes.size() > 0){
+        if (statRoutes != null && statRoutes.size() > 0) {
             totalOts = BigDecimal.valueOf(statRoutes.stream().filter(route -> route.getOts() != null).mapToDouble(Route::getOts).sum());
             totalDistance = BigDecimal.valueOf(statRoutes.stream().filter(route -> route.getDistance() != null).mapToDouble(Route::getDistance).sum());
         }
@@ -255,18 +255,18 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 //                            .setStyles("my-style")));
 
         //Point labelPointJts = (Point) labelPoint.getGeometry();
-       // return
+        // return
     }
 
     @Subscribe
     public void onBeforeShow(BeforeShowEvent event) {
         Advertisement advertisement;
-        if(!PersistenceHelper.isNew(getEditedEntity())){
+        if (!PersistenceHelper.isNew(getEditedEntity())) {
             advertisement = dataManager.reload(getEditedEntity(), "advertisement-edit");
             advertisement = getScreenData().getDataContext().merge(advertisement);
             setEntityToEdit(advertisement);
             advertisementDc.setItem(advertisement);
-        }else{
+        } else {
             advertisement = getEditedEntity();
         }
         LinkedHashMap<Object, Object> graphTypeOptions = new LinkedHashMap<>();
@@ -280,7 +280,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             dateValueDl.load();
         });
 
-        if(advertisement.getName() == null)
+        if (advertisement.getName() == null)
             getEditedEntity().setName("Наименование рекламной кампании");
 
         setTotalBudget();
@@ -298,16 +298,16 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             advRoutesDl.setParameter("drivers", advertisementDriversDl.getContainer().getItems());
             advRoutesDl.load();
 
-            if(advRoutesDl.getContainer().getItems().size() > 0){
+            if (advRoutesDl.getContainer().getItems().size() > 0) {
                 setDataForStatistics(advRoutesDl.getContainer().getItems(), null, null, null);
             }
         }
         imageTabSheet.getTab("advertiserInfoTab").setCaption(getEditedEntity().getAdvertiser().getFullName());
 
-        if (getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
+        if (getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0) {
             getEditedEntity().getPurposes().forEach(advPurpose -> {
                 VBoxLayout tab = uiComponents.create(VBoxLayout.NAME);
-                tab.setMargin(true, false, false,false);
+                tab.setMargin(true, false, false, false);
 
 
                 Image image = uiComponents.create(Image.NAME);
@@ -328,13 +328,13 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                 checkoutBtn.setCaption("mockup");
                 tab.add(checkoutBtn);
                 checkoutBtn.addClickListener(clickEvent -> {
-                   if (clickEvent.getButton().getCaption() != null && clickEvent.getButton().getCaption().equals("mockup")){
-                       image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getMaket());
-                       checkoutBtn.setCaption("наклейка");
-                   } else {
-                       image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getSticker());
-                       checkoutBtn.setCaption("mockup");
-                   }
+                    if (clickEvent.getButton().getCaption() != null && clickEvent.getButton().getCaption().equals("mockup")) {
+                        image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getMaket());
+                        checkoutBtn.setCaption("наклейка");
+                    } else {
+                        image.setSource(FileDescriptorResource.class).setFileDescriptor(advPurpose.getSticker());
+                        checkoutBtn.setCaption("mockup");
+                    }
                 });
 
                 imageTabSheet.addTab(advPurpose.getStickerType().getName() + " наклейка", tab);
@@ -346,13 +346,13 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     }
 
     private void setDataForStatistics(List<Route> routes, AdvPurpose advPurpose, Date dateFrom, Date dateTo) {
-        if(advPurpose != null)
+        if (advPurpose != null)
             routes = routes.stream().filter(route -> route.getAdvertisementDriver().getPurpose().equals(advPurpose)).collect(Collectors.toList());
 
-        if(dateFrom != null)
+        if (dateFrom != null)
             routes = routes.stream().filter(route -> route.getDate().after(dateFrom) || route.getDate().equals(dateFrom)).collect(Collectors.toList());
 
-        if(dateTo != null)
+        if (dateTo != null)
             routes = routes.stream().filter(route -> route.getDate().before(dateTo)).collect(Collectors.toList());
 
         HeatMapOptions options = new HeatMapOptions();
@@ -373,23 +373,25 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         dateValueDl.load();
         createLabelContent();
 
-        heatMapLayer.setDataDelegate(mapLayer -> statRoutes.stream()
-                .flatMap(route -> {
-                    Coordinate[] coordinates = route.getLine().getCoordinates();
-                    GeometryFactory factory = new GeometryFactory();
-                    MultiPoint multiPoint = factory.createMultiPointFromCoords(coordinates);
-                    List<Point> points = new ArrayList<>();
-                    for (int i = 0; i < multiPoint.getNumGeometries(); i++){
-                        Point point = factory.createPoint(multiPoint.getGeometryN(i).getCoordinate());
-                        points.add(point);
+        heatMapLayer.setDataDelegate(mapLayer -> {
+                    Map<Point, Double> result = new HashMap<>();
+                    for (Route route : statRoutes) {
+                        Coordinate[] coordinates = route.getLine().getCoordinates();
+                        GeometryFactory factory = new GeometryFactory();
+                        MultiPoint multiPoint = factory.createMultiPointFromCoords(coordinates);
+                        for (int i = 0; i < multiPoint.getNumGeometries(); i = i + 100) {
+                            Point point = factory.createPoint(multiPoint.getGeometryN(i).getCoordinate());
+                            result.put(point, result.getOrDefault(point, 0D) + 0.001D);
+                        }
                     }
-                    return points.stream();
-                })
-                .collect(Collectors.toMap(point -> point, multiPoint -> 1D, Double::sum)));
+                    return result;
+                }
+        );
 
         map.addLayer(heatMapLayer);
-       // map.addHeatMap(newMap, options);
+        // map.addHeatMap(newMap, options);
     }
+
 
     @Install(to = "menuDl", target = Target.DATA_LOADER)
     private List<KeyValueEntity> menuDlLoadDelegate(ValueLoadContext valueLoadContext) {
@@ -407,15 +409,12 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                     purposeSize = getEditedEntity().getPurposes().size();
                 }
                 name = eMenu.getName() + " (" + purposeSize + ")";
-            }
-
-            else if (eMenu.equals(EAdvertisementMenu.CARS)) {
+            } else if (eMenu.equals(EAdvertisementMenu.CARS)) {
                 List<AdvertisementDriver> advDrivers = advertisementDriversDl.getContainer().getItems();
                 //показываем количество активных машин
                 int advDriversAmount = getActiveCars(advDrivers).size();
                 name = eMenu.getName() + " (" + advDriversAmount + ")";
-            }
-            else {
+            } else {
                 name = eMenu.getName();
                 //показываем статистику
                 List<AdvertisementDriver> advertisementDrivers = advertisementDriversDl.getContainer().getItems();
@@ -510,7 +509,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     private List<AdvertisementDriver> getActiveCars(List<AdvertisementDriver> advertisementDrivers) {
         return advertisementDrivers.stream()
                 .filter(advertisementDriver ->
-                            advertisementDriver.getStatus().equals(EAdvDriverStatus.ACTIVE))
+                        advertisementDriver.getStatus().equals(EAdvDriverStatus.ACTIVE))
                 .collect(Collectors.toList());
     }
 
@@ -521,20 +520,20 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                         (advertisementDriver.getStatus().equals(EAdvDriverStatus.ACTIVE) ||
                                 advertisementDriver.getStatus().equals(EAdvDriverStatus.FINISHED) ||
                                 advertisementDriver.getStatus().equals(EAdvDriverStatus.RESTICK)) &&
-                        advertisementDriver.getStartDate() != null)
+                                advertisementDriver.getStartDate() != null)
                 .collect(Collectors.toList());
     }
 
     @Install(to = "dateValueDl", target = Target.DATA_LOADER)
     private List<KeyValueEntity> dateValueDlLoadDelegate(ValueLoadContext valueLoadContext) {
         List<KeyValueEntity> list = new ArrayList<>();
-        if(statRoutes.size() > 0){
+        if (statRoutes.size() > 0) {
             Map<Date, List<Route>> groupingRoutes = statRoutes.stream().collect(Collectors.groupingBy(route -> new java.sql.Date(route.getDate().getTime())));
             groupingRoutes.forEach((date, routes) -> {
                 KeyValueEntity valueEntity = new KeyValueEntity();
                 valueEntity.setValue("date", date);
 
-                if(chartTypeLookupField.getValue() == null || chartTypeLookupField.getValue().equals(0))
+                if (chartTypeLookupField.getValue() == null || chartTypeLookupField.getValue().equals(0))
                     valueEntity.setValue("value", routes.stream().filter(route -> route.getPoints() != null).mapToDouble(Route::getPoints).sum());
                 else
                     valueEntity.setValue("value", routes.stream().filter(route -> route.getOts() != null).mapToDouble(Route::getOts).sum());
@@ -550,26 +549,26 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         Date startDate = startDateField.getValue();
         Date endDate = endDateField.getValue();
 
-        if(startDate != null && endDate != null){
+        if (startDate != null && endDate != null) {
             long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
             numberOfDaysBetweenStartAndEnd = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS);
 
-            int numberOfMonth = (int) (numberOfDaysBetweenStartAndEnd/DAYS_PER_MONTH);
-            long remainingDays = numberOfDaysBetweenStartAndEnd - (long) numberOfMonth *(DAYS_PER_MONTH);
+            int numberOfMonth = (int) (numberOfDaysBetweenStartAndEnd / DAYS_PER_MONTH);
+            long remainingDays = numberOfDaysBetweenStartAndEnd - (long) numberOfMonth * (DAYS_PER_MONTH);
 
             EContractTime contractLength;
             //Если в разнице будет остаток в днях (месяц - 30 сейчас) тогда она будет 30 дней
             otherContractTimeLabel.setVisible(remainingDays != 0);
-            if(remainingDays != 0){
+            if (remainingDays != 0) {
                 contractLength = EContractTime.OTHER;
 
                 String otherContractTime = "";
-                if(numberOfMonth != 0)
+                if (numberOfMonth != 0)
                     otherContractTime = "Кол-во месяцев: " + numberOfMonth + ". ";
 
                 otherContractTime += "Кол-во дней: " + remainingDays;
                 otherContractTimeLabel.setValue(otherContractTime);
-            }else{
+            } else {
                 contractLength = EContractTime.fromId(numberOfMonth);
             }
 
@@ -580,19 +579,19 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
     @Subscribe(id = "advertisementDc", target = Target.DATA_CONTAINER)
     public void onAdvertisementDcItemPropertyChange(InstanceContainer.ItemPropertyChangeEvent<Advertisement> event) {
-        if(event.getProperty().equals("purposes")){
+        if (event.getProperty().equals("purposes")) {
             setTotalBudget();
             return;
         }
 
-        if(event.getProperty().equals("city") || event.getProperty().equals("startDate") || event.getProperty().equals("endDate")){
+        if (event.getProperty().equals("city") || event.getProperty().equals("startDate") || event.getProperty().equals("endDate")) {
             enableCreatePurposeBtn();
         }
     }
 
     private void setTotalBudget() {
         BigDecimal totalBudget = BigDecimal.ZERO;
-        if(getEditedEntity().getPurposes() != null){
+        if (getEditedEntity().getPurposes() != null) {
             totalBudget = getEditedEntity().getPurposes().stream().map(AdvPurpose::getBudget).reduce(BigDecimal.ZERO, BigDecimal::add);
         }
 
@@ -614,11 +613,11 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
         enableCreatePurposeBtn();
 
-        if (isInProgressStatus){
+        if (isInProgressStatus) {
             //Загружаем города
             citiesDl.load();
 
-            if(getEditedEntity().getCity() == null)
+            if (getEditedEntity().getCity() == null)
                 cityLookupField.setValue(citiesDc.getItems().stream()
                         .filter(city -> city.getCode().equals(DCity.ALMATY_CITY_CODE))
                         .findFirst().orElse(null));
@@ -630,7 +629,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             advertisementDataForm.setCaptionPosition(Form.CaptionPosition.LEFT);
             advertisementDataForm.getComponents().forEach(component -> {
                 component.setStyleName("borderless align-right");
-                if(component instanceof DateField){
+                if (component instanceof DateField) {
                     component.setVisible(false);
                 }
             });
@@ -652,21 +651,21 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     @Subscribe("startAdvertisementBtn")
     public void onStartAdvertisementBtnlick(Button.ClickEvent event) {
         //Дата начала должно быть с запасом в 2 недели
-        if(!validateStartDate()) return;
+        if (!validateStartDate()) return;
 
         ValidationErrors errors = validateScreen();
-        if(!errors.isEmpty()) return;
+        if (!errors.isEmpty()) return;
 
         //Должны быть создраны цели
-        if(getEditedEntity().getPurposes() == null || getEditedEntity().getPurposes().size() == 0) {
+        if (getEditedEntity().getPurposes() == null || getEditedEntity().getPurposes().size() == 0) {
             notifications.create()
                     .withType(Notifications.NotificationType.ERROR)
                     .withDescription("Создайте цели")
                     .show();
             return;
-        }else{
+        } else {
             //Проверка наличие наклеек в целях
-            if(getEditedEntity().getPurposes().stream().filter(advPurpose -> advPurpose.getSticker() != null).count() != getEditedEntity().getPurposes().size()){
+            if (getEditedEntity().getPurposes().stream().filter(advPurpose -> advPurpose.getSticker() != null).count() != getEditedEntity().getPurposes().size()) {
                 notifications.create()
                         .withType(Notifications.NotificationType.ERROR)
                         .withDescription("Для начала рекламной кампании необходима наклейка в целях")
@@ -681,7 +680,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                 .getBalance()
                 .subtract(totalBudgetField.getValue());
 
-        if(newBalance.compareTo(BigDecimal.ZERO) < 0){
+        if (newBalance.compareTo(BigDecimal.ZERO) < 0) {
             notifications.create()
                     .withType(Notifications.NotificationType.ERROR)
                     .withDescription("Баланса не достаточно")
@@ -706,7 +705,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         cal.setTime(new Date());
         cal.add(Calendar.DAY_OF_MONTH, 1);
 
-        if(startDate == null || startDate.before(cal.getTime())){
+        if (startDate == null || startDate.before(cal.getTime())) {
             notifications.create()
                     .withType(Notifications.NotificationType.ERROR)
                     .withDescription("Дата начала должна быть с запасом хотя бы 2 дня")
@@ -715,11 +714,11 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             return false;
         }
 
-        if(getEditedEntity().getPurposes() != null){
+        if (getEditedEntity().getPurposes() != null) {
             //Проверим даты оклейки в целях
             List<AdvPurpose> purposesWithIncorrectPastingDate = getEditedEntity().getPurposes().stream().filter(advPurpose -> !(advPurpose.getPastingDate().after(today) && advPurpose.getPastingDate().before(startDate))).collect(Collectors.toList());
 
-            if(purposesWithIncorrectPastingDate.size() != 0){
+            if (purposesWithIncorrectPastingDate.size() != 0) {
 
                 notifications.create()
                         .withType(Notifications.NotificationType.ERROR)
@@ -738,8 +737,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         if (event.getValue() == null)
             return;
 
-        if(event.isUserOriginated() && !event.getValue().equals(EContractTime.OTHER) && startDateField.getValue() != null){
-            if(getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
+        if (event.isUserOriginated() && !event.getValue().equals(EContractTime.OTHER) && startDateField.getValue() != null) {
+            if (getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0) {
                 dialogs.createOptionDialog()
                         .withCaption("Изменились даты рекламной кампании")
                         .withMessage("Пересчитать кол-во авто в созданных целях?")
@@ -751,7 +750,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                                             Date endDate = DateUtils.addDays(startDateField.getValue(), event.getValue().getId() * DAYS_PER_MONTH);
                                             endDateField.setValue(endDate);
                                             calculateDates();
-                                            
+
                                             changeCarAmountForAllPurposes();
                                         }),
 
@@ -759,7 +758,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                                         .withHandler(e -> contractLengthField.setValue(event.getPrevValue()))
                         )
                         .show();
-            }else{
+            } else {
                 Date endDate = DateUtils.addDays(startDateField.getValue(), event.getValue().getId() * DAYS_PER_MONTH);
                 endDateField.setValue(endDate);
                 calculateDates();
@@ -789,7 +788,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
             advPurpose.setCarAmount(Math.toIntExact(carAmount));
         });
-        if(getScreenData().getDataContext().hasChanges()){
+        if (getScreenData().getDataContext().hasChanges()) {
             getScreenData().getDataContext().commit();
             advertisementDl.load();
         }
@@ -807,11 +806,11 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     protected void onCustomersTableCreateActionPerformed(Action.ActionPerformedEvent event) {
         AdvPurposeEdit editScreen =
                 screenBuilders.editor(advPurposesTable)
-                    .newEntity()
-                    .withScreenClass(AdvPurposeEdit.class)
-                    .withLaunchMode(OpenMode.DIALOG)
-                    .build();
-        if (numberOfDaysBetweenStartAndEnd == null){
+                        .newEntity()
+                        .withScreenClass(AdvPurposeEdit.class)
+                        .withLaunchMode(OpenMode.DIALOG)
+                        .build();
+        if (numberOfDaysBetweenStartAndEnd == null) {
             log.error("Кол-во дней пустые");
             return;
         }
@@ -823,7 +822,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
     @Subscribe("advPurposesTable.edit")
     public void onAdvPurposesTableEdit(Action.ActionPerformedEvent event) {
-        if(advPurposesTable.getSingleSelected() == null) return;
+        if (advPurposesTable.getSingleSelected() == null) return;
 
         AdvPurposeEdit editScreen =
                 screenBuilders.editor(advPurposesTable)
@@ -832,7 +831,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                         .withLaunchMode(OpenMode.DIALOG)
                         .build();
 
-        if(numberOfDaysBetweenStartAndEnd == null){
+        if (numberOfDaysBetweenStartAndEnd == null) {
             log.error("Кол-во дней пустые");
             return;
         }
@@ -842,7 +841,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         editScreen.show();
 
         editScreen.addAfterCloseListener(afterCloseEvent -> {
-            if(getScreenData().getDataContext().hasChanges()){
+            if (getScreenData().getDataContext().hasChanges()) {
                 dataContext.commit();
             }
             advertisementDl.load();
@@ -868,13 +867,13 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
     @Subscribe("advPurposesTable")
     public void onAdvPurposesTableSelection(Table.SelectionEvent<AdvPurpose> event) {
-        if(event.getSelected().size() == 0){
+        if (event.getSelected().size() == 0) {
             selectedPurposeInfoVbox.removeAll();
         }
         //Выбрать можно тока одну рекл кампанию
         Set<AdvPurpose> selectedPurposes = event.getSelected();
         AdvPurpose purpose = selectedPurposes.stream().findFirst().orElse(null);
-        if (purpose != null){
+        if (purpose != null) {
             AdvPuproseShowFragment advPurposeShowFragment = fragments.create(this, AdvPuproseShowFragment.class);
             advPurposeShowFragment.setAdvPurposeParam(purpose);
             selectedPurposeInfoVbox.removeAll();
@@ -885,8 +884,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
     @Subscribe("startDateField")
     public void onStartDateFieldValueChange(HasValue.ValueChangeEvent<Date> event) {
-        if(event.isUserOriginated() && event.getValue() != null){
-            if(getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
+        if (event.isUserOriginated() && event.getValue() != null) {
+            if (getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0) {
                 dialogs.createOptionDialog()
                         .withCaption("Изменились даты рекламной кампании")
                         .withMessage("Пересчитать кол-во авто в созданных целях?")
@@ -903,8 +902,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                                         .withHandler(e -> startDateField.setValue(event.getPrevValue()))
                         )
                         .show();
-            }else{
-                if(endDateField.getValue() == null && contractLengthField.getValue() != null){
+            } else {
+                if (endDateField.getValue() == null && contractLengthField.getValue() != null) {
                     Date endDate = DateUtils.addDays(event.getValue(), contractLengthField.getValue().getId() * DAYS_PER_MONTH);
                     endDateField.setValue(endDate);
                 }
@@ -915,8 +914,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
 
     @Subscribe("endDateField")
     public void onEndDateFieldValueChange(HasValue.ValueChangeEvent<Date> event) {
-        if(event.isUserOriginated()){
-            if(getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0){
+        if (event.isUserOriginated()) {
+            if (getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0) {
                 dialogs.createOptionDialog()
                         .withCaption("Изменились даты рекламной кампании")
                         .withMessage("Пересчитать кол-во авто в созданных целях?")
@@ -936,7 +935,7 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                         .show();
             }
         }
-        
+
     }
 
     @Subscribe("advNameEditBtn")
