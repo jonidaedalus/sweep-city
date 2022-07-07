@@ -19,6 +19,7 @@
         <method name="register" anonymousAllowed="true">
             <param name="driver" type="kz.alash.naklei.service.esb.dto.driver.DriverRegistrationRequest"/>
         </method>
+        <method name="deleteAccount" anonymousAllowed="false"/>
         <method name="setCreditCard">
             <param name="cardName" type="java.lang.String"/>
             <param name="cardNumber" type="java.lang.String"/>

@@ -1,7 +1,10 @@
 package kz.alash.naklei.entity;
 
 import com.haulmont.cuba.core.entity.annotation.Extends;
+import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.entity.annotation.PublishEntityChangedEvents;
+import com.haulmont.cuba.core.global.DeletePolicy;
 import com.haulmont.cuba.security.entity.User;
 import kz.alash.naklei.entity.dict.DCity;
 
@@ -26,6 +29,8 @@ public class ExtUser extends User {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ADVERTISER_ID")
+    @OnDelete(DeletePolicy.UNLINK)
+    @OnDeleteInverse(DeletePolicy.UNLINK)
     private Advertiser advertiser;
 
     @Column(name = "APPLE_ID")
@@ -37,6 +42,8 @@ public class ExtUser extends User {
     private DCity city;
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "user")
+    @OnDelete(DeletePolicy.CASCADE)
+    @OnDeleteInverse(DeletePolicy.CASCADE)
     private Driver driver;
 
     @Column(name = "FCM_TOKEN")

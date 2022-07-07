@@ -81,6 +81,25 @@ public class DriverServiceBean implements DriverService {
     }
 
     @Override
+    public DriverRegistrationResponse deleteAccount() {
+        long start = System.currentTimeMillis();
+        ExtUser user = (ExtUser) authentication.begin().getUser();
+        DriverRegistrationResponse response = new DriverRegistrationResponse();
+        try {
+            dataManager.remove(user);
+            response.setCode("0");
+        } catch (Exception e) {
+            response.setCode("1");
+            response.setMessage("Error: DriverServiceBean/deleteAccount");
+            log.error("Error: DriverServiceBean/deleteAccount");
+        } finally {
+            authentication.end();
+        }
+        response.setTimeElapsedMillis(System.currentTimeMillis() - start);
+        return response;
+    }
+
+    @Override
     public void update(DriverUpdateRequest request) {
         User user = authentication.begin().getUser();
         Driver driver = getDriverByUserId(user.getId())

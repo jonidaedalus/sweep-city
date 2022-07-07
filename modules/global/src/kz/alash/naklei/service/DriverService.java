@@ -16,6 +16,8 @@ public interface DriverService {
 
     DriverRegistrationResponse register(DriverRegistrationRequest request);
 
+    DriverRegistrationResponse deleteAccount();
+
     void update(DriverUpdateRequest request);
 
     DriverInfoResponse driverInfo();

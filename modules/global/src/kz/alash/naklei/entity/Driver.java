@@ -4,10 +4,17 @@ import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.FileDescriptor;
 import com.haulmont.cuba.core.entity.StandardEntity;
 import com.haulmont.cuba.core.entity.annotation.OnDelete;
+import com.haulmont.cuba.core.entity.annotation.OnDeleteInverse;
 import com.haulmont.cuba.core.global.DeletePolicy;
 import kz.alash.naklei.entity.dict.EDriverStatus;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,14 +29,15 @@ public class Driver extends StandardEntity {
     @OnDelete(DeletePolicy.CASCADE)
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "USER_ID")
+    @OnDeleteInverse(DeletePolicy.CASCADE)
     private ExtUser user;
 
     @OneToMany(mappedBy = "driver")
     private List<AdvertisementDriver> advertisementDrivers;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CAR_ID")
-    @NotNull
+    @OnDelete(DeletePolicy.CASCADE)
     private Car car;
 
     @Column(name = "TOTAL_RUN", columnDefinition = "double precision default 0.0")
