@@ -89,7 +89,7 @@ public class PurposeServiceBean implements PurposeService {
                     .size();
 
             //Показываем только тех у кого кол-во участникиков меньше машин заложенных в цель(3/5)
-            if(participants < purpose.getCarAmount() && driverCarClassMatchPurposeCarClass(driver.getCar().getCarClass(), purpose.getCarClass())){
+            if (participants <= purpose.getCarAmount() && driverCarClassMatchPurposeCarClass(driver.getCar().getCarClass(), purpose.getCarClass())){
 
                 PurposeDTO purposeDTO = new PurposeDTO();
                 purposeDTO.setId(String.valueOf(purpose.getId()));

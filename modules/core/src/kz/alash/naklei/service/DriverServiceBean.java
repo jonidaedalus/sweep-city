@@ -8,10 +8,12 @@ import com.haulmont.cuba.core.global.FileStorageException;
 import com.haulmont.cuba.core.global.FluentLoader;
 import com.haulmont.cuba.security.app.Authentication;
 import com.haulmont.cuba.security.entity.User;
+import kz.alash.naklei.entity.AdvertisementDriver;
 import kz.alash.naklei.entity.Car;
 import kz.alash.naklei.entity.Driver;
 import kz.alash.naklei.entity.ExtUser;
 import kz.alash.naklei.entity.Notification;
+import kz.alash.naklei.entity.dict.EAdvDriverStatus;
 import kz.alash.naklei.entity.dict.EDriverStatus;
 import kz.alash.naklei.entity.dict.EModerationType;
 import kz.alash.naklei.entity.dict.car.DModel;
@@ -86,6 +88,20 @@ public class DriverServiceBean implements DriverService {
         ExtUser user = (ExtUser) authentication.begin().getUser();
         DriverRegistrationResponse response = new DriverRegistrationResponse();
         try {
+            Driver driver = driverService.getDriverByUserId(user.getId())
+                    .view("driver-edit")
+                    .one();
+            CommitContext context = new CommitContext();
+            for (AdvertisementDriver advertisementDriver : driver.getAdvertisementDrivers()) {
+
+                if (EAdvDriverStatus.ACTIVE.equals(advertisementDriver.getStatus())
+                        || EAdvDriverStatus.NEW.equals(advertisementDriver.getStatus()) ) {
+                    advertisementDriver.setStatus(EAdvDriverStatus.FINISHED);
+                    advertisementDriver.setEndDate(new Date());
+                    context.addInstanceToCommit(advertisementDriver);
+                }
+            }
+            dataManager.commit(context);
             dataManager.remove(user);
             response.setCode("0");
         } catch (Exception e) {
@@ -210,7 +226,7 @@ public class DriverServiceBean implements DriverService {
                             "advertisment.id")
                     .list();
 
-            if(notifications.size() > 0){
+            if (notifications.size() > 0){
                 notifications.forEach(notification -> {
                     NotificationResponseDto.Result result = new NotificationResponseDto.Result();
                     result.setTitle(notification.getTitle());

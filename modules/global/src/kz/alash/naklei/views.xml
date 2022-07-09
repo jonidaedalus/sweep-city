@@ -449,4 +449,11 @@
     <view entity="naklei_ExtUser" name="advertiser-user-view" extends="_local">
         <property name="advertiser" view="_minimal"/>
     </view>
+    <view entity="naklei_AdvertisementDriver" name="advertisementDriver-payment-view" extends="_local">
+        <property name="driver" view="_minimal">
+            <property name="withdrawnMoney"/>
+            <property name="earnedMoney"/>
+            <property name="currentMoney"/>
+        </property>
+    </view>
 </views>
