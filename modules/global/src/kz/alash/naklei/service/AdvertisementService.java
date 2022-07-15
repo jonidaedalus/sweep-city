@@ -1,5 +1,6 @@
 package kz.alash.naklei.service;
 
+import com.haulmont.cuba.core.global.CommitContext;
 import kz.alash.naklei.entity.AdvertisementDriver;
 import kz.alash.naklei.entity.dict.DStickerType;
 import kz.alash.naklei.entity.dict.car.DClass;
@@ -33,4 +34,6 @@ public interface AdvertisementService {
     void deleteVisits(AdvertisementDriver advertisementDriver);
 
     void changeAdvertisementStatus();
+
+    CommitContext addMoneyToAdvDriver(AdvertisementDriver advertisementDriver, Driver driver, BigDecimal toAdd);
 }

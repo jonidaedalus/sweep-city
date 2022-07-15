@@ -93,7 +93,11 @@
                       showOrphans="false"/>
                 <vbox id="container" height="100%" expand="carsGroupBox">
                     <groupBox id="carsGroupBox" caption="Автомобили" expand="advertisementDriversTable" spacing="true" width="100%">
-                        <table id="advertisementDriversTable" dataContainer="advertisementDriversDc" settingsEnabled="false" sortable="false" columnControlVisible="false" width="100%" >
+                        <table id="advertisementDriversTable"
+                               dataContainer="advertisementDriversDc"
+                               settingsEnabled="false" sortable="false"
+                               columnControlVisible="false"
+                               width="100%" >
                             <actions>
                                 <action id="view" type="view"/>
                                 <action id="refresh" type="refresh"/>
@@ -111,6 +115,7 @@
                             <buttonsPanel id="buttonsPanel" alwaysVisible="true">
                                 <button id="viewAdvDriverBtn" action="advertisementDriversTable.view"/>
                                 <button id="refreshAdvDriverBtn" action="advertisementDriversTable.refresh"/>
+                                <button id="pay" caption="Бонус"/>
                             </buttonsPanel>
                         </table>
                     </groupBox>

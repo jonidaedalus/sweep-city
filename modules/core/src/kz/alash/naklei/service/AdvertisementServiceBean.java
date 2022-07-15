@@ -245,4 +245,18 @@ public class AdvertisementServiceBean implements AdvertisementService {
                 .findFirst()
                 .orElse(null);
     }
+
+    public CommitContext addMoneyToAdvDriver(
+            AdvertisementDriver advertisementDriver,
+            Driver driver,
+            BigDecimal toAdd) {
+
+        driver.setCurrentMoney(driver.getCurrentMoney().add(toAdd));
+        driver.setEarnedMoney(driver.getEarnedMoney().add(toAdd));
+
+        advertisementDriver.setCurrentMoney(advertisementDriver.getCurrentMoney().add(toAdd));
+        advertisementDriver.setEarnedMoney(advertisementDriver.getEarnedMoney().add(toAdd));
+
+        return new CommitContext(driver, advertisementDriver);
+    }
 }

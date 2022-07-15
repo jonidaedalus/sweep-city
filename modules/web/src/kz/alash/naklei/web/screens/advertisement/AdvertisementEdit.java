@@ -11,6 +11,7 @@ import com.haulmont.cuba.core.global.ValueLoadContext;
 import com.haulmont.cuba.gui.*;
 import com.haulmont.cuba.gui.actions.list.CreateAction;
 import com.haulmont.cuba.gui.app.core.inputdialog.DialogActions;
+import com.haulmont.cuba.gui.app.core.inputdialog.DialogOutcome;
 import com.haulmont.cuba.gui.app.core.inputdialog.InputDialog;
 import com.haulmont.cuba.gui.app.core.inputdialog.InputParameter;
 import com.haulmont.cuba.gui.components.*;
@@ -167,6 +168,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     private TextField<String> rewardCostsField;
     @Inject
     private UserSessionSource userSessionSource;
+    @Inject
+    private Button pay;
 
     @Subscribe
     public void onInit(InitEvent event) {
@@ -204,6 +207,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
         if (isAdvertiser()) {
             advertisementDriversTable.getColumn("driver").setValueProvider(advertisementDriver -> advertisementDriver.getDriver().getUser().getName());
             advertisementDriversTable.getActionNN("view").setVisible(false);
+            pay.setEnabled(false);
+            pay.setVisible(false);
         }
     }
 
@@ -477,7 +482,10 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             List<AdvertisementDriver> advList = advertisementDriversDl.getContainer().getItems();
             for (AdvertisementDriver advertisementDriver : advList) {
 //                add = earned money by driver * advertiser point cost / driver point cost
-                BigDecimal add = advertisementDriver.getEarnedMoney()
+                BigDecimal pureAdd = advertisementDriver.getStickedWithinPeriod() != null && advertisementDriver.getStickedWithinPeriod()
+                        ? advertisementDriver.getEarnedMoney().subtract(advertisementDriver.getPurpose().getRewardAmount())
+                        : advertisementDriver.getEarnedMoney();
+                BigDecimal add = pureAdd
                         .divide(thePointCost.getDriverCost(), RoundingMode.HALF_UP)
                         .multiply(thePointCost.getAdvertiserCost());
                 actualPurposeCost = actualPurposeCost.add(add);
@@ -975,5 +983,33 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     @Subscribe("statDateToField")
     public void onStatDateToFieldValueChange(HasValue.ValueChangeEvent<Date> event) {
         setDataForStatistics(advRoutesDl.getContainer().getItems(), statPurposeField.getValue(), statDateFromField.getValue(), event.getValue());
+    }
+
+
+    @Subscribe("pay")
+    public void onPayClick(Button.ClickEvent event) {
+        if (event == null)  return;
+        dialogs.createInputDialog(this)
+                .withCaption("Введите сумму")
+                .withParameters(
+                        InputParameter.bigDecimalParameter("summ")
+                )
+                .withActions(DialogActions.OK_CANCEL)
+                .withCloseListener(closeEvent -> {
+                    if (closeEvent.closedWith(DialogOutcome.OK)) {
+                        AdvertisementDriver selected = advertisementDriversTable.getSingleSelected();
+                        if (selected == null)
+                            return;
+                        BigDecimal summ = closeEvent.getValue("summ");
+                        selected = dataManager.reload(selected, "advertisementDriver-payment-view");
+                        dataManager.commit(
+                                advertisementService.addMoneyToAdvDriver(
+                                        selected,
+                                        selected.getDriver(),
+                                        summ)
+                        );
+                    }
+                })
+                .show();
     }
 }

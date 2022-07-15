@@ -279,6 +279,12 @@ public class ModerationEdit extends StandardEditor<Moderation> {
             getEditedEntity().getAdvertisementDriver().setStatus(EAdvDriverStatus.ACTIVE);
             Date advertisementStartDate = getEditedEntity().getAdvertisementDriver().getPurpose().getAdvertisement().getStartDate();
             boolean stickedWithinPeriod = getEditedEntity().getCreateTs().before(advertisementStartDate);
+            if (stickedWithinPeriod) {
+                advertisementService.addMoneyToAdvDriver(
+                        getEditedEntity().getAdvertisementDriver(),
+                        getEditedEntity().getAdvertisementDriver().getDriver(),
+                        getEditedEntity().getAdvertisementDriver().getPurpose().getRewardAmount());
+            }
             getEditedEntity().getAdvertisementDriver().setStickedWithinPeriod(stickedWithinPeriod);
             getEditedEntity().getAdvertisementDriver().setStartDate(new Date());
             getEditedEntity().getAdvertisementDriver().setIsSticked(true);
