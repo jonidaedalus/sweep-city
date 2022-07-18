@@ -114,7 +114,7 @@ public class EsbUserServiceBean implements EsbUserService {
                             "advertisementDrivers.routes.time",
                             "advertisementDrivers.endDate",
                             "advertisementDrivers.status",
-                            "advertisementDriver.currentMoney",
+                            "advertisementDrivers.currentMoney",
                             "creditCardName",
                             "creditCardNumber"
                     )
@@ -197,7 +197,7 @@ public class EsbUserServiceBean implements EsbUserService {
                             "advertisementDrivers.routes.time",
                             "advertisementDrivers.endDate",
                             "advertisementDrivers.status",
-                            "advertisementDriver.currentMoney",
+                            "advertisementDrivers.currentMoney",
                             "creditCardName",
                             "creditCardNumber"
                     )
