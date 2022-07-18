@@ -114,6 +114,7 @@ public class EsbUserServiceBean implements EsbUserService {
                             "advertisementDrivers.routes.time",
                             "advertisementDrivers.endDate",
                             "advertisementDrivers.status",
+                            "advertisementDriver.currentMoney",
                             "creditCardName",
                             "creditCardNumber"
                     )
@@ -196,6 +197,7 @@ public class EsbUserServiceBean implements EsbUserService {
                             "advertisementDrivers.routes.time",
                             "advertisementDrivers.endDate",
                             "advertisementDrivers.status",
+                            "advertisementDriver.currentMoney",
                             "creditCardName",
                             "creditCardNumber"
                     )
@@ -364,7 +366,8 @@ public class EsbUserServiceBean implements EsbUserService {
         advertisementDto.setAveragePoints(averagePoints);
         advertisementDto.setAverageDistance(averageDistance);
         advertisementDto.setAverageTimes(NumberUtility.formatDouble(averageTime));
-        advertisementDto.setTotalPoints(totalPoints);
+        // suda hz currentmoney ili earnedmoney
+        advertisementDto.setTotalPoints(currentAdvDriver.getCurrentMoney().intValue());
         advertisementDto.setTotalDistance(totalDistance);
         advertisementDto.setTotalTimes(NumberUtility.formatDouble(totalTime));
 

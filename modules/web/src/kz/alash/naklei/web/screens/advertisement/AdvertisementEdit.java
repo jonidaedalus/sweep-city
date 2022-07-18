@@ -384,7 +384,8 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                         Coordinate[] coordinates = route.getLine().getCoordinates();
                         GeometryFactory factory = new GeometryFactory();
                         MultiPoint multiPoint = factory.createMultiPointFromCoords(coordinates);
-                        for (int i = 0; i < multiPoint.getNumGeometries(); i = i + 100) {
+
+                        for (int i = 0; i < multiPoint.getNumGeometries(); i = i + 5000) {
                             Point point = factory.createPoint(multiPoint.getGeometryN(i).getCoordinate());
                             result.put(point, result.getOrDefault(point, 0D) + 0.001D);
                         }
@@ -424,11 +425,13 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                 //показываем статистику
                 List<AdvertisementDriver> advertisementDrivers = advertisementDriversDl.getContainer().getItems();
                 //расходы за стикеры на 1 автомобиль
-                setPastingCosts(advertisementDrivers);
-                //максимальный расход за сутки на 1 автомобиль
-                List<AdvPurpose> advPurposes = getEditedEntity().getPurposes();
-                setDistanceCosts(getEditedEntity(), advPurposes);
-                setRewardCosts(getStickedCars(advertisementDrivers), advPurposes);
+                if (advertisementDrivers != null && advertisementDrivers.size() > 0) {
+                    setPastingCosts(advertisementDrivers);
+                    //максимальный расход за сутки на 1 автомобиль
+                    List<AdvPurpose> advPurposes = getEditedEntity().getPurposes();
+                    setDistanceCosts(getEditedEntity(), advPurposes);
+                    setRewardCosts(getStickedCars(advertisementDrivers), advPurposes);
+                }
             }
 
             menu.setValue("name", name);
