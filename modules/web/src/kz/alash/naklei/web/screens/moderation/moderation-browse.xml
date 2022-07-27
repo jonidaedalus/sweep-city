@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <window xmlns="http://schemas.haulmont.com/cuba/screen/window.xsd"
-        xmlns:c="http://schemas.haulmont.com/cuba/screen/jpql_condition.xsd"
         caption="msg://moderationBrowse.caption"
         focusComponent="moderationsTable"
         messagesPack="kz.alash.naklei.web.screens.moderation">
@@ -48,9 +47,7 @@
             <rowsCount/>
             <buttonsPanel id="buttonsPanel"
                           alwaysVisible="true">
-<!--                <button id="createBtn" action="moderationsTable.create"/>-->
                 <button id="editBtn" action="moderationsTable.edit"/>
-<!--                <button id="removeBtn" action="moderationsTable.remove"/>-->
                 <button id="refreshBtn" action="moderationsTable.refresh"/>
             </buttonsPanel>
         </groupTable>

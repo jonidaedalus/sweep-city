@@ -265,7 +265,7 @@
     </view>
     <view entity="naklei_Moderation" name="moderation-browse" extends="_local" systemProperties="true">
         <property name="moderator" view="_base"/>
-        <property name="advertisementDriver" view="advertisementDriver-view"/>
+        <property name="advertisementDriver" view="_minimal"/>
     </view>
     <view entity="naklei_Visit" name="visit-view" extends="_local">
         <property name="assignedUser" view="_minimal"/>

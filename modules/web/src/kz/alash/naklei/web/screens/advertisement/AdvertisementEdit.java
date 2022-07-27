@@ -384,8 +384,9 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
                         Coordinate[] coordinates = route.getLine().getCoordinates();
                         GeometryFactory factory = new GeometryFactory();
                         MultiPoint multiPoint = factory.createMultiPointFromCoords(coordinates);
-
-                        for (int i = 0; i < multiPoint.getNumGeometries(); i = i + 5000) {
+                        int maxPoints = 10000;
+                        int add = multiPoint.getNumGeometries() / maxPoints;
+                        for (int i = 0; i < maxPoints; i = i + add) {
                             Point point = factory.createPoint(multiPoint.getGeometryN(i).getCoordinate());
                             result.put(point, result.getOrDefault(point, 0D) + 0.001D);
                         }
