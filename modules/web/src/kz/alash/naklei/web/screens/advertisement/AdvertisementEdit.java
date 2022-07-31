@@ -299,14 +299,14 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
             tree.setSelected(tree.getItems().getItems().findFirst().orElse(null));
         }
 
-        if (advertisementDriversDl.getContainer().getItems().size() > 0) {
-            advRoutesDl.setParameter("drivers", advertisementDriversDl.getContainer().getItems());
-            advRoutesDl.load();
-
-            if (advRoutesDl.getContainer().getItems().size() > 0) {
-                setDataForStatistics(advRoutesDl.getContainer().getItems(), null, null, null);
-            }
-        }
+//        if (advertisementDriversDl.getContainer().getItems().size() > 0) {
+//            advRoutesDl.setParameter("drivers", advertisementDriversDl.getContainer().getItems());
+//            advRoutesDl.load();
+//
+//            if (advRoutesDl.getContainer().getItems().size() > 0) {
+//                setDataForStatistics(advRoutesDl.getContainer().getItems(), null, null, null);
+//            }
+//        }
         imageTabSheet.getTab("advertiserInfoTab").setCaption(getEditedEntity().getAdvertiser().getFullName());
 
         if (getEditedEntity().getPurposes() != null && getEditedEntity().getPurposes().size() > 0) {
@@ -351,6 +351,10 @@ public class AdvertisementEdit extends StandardEditor<Advertisement> {
     }
 
     private void setDataForStatistics(List<Route> routes, AdvPurpose advPurpose, Date dateFrom, Date dateTo) {
+        //если нужно отобразить статистику - просто убрать эту линию
+        if (routes != null)
+            return;
+
         if (advPurpose != null)
             routes = routes.stream().filter(route -> route.getAdvertisementDriver().getPurpose().equals(advPurpose)).collect(Collectors.toList());
 
